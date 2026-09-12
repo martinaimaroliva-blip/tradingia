@@ -58,38 +58,65 @@ src/
 
 ## Adding a product
 
-Edit `src/lib/products.ts` (add to `bots`, `indicators` or `signalPlans`), then add the
-matching Stripe Price ID env var: slug `ziza` → `STRIPE_PRICE_ZIZA`.
+Edit `src/lib/products.ts` (add to `bots`, `indicators` or `signalPlans`) — no Stripe
+dashboard setup needed. Checkout builds the Stripe amount on the fly from `priceUSD`/
+`exnessPriceUSD` (`price_data`, not a pre-created Price ID), so adding or repricing a
+product is a one-file change.
+
+## The purchase flow
+
+`BuyDialog` (`src/components/commerce/buy-dialog.tsx`) walks through up to four steps —
+skipping whichever don't apply to that product:
+
+1. **Price choice** (bots & indicators with an Exness discount only): two buttons,
+   standard vs. Exness-referral price. Picking "without Exness" on a **bot**
+   shows a VPS warning (a bot needs one to run 24/7; Exness gives one free from a
+   $2,000 deposit) with a chance to switch to the Exness price instead.
+2. **Details**: name + email, always. If they stuck with the standard price after
+   seeing the VPS warning, this also fires a background `/api/leads` call
+   (`source: "checkout_no_exness"`) so systeme.io can remarket to them if they
+   don't finish checking out.
+3. **Payment method**: card (Stripe) or crypto — crypto is restricted to
+   USDT/USDC/BNB (NOWPayments `pay_currency`, see `CRYPTO_CURRENCIES` in
+   `lib/payments.ts` — verify the exact ticker spelling against NOWPayments'
+   `/v1/currencies` before going live).
+4. **After payment** (bots only): the success page shows a short form —
+   account number + MT4/5 server — since bots are compiled by hand per account
+   today. The same form is linked from the buyer's confirmation email in case
+   they close the tab first.
 
 ## How a bot purchase gets fulfilled today
 
-Bots are compiled by hand per MT4/MT5 account, so full end-to-end automation isn't
-possible yet — here's what *is* automated:
+Full end-to-end automation isn't possible yet since compiling is manual — here's
+what *is* automated:
 
-1. `BuyDialog` collects name, email and (for bots) the account number + broker
-   *before* redirecting to Stripe or NOWPayments.
-2. Card payments: that email goes to Stripe as `customer_email`; the rest rides
-   along in `metadata`, which Stripe echoes back on the webhook.
-3. Crypto payments: NOWPayments' IPN has no "customer" field, so the buyer's
-   details are packed into the order description (`src/lib/orders.ts`,
+1. Card payments: the buyer's email goes to Stripe as `customer_email`; the rest
+   (name, product, chosen price tier) rides along in `metadata`, which Stripe
+   echoes back on the webhook.
+2. Crypto payments: NOWPayments' IPN has no "customer" field, so the buyer's
+   name + email are packed into the order description (`src/lib/orders.ts`,
    base64) and unpacked in `api/webhooks/nowpayments`.
-4. On a confirmed payment, `lib/delivery.ts` emails **you**
-   (`ORDER_NOTIFICATION_EMAIL`) everything needed to compile and send the
-   file by hand, and emails the **buyer** a "we've got your order" note so
-   they don't think it's stuck. Both emails go out via Zoho Mail SMTP
+3. On a confirmed payment, `lib/delivery.ts` emails **you**
+   (`ORDER_NOTIFICATION_EMAIL`) the order (product, price tier, buyer, amount)
+   and emails the **buyer** a "we've got your order" note with a link to the
+   account-details form. Both emails go out via Zoho Mail SMTP
    (`lib/email.ts`) — see `.env.example` for the `ZOHO_SMTP_*` keys.
+4. When the buyer submits account number + server, `api/orders/account-details`
+   emails you that too — match it to the sale by the email address (and, for
+   the Exness price tier, cross-check the account against your Exness partner
+   dashboard before compiling, since the discount is currently honor-system).
 
 Once there's a license-key system that can validate an account number at
-runtime, swap the "email a human" step in `fulfilPurchase` for a real API
-call and attach the actual file — the webhook plumbing already has
-everything (product, buyer, account number, broker) it would need.
+runtime, swap the "email a human" steps for a real API call and attach the
+actual file — the webhook plumbing already carries everything (product,
+buyer, price tier) that would need.
 
 ## Environment variables
 
 See `.env.example`. Everything is optional — features activate as keys are added:
 
 - **systeme.io:** `SYSTEMEIO_API_KEY`, optional `SYSTEMEIO_TAG_ID`
-- **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*`
+- **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 - **NOWPayments:** `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`
 - **Zoho Mail SMTP:** `ZOHO_SMTP_USER`, `ZOHO_SMTP_PASS`, `ORDER_NOTIFICATION_EMAIL`
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,

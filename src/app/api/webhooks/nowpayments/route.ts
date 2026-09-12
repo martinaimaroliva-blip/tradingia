@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { optionalEnv } from "@/lib/env";
 import { fulfilPurchase } from "@/lib/delivery";
-import { decodeOrderDescription } from "@/lib/orders";
+import { decodeOrderDescription, type BuyerInfo } from "@/lib/orders";
 
 export const runtime = "nodejs";
 
@@ -53,7 +53,9 @@ export async function POST(request: Request) {
 
   if (body.payment_status === "finished" || body.payment_status === "confirmed") {
     const [kind, slug] = (body.order_id ?? "").split("_");
-    const { label, buyer } = decodeOrderDescription(body.order_description);
+    const { label, data: buyer } = decodeOrderDescription<BuyerInfo>(
+      body.order_description,
+    );
     await fulfilPurchase({
       provider: "nowpayments",
       reference: String(body.payment_id ?? body.order_id ?? "unknown"),

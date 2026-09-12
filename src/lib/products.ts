@@ -690,8 +690,3 @@ export function getProductsByKind(kind: ProductKind): Product[] {
 export function getSignalPlan(slug: string): SignalPlan | undefined {
   return signalPlans.find((p) => p.slug === slug);
 }
-
-/** Env var name that should hold the Stripe Price ID for a given item. */
-export function stripePriceEnvKey(slug: string): string {
-  return `STRIPE_PRICE_${slug.replace(/-/g, "_").toUpperCase()}`;
-}

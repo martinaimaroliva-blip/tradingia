@@ -89,6 +89,8 @@ export function ProductCard({
             slug={product.slug}
             kind={product.kind}
             label={detail.buyCta}
+            priceUSD={product.priceUSD}
+            exnessPriceUSD={product.exnessPriceUSD}
             size="sm"
             block
           />

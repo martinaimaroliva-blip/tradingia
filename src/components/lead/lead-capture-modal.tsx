@@ -58,6 +58,9 @@ export function LeadCaptureModal() {
   const trigger = React.useCallback(() => {
     if (armed.current) return;
     if (alreadyHandled()) return;
+    // Don't pop this over a dialog that's already open (e.g. the buy flow) —
+    // it would steal focus from whatever the visitor is filling in there.
+    if (document.querySelector('[role="dialog"]')) return;
     armed.current = true;
     setOpen(true);
   }, []);

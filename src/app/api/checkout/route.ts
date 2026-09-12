@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { isLocale } from "@/i18n/config";
-import { getProduct, getSignalPlan, stripePriceEnvKey } from "@/lib/products";
-import { optionalEnv, siteUrl } from "@/lib/env";
-import { createStripeCheckout, createCryptoInvoice } from "@/lib/payments";
+import { getProduct, getSignalPlan } from "@/lib/products";
+import { siteUrl } from "@/lib/env";
+import {
+  createStripeCheckout,
+  createCryptoInvoice,
+  CRYPTO_CURRENCIES,
+} from "@/lib/payments";
 import { encodeOrderDescription, type BuyerInfo } from "@/lib/orders";
 
 export const runtime = "nodejs";
@@ -15,8 +19,9 @@ const schema = z.object({
   locale: z.string().trim().max(5).optional(),
   name: z.string().trim().min(1).max(120),
   email: z.string().trim().email().max(190),
-  accountNumber: z.string().trim().max(40).optional(),
-  broker: z.string().trim().max(60).optional(),
+  // Bots & indicators only — ignored for signals (flat monthly price).
+  priceChoice: z.enum(["standard", "exness"]).default("standard"),
+  cryptoCurrency: z.enum(["USDT", "USDC", "BNB"]).optional(),
 });
 
 export async function POST(request: Request) {
@@ -32,14 +37,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
 
-  const { slug, kind, method, name, email, accountNumber, broker } =
+  const { slug, kind, method, name, email, priceChoice, cryptoCurrency } =
     parsed.data;
   const locale =
     parsed.data.locale && isLocale(parsed.data.locale)
       ? parsed.data.locale
       : "es";
 
-  // Resolve the item + amount.
+  // Resolve the item + amount for the chosen price tier.
   let amountUSD: number;
   let productName: string;
   const isSubscription = kind === "signal";
@@ -58,53 +63,31 @@ export async function POST(request: Request) {
       // Custom-build products go through /contact, never instant checkout.
       return NextResponse.json({ error: "requires_consultation" }, { status: 400 });
     }
-    amountUSD = product.priceUSD;
+    amountUSD = priceChoice === "exness" ? product.exnessPriceUSD : product.priceUSD;
     productName = `TradingIA — ${product.name}`;
   }
 
-  // Bots are compiled by hand for a specific MT4/MT5 account, so we can't
-  // fulfil the order without knowing which account to build it for.
-  if (kind === "bot" && (!accountNumber || !broker)) {
-    return NextResponse.json(
-      { error: "account_details_required" },
-      { status: 400 },
-    );
-  }
-
-  const buyer: BuyerInfo = { name, email, accountNumber, broker };
+  const buyer: BuyerInfo = { name, email };
 
   const base = siteUrl();
+  // The success page shows the post-payment "account details" form for bots.
+  const successKindParam = kind === "bot" ? `&kind=bot` : "";
   // Stripe replaces the {CHECKOUT_SESSION_ID} template server-side.
-  const stripeSuccessUrl = `${base}/${locale}/checkout/success?ref={CHECKOUT_SESSION_ID}`;
-  const successUrl = `${base}/${locale}/checkout/success`;
+  const stripeSuccessUrl = `${base}/${locale}/checkout/success?ref={CHECKOUT_SESSION_ID}${successKindParam}`;
+  const successUrl = `${base}/${locale}/checkout/success?${new URLSearchParams(
+    kind === "bot" ? { kind: "bot", email } : { email },
+  ).toString()}`;
   const cancelUrl = `${base}/${locale}/checkout/cancel`;
 
   if (method === "card") {
-    const priceId = optionalEnv(stripePriceEnvKey(slug));
-    if (!priceId) {
-      return NextResponse.json(
-        {
-          error: "price_not_configured",
-          message: `Set ${stripePriceEnvKey(slug)} to the Stripe Price ID for "${slug}".`,
-        },
-        { status: 501 },
-      );
-    }
     const result = await createStripeCheckout({
-      priceId,
+      productName,
+      unitAmountUSD: amountUSD,
       mode: isSubscription ? "subscription" : "payment",
       successUrl: stripeSuccessUrl,
       cancelUrl,
       customerEmail: email,
-      metadata: {
-        slug,
-        kind,
-        locale,
-        productName,
-        buyerName: name,
-        ...(accountNumber ? { accountNumber } : {}),
-        ...(broker ? { broker } : {}),
-      },
+      metadata: { slug, kind, locale, productName, buyerName: name, priceChoice },
     });
     if ("error" in result) {
       return NextResponse.json(
@@ -123,6 +106,7 @@ export async function POST(request: Request) {
     description: encodeOrderDescription(productName, buyer),
     successUrl,
     cancelUrl,
+    payCurrency: cryptoCurrency ? CRYPTO_CURRENCIES[cryptoCurrency] : undefined,
   });
   if ("error" in result) {
     return NextResponse.json(

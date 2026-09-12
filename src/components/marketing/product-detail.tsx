@@ -203,6 +203,8 @@ export function ProductDetail({
                     slug={product.slug}
                     kind={product.kind}
                     label={detail.buyCta}
+                    priceUSD={product.priceUSD}
+                    exnessPriceUSD={product.exnessPriceUSD}
                     block
                   />
                   <Button asChild variant="outline" size="lg" className="w-full">

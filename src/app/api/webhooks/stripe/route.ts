@@ -39,12 +39,7 @@ export async function POST(request: Request) {
         const email =
           session.customer_details?.email ?? session.customer_email ?? undefined;
         const buyer: BuyerInfo | null = email
-          ? {
-              name: session.metadata?.buyerName ?? "",
-              email,
-              accountNumber: session.metadata?.accountNumber,
-              broker: session.metadata?.broker,
-            }
+          ? { name: session.metadata?.buyerName ?? "", email }
           : null;
         await fulfilPurchase({
           provider: "stripe",
@@ -52,6 +47,7 @@ export async function POST(request: Request) {
           kind: session.metadata?.kind,
           slug: session.metadata?.slug,
           productName: session.metadata?.productName,
+          priceChoice: session.metadata?.priceChoice,
           locale: session.metadata?.locale,
           amount: session.amount_total ? session.amount_total / 100 : undefined,
           currency: session.currency ?? undefined,
