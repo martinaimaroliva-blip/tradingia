@@ -53,10 +53,10 @@ export const es: Dictionary = {
       note: "Sin suscripción para bots e indicadores · Cancela las señales cuando quieras",
     },
     stats: [
-      { value: "24/7", label: "Opera aunque no mires la pantalla" },
-      { value: "Multi-activo", label: "Oro, forex e índices en un solo lugar" },
-      { value: "Sin sesgo", label: "La misma lógica en cada operación" },
-      { value: "Milisegundos", label: "Analiza y ejecuta más rápido que un clic" },
+      { value: "24/7", label: "Activo aunque no mires la pantalla" },
+      { value: "Multi-activo", label: "Opera en más de un mercado a la vez" },
+      { value: "Sin emociones", label: "La misma lógica en cada operación" },
+      { value: "Velocidad", label: "Analiza y ejecuta más rápido que un clic" },
     ],
     trustTitle: "Pensado para traders minoristas que quieren un proceso real",
     categories: {

@@ -51,10 +51,10 @@ export const en = {
       note: "No subscription for bots & indicators · Cancel signals anytime",
     },
     stats: [
-      { value: "24/7", label: "Runs even when you're not watching" },
-      { value: "Multi-asset", label: "Gold, forex and indices in one place" },
-      { value: "No bias", label: "The same logic on every single trade" },
-      { value: "Milliseconds", label: "Analyzes and executes faster than a click" },
+      { value: "24/7", label: "Active even when you're not watching" },
+      { value: "Multi-market", label: "Trades more than one market at once" },
+      { value: "No emotions", label: "The same logic on every trade" },
+      { value: "Speed", label: "Analyzes and executes faster than a click" },
     ],
     trustTitle: "Built for retail traders who want a real process",
     categories: {

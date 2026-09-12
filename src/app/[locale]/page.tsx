@@ -64,11 +64,16 @@ export default async function HomePage({
           {/* Advantages */}
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
             {t.home.stats.map((s) => (
-              <div key={s.label} className="bg-card px-5 py-6 text-center">
+              <div
+                key={s.label}
+                className="flex min-h-[112px] flex-col items-center justify-center bg-card px-5 py-6 text-center sm:min-h-[124px]"
+              >
                 <div className="text-2xl font-semibold text-foreground sm:text-3xl">
                   {s.value}
                 </div>
-                <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
+                <div className="mt-1.5 text-xs leading-snug text-muted-foreground">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
