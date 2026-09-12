@@ -58,21 +58,10 @@ export default async function HomePage({
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t.home.hero.subtitle}
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href={lp("/bots")}>
-                  {t.home.hero.ctaPrimary}
-                  <ArrowRight className="size-4 rtl:rotate-180" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href={lp("/signals")}>{t.home.hero.ctaSecondary}</Link>
-              </Button>
-            </div>
-            <p className="mt-4 text-xs text-muted-foreground">{t.home.hero.note}</p>
+            <p className="mt-6 text-xs text-muted-foreground">{t.home.hero.note}</p>
           </div>
 
-          {/* Stats */}
+          {/* Advantages */}
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
             {t.home.stats.map((s) => (
               <div key={s.label} className="bg-card px-5 py-6 text-center">
