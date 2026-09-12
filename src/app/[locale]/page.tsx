@@ -23,7 +23,6 @@ import { Faq } from "@/components/marketing/faq";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { bots, indicators } from "@/lib/products";
-import { formatUSD } from "@/lib/utils";
 
 const categoryIcons = [Bot, LineChart, Radio];
 const howIcons = [CreditCard, Zap, CheckCircle2];
@@ -116,10 +115,12 @@ export default async function HomePage({
                 href={lp(cat.href)}
                 className="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/40 hover:bg-card/70"
               >
-                <span className="grid size-11 place-items-center rounded-lg bg-primary/12 text-primary">
+                <span className="mx-auto grid size-11 place-items-center rounded-lg bg-primary/12 text-primary">
                   <Icon className="size-5" />
                 </span>
-                <h3 className="mt-5 text-lg font-semibold">{cat.title}</h3>
+                <h3 className="mt-5 text-center text-lg font-semibold uppercase tracking-wide">
+                  {cat.title}
+                </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                   {cat.description}
                 </p>
@@ -150,17 +151,7 @@ export default async function HomePage({
                 )}
               </div>
               <h4 className="mt-3 font-semibold">{p.name}</h4>
-              <p className="mt-1.5 flex-1 text-sm text-muted-foreground">
-                {p.tagline[l]}
-              </p>
-              <div className="mt-4 flex items-baseline gap-2">
-                <span className="text-sm text-muted-foreground line-through">
-                  {formatUSD(p.priceUSD, l)}
-                </span>
-                <span className="font-semibold text-accent">
-                  {formatUSD(p.exnessPriceUSD, l)}
-                </span>
-              </div>
+              <p className="mt-1.5 text-sm text-muted-foreground">{p.tagline[l]}</p>
             </Link>
           ))}
         </div>
