@@ -63,6 +63,12 @@ export function ProductDetail({
             {product.badge === "popular" && (
               <Badge variant="accent">{t.common.mostPopular}</Badge>
             )}
+            {product.badge === "new" && (
+              <Badge variant="primary">{t.common.comingSoon}</Badge>
+            )}
+            {product.badge === "custom" && (
+              <Badge variant="primary">{t.common.customBadge}</Badge>
+            )}
           </div>
           <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">
             {product.name}
@@ -135,7 +141,9 @@ export function ProductDetail({
               {detail.manual}
             </div>
             <p className="mt-1.5 text-sm text-muted-foreground">
-              {detail.deliveryNote}
+              {product.requiresConsultation
+                ? t.bots.detail.customDeliveryNote
+                : detail.deliveryNote}
             </p>
           </section>
         </div>
@@ -182,18 +190,29 @@ export function ProductDetail({
             )}
 
             <div className="mt-5 space-y-2.5">
-              <BuyDialog
-                slug={product.slug}
-                kind={product.kind}
-                label={detail.buyCta}
-                block
-              />
-              <Button asChild variant="outline" size="lg" className="w-full">
-                <Link href={lp("/contact")}>
-                  <MessageCircleQuestion className="size-4" />
-                  {detail.contactCta}
-                </Link>
-              </Button>
+              {product.requiresConsultation ? (
+                <Button asChild size="lg" className="w-full">
+                  <Link href={lp(`/contact?topic=${isBot ? "bots" : "indicators"}`)}>
+                    <MessageCircleQuestion className="size-4" />
+                    {t.bots.detail.customCta}
+                  </Link>
+                </Button>
+              ) : (
+                <>
+                  <BuyDialog
+                    slug={product.slug}
+                    kind={product.kind}
+                    label={detail.buyCta}
+                    block
+                  />
+                  <Button asChild variant="outline" size="lg" className="w-full">
+                    <Link href={lp("/contact")}>
+                      <MessageCircleQuestion className="size-4" />
+                      {detail.contactCta}
+                    </Link>
+                  </Button>
+                </>
+              )}
               <Button asChild variant="ghost" size="lg" className="w-full">
                 <a href={meetUrl} target={meetUrl.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
                   <CalendarClock className="size-4" />
@@ -202,9 +221,11 @@ export function ProductDetail({
               </Button>
             </div>
 
-            <p className="mt-4 text-center text-[11px] text-muted-foreground">
-              {t.common.securePayment} · {t.common.instantAccess}
-            </p>
+            {!product.requiresConsultation && (
+              <p className="mt-4 text-center text-[11px] text-muted-foreground">
+                {t.common.securePayment} · {t.common.instantAccess}
+              </p>
+            )}
           </div>
         </aside>
       </div>

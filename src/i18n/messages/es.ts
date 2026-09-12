@@ -28,6 +28,7 @@ export const es: Dictionary = {
     oneTime: "pago único",
     mostPopular: "Más elegido",
     comingSoon: "Próximamente",
+    customBadge: "Personalizado",
     allProducts: "Todos los productos",
     needHelp: "¿Tienes dudas?",
     contactUs: "Contáctanos",
@@ -219,6 +220,9 @@ export const es: Dictionary = {
       scheduleCta: "Agendar una llamada",
       deliveryNote:
         "Después del pago recibes el archivo del bot, la licencia y el manual de configuración por correo automáticamente.",
+      customCta: "Contanos tu estrategia",
+      customDeliveryNote:
+        "Coordinamos tu estrategia, la desarrollamos y te entregamos el bot con licencia y manual. Este producto no tiene precio con referido de Exness.",
       relatedTitle: "Otros bots",
     },
   },

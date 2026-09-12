@@ -31,6 +31,9 @@ export function ProductCard({
         {product.badge === "new" && (
           <Badge variant="primary">{t.common.comingSoon}</Badge>
         )}
+        {product.badge === "custom" && (
+          <Badge variant="primary">{t.common.customBadge}</Badge>
+        )}
       </div>
 
       <Link href={href} className="mt-4 block">
@@ -74,13 +77,22 @@ export function ProductCard({
       </div>
 
       <div className="mt-4 flex items-center gap-2">
-        <BuyDialog
-          slug={product.slug}
-          kind={product.kind}
-          label={detail.buyCta}
-          size="sm"
-          block
-        />
+        {product.requiresConsultation ? (
+          <Link
+            href={`/${locale}/contact?topic=${product.kind === "bot" ? "bots" : "indicators"}`}
+            className="inline-flex h-9 flex-1 items-center justify-center rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            {t.bots.detail.customCta}
+          </Link>
+        ) : (
+          <BuyDialog
+            slug={product.slug}
+            kind={product.kind}
+            label={detail.buyCta}
+            size="sm"
+            block
+          />
+        )}
         <Link
           href={href}
           className="inline-flex h-9 shrink-0 items-center gap-1 rounded-lg px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"

@@ -26,6 +26,7 @@ export const en = {
     oneTime: "one-time payment",
     mostPopular: "Most popular",
     comingSoon: "Coming soon",
+    customBadge: "Custom",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",
@@ -218,6 +219,9 @@ export const en = {
       scheduleCta: "Schedule a call",
       deliveryNote:
         "After payment you receive the bot file, license and setup manual by email automatically.",
+      customCta: "Tell us your strategy",
+      customDeliveryNote:
+        "We work out your strategy, build it, and deliver the bot with a license and manual. Exness referral pricing doesn't apply to this product.",
       relatedTitle: "Other bots",
     },
   },

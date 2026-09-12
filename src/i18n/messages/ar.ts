@@ -28,6 +28,7 @@ export const ar: Dictionary = {
     oneTime: "دفعة واحدة",
     mostPopular: "الأكثر اختياراً",
     comingSoon: "قريباً",
+    customBadge: "مخصّص",
     allProducts: "كل المنتجات",
     needHelp: "لديك أسئلة؟",
     contactUs: "تواصل معنا",
@@ -217,6 +218,9 @@ export const ar: Dictionary = {
       scheduleCta: "احجز مكالمة",
       deliveryNote:
         "بعد الدفع تستلم ملف الروبوت والترخيص ودليل الإعداد عبر البريد الإلكتروني تلقائياً.",
+      customCta: "أخبرنا باستراتيجيتك",
+      customDeliveryNote:
+        "نحدّد استراتيجيتك، نطوّرها، ونسلّم الروبوت مع الترخيص والدليل. لا ينطبق سعر إحالة Exness على هذا المنتج.",
       relatedTitle: "روبوتات أخرى",
     },
   },

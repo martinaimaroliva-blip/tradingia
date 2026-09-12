@@ -19,10 +19,13 @@ export async function generateMetadata({
 
 export default async function ContactPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ topic?: string }>;
 }) {
   const { locale } = await params;
+  const { topic } = await searchParams;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
 
@@ -45,7 +48,15 @@ export default async function ContactPage({
 
       <div className="container-page grid gap-10 py-12 lg:grid-cols-[1fr_340px] lg:py-16">
         <div className="min-w-0">
-          <ContactForm />
+          <ContactForm
+            defaultTopic={
+              ["bots", "indicators", "signals", "payment", "other"].includes(
+                topic ?? "",
+              )
+                ? topic
+                : undefined
+            }
+          />
         </div>
 
         <aside className="space-y-4">
