@@ -42,10 +42,10 @@ export const en = {
   home: {
     hero: {
       badge: "Automated trading, made simple",
-      title: "Trade with an edge:",
-      titleHighlight: "bots, indicators & signals",
+      title: "Trade with the edge of AI:",
+      titleHighlight: "bots, indicators and signals",
       subtitle:
-        "Battle-tested automated strategies, professional indicators and a live signals room. Pick a product, pay with card or crypto, and get access instantly.",
+        "Take the emotion out of trading and grow your performance with the technology professionals already use.",
       ctaPrimary: "Explore the bots",
       ctaSecondary: "See signal plans",
       note: "No subscription for bots & indicators · Cancel signals anytime",
