@@ -4,11 +4,8 @@ import {
   Bot,
   LineChart,
   Radio,
-  ShieldCheck,
   Zap,
   CreditCard,
-  Server,
-  Wallet,
   Gauge,
   CheckCircle2,
   Clock,
@@ -25,7 +22,6 @@ import { Badge } from "@/components/ui/badge";
 
 const categoryIcons = [Bot, LineChart, Radio];
 const howIcons = [CreditCard, Zap, CheckCircle2];
-const exnessIcons = [Gauge, Wallet, Server, ShieldCheck];
 const advantageIcons = [Clock, Globe, BrainCircuit, Gauge];
 
 export default async function HomePage({
@@ -157,48 +153,6 @@ export default async function HomePage({
               </div>
             );
           })}
-        </div>
-      </Section>
-
-      {/* Exness teaser */}
-      <Section>
-        <div className="overflow-hidden rounded-2xl border border-border bg-card">
-          <div className="grid lg:grid-cols-[1.1fr_1fr]">
-            <div className="p-8 sm:p-12">
-              <Badge variant="primary">{t.home.exness.badge}</Badge>
-              <h2 className="mt-4 text-2xl font-semibold sm:text-3xl">
-                {t.home.exness.title}
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                {t.home.exness.subtitle}
-              </p>
-              <div className="mt-6">
-                <Button asChild>
-                  <Link href={lp("/exness")}>
-                    {t.home.exness.cta}
-                    <ArrowRight className="size-4 rtl:rotate-180" />
-                  </Link>
-                </Button>
-              </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                {t.home.exness.disclaimer}
-              </p>
-            </div>
-            <div className="grid gap-px bg-border sm:grid-cols-2 lg:border-s lg:border-border">
-              {t.home.exness.benefits.map((b, i) => {
-                const Icon = exnessIcons[i];
-                return (
-                  <div key={i} className="bg-card p-6">
-                    <Icon className="size-5 text-primary" />
-                    <h4 className="mt-3 text-sm font-semibold">{b.title}</h4>
-                    <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                      {b.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </Section>
 
