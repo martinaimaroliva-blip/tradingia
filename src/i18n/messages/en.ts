@@ -455,6 +455,50 @@ export const en = {
       success: "Done! We have everything we need to prepare your bot.",
       error: "Could not submit. Please try again or message us.",
     },
+    exness: {
+      gateTitle: "Do you already have an Exness account?",
+      gateSubtitle: "We need to verify your account before confirming the Exness price.",
+      hasAccount: "I already have an Exness account",
+      noAccount: "I don't have an Exness account",
+
+      optionsTitle: "How would you like to continue?",
+      switchOption: "Switch partner on my current account",
+      switchOptionHint: "Can take up to 72 hours to confirm.",
+      newOption: "Create a new account with another email",
+      newOptionHint:
+        "Faster and simpler. You can have more than one Exness account, just not with the same email.",
+
+      switchTitle: "How to switch partner",
+      switchStep1: "Log in to your Exness account",
+      switchStep2: "Open the live chat",
+      switchStep3: "Type \"change partner\"",
+      switchStep4: "Fill in the form it gives you — use this link when it asks for one:",
+      switchDone: "I've done it",
+      switchNote:
+        "This change can take up to 72 hours to confirm. We'll email you as soon as it's done.",
+
+      newTitle: "Create your Exness account",
+      newBody:
+        "Click to sign up through our link. Use an email you haven't used on Exness before.",
+      newCta: "Open my Exness account",
+      newDone: "I've signed up",
+
+      linkLabel: "Your referral link",
+      copy: "Copy",
+      copied: "Copied!",
+
+      emailTitle: "Which email?",
+      emailSubtitle: "This is your Exness account's email — it can be different from the one you gave earlier.",
+      emailLabel: "Your Exness account email",
+      submit: "Send and verify",
+      sending: "Sending…",
+      submitError: "Could not submit. Please try again.",
+
+      pendingTitle: "Done! We're verifying your account",
+      pendingBody:
+        "As soon as we confirm your account is under our link, we'll email you the link to finish your purchase at the Exness price.",
+      pendingCta: "Got it",
+    },
   },
   footer: {
     tagline:

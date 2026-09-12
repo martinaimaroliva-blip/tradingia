@@ -10,6 +10,10 @@ import {
   Zap,
   Sparkles,
   ServerCrash,
+  Copy,
+  Check,
+  ExternalLink,
+  MailCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatUSD } from "@/lib/utils";
@@ -29,7 +33,19 @@ import {
 type Method = "card" | "crypto";
 type PriceChoice = "standard" | "exness";
 type CryptoCoin = "USDT" | "USDC" | "BNB";
-type Step = "price" | "vps-warning" | "details" | "payment";
+type Step =
+  | "price"
+  | "vps-warning"
+  | "details"
+  | "exness-gate"
+  | "exness-options"
+  | "exness-switch"
+  | "exness-new"
+  | "exness-email"
+  | "exness-pending"
+  | "payment";
+
+const EXNESS_REFERRAL_URL = process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || "#";
 
 export function BuyDialog({
   slug,
@@ -37,6 +53,8 @@ export function BuyDialog({
   label,
   priceUSD,
   exnessPriceUSD,
+  verifiedExnessEmail,
+  verifiedExnessToken,
   size = "lg",
   variant = "default",
   className,
@@ -49,6 +67,10 @@ export function BuyDialog({
   priceUSD?: number;
   /** Discounted price with the Exness referral. Equal to priceUSD = no discount. */
   exnessPriceUSD?: number;
+  /** Present when the customer arrived via a signed "your Exness account is
+   * verified" resume link — lets them skip straight past the Exness gate. */
+  verifiedExnessEmail?: string;
+  verifiedExnessToken?: string;
   size?: ButtonProps["size"];
   variant?: ButtonProps["variant"];
   className?: string;
@@ -57,25 +79,36 @@ export function BuyDialog({
   const { t, locale } = useI18n();
   const hasDiscount =
     priceUSD != null && exnessPriceUSD != null && exnessPriceUSD < priceUSD;
+  const isVerified = Boolean(verifiedExnessEmail && verifiedExnessToken);
+
+  const initialStep: Step = isVerified ? "details" : hasDiscount ? "price" : "details";
+  const initialPriceChoice: PriceChoice = isVerified ? "exness" : "standard";
 
   const [open, setOpen] = React.useState(false);
-  const [step, setStep] = React.useState<Step>(hasDiscount ? "price" : "details");
-  const [priceChoice, setPriceChoice] = React.useState<PriceChoice>("standard");
+  const [step, setStep] = React.useState<Step>(initialStep);
+  const [priceChoice, setPriceChoice] = React.useState<PriceChoice>(initialPriceChoice);
+  const [exnessPath, setExnessPath] = React.useState<"switch" | "new">("new");
   const [method, setMethod] = React.useState<Method>("card");
   const [coin, setCoin] = React.useState<CryptoCoin>("USDT");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [copied, setCopied] = React.useState(false);
 
   const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState(verifiedExnessEmail ?? "");
+  const [exnessAccountEmail, setExnessAccountEmail] = React.useState(
+    verifiedExnessEmail ?? "",
+  );
 
   function reset() {
-    setStep(hasDiscount ? "price" : "details");
-    setPriceChoice("standard");
+    setStep(initialStep);
+    setPriceChoice(initialPriceChoice);
+    setExnessPath("new");
     setMethod("card");
     setCoin("USDT");
     setError(null);
     setLoading(false);
+    setCopied(false);
   }
 
   function onOpenChange(next: boolean) {
@@ -115,7 +148,56 @@ export function BuyDialog({
         /* best-effort — never block checkout on this */
       });
     }
-    setStep("payment");
+    if (priceChoice === "exness") {
+      if (isVerified) {
+        setStep("payment");
+      } else {
+        setExnessAccountEmail((prev) => prev || email);
+        setStep("exness-gate");
+      }
+    } else {
+      setStep("payment");
+    }
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(EXNESS_REFERRAL_URL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard API unavailable — link is still selectable/clickable */
+    }
+  }
+
+  async function submitExnessEmail() {
+    if (exnessAccountEmail.trim() === "") {
+      setError(t.checkout.exness.submitError);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/exness/verify-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          kind,
+          name,
+          contactEmail: email,
+          exnessEmail: exnessAccountEmail,
+          path: exnessPath,
+          locale,
+        }),
+      });
+      if (!res.ok) throw new Error("failed");
+      setStep("exness-pending");
+    } catch {
+      setError(t.checkout.exness.submitError);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function checkout() {
@@ -134,6 +216,9 @@ export function BuyDialog({
           email,
           priceChoice,
           ...(method === "crypto" ? { cryptoCurrency: coin } : {}),
+          ...(priceChoice === "exness" && isVerified
+            ? { exnessEmail: verifiedExnessEmail, exnessToken: verifiedExnessToken }
+            : {}),
         }),
       });
       const data = (await res.json()) as { url?: string; error?: string };
@@ -164,14 +249,61 @@ export function BuyDialog({
   const saving =
     priceUSD != null && exnessPriceUSD != null ? priceUSD - exnessPriceUSD : 0;
 
-  const showBack = step !== (hasDiscount ? "price" : "details");
+  const showBack = step !== initialStep && step !== "exness-pending";
 
   function back() {
-    if (step === "payment") setStep("details");
-    else if (step === "details" && priceChoice === "standard" && kind === "bot")
-      setStep("vps-warning");
-    else if (step === "details" || step === "vps-warning") setStep("price");
+    switch (step) {
+      case "payment":
+        setStep(isVerified ? "details" : priceChoice === "exness" ? "exness-email" : "details");
+        return;
+      case "exness-email":
+        setStep(exnessPath === "switch" ? "exness-switch" : "exness-new");
+        return;
+      case "exness-switch":
+      case "exness-new":
+        setStep("exness-gate");
+        return;
+      case "exness-options":
+        setStep("exness-gate");
+        return;
+      case "exness-gate":
+        setStep("details");
+        return;
+      case "details":
+        setStep(
+          priceChoice === "standard" && kind === "bot" ? "vps-warning" : "price",
+        );
+        return;
+      case "vps-warning":
+        setStep("price");
+        return;
+      default:
+        return;
+    }
   }
+
+  const referralLinkBox = (
+    <div className="flex items-center gap-2 rounded-lg border border-border bg-secondary/40 p-2.5">
+      <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+        {EXNESS_REFERRAL_URL}
+      </span>
+      <button
+        type="button"
+        onClick={copyLink}
+        className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border px-2 py-1 text-xs font-medium transition-colors hover:bg-secondary"
+      >
+        {copied ? (
+          <>
+            <Check className="size-3.5 text-accent" /> {t.checkout.exness.copied}
+          </>
+        ) : (
+          <>
+            <Copy className="size-3.5" /> {t.checkout.exness.copy}
+          </>
+        )}
+      </button>
+    </div>
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -293,6 +425,173 @@ export function BuyDialog({
             {error && <p className="text-sm text-destructive">{error}</p>}
             <Button onClick={submitDetails} className="w-full">
               {t.checkout.dialog.continue}
+            </Button>
+          </>
+        )}
+
+        {step === "exness-gate" && (
+          <>
+            <DialogHeader>
+              <DialogTitle>{t.checkout.exness.gateTitle}</DialogTitle>
+              <DialogDescription>{t.checkout.exness.gateSubtitle}</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-2.5">
+              <Button onClick={() => setStep("exness-options")} className="w-full">
+                {t.checkout.exness.hasAccount}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setExnessPath("new");
+                  setStep("exness-new");
+                }}
+                className="w-full"
+              >
+                {t.checkout.exness.noAccount}
+              </Button>
+            </div>
+          </>
+        )}
+
+        {step === "exness-options" && (
+          <>
+            <DialogHeader>
+              <DialogTitle>{t.checkout.exness.optionsTitle}</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setExnessPath("switch");
+                  setStep("exness-switch");
+                }}
+                className="rounded-lg border border-border p-4 text-start transition-colors hover:border-primary/40 hover:bg-secondary/40"
+              >
+                <span className="text-sm font-medium">
+                  {t.checkout.exness.switchOption}
+                </span>
+                <span className="mt-1 block text-xs text-muted-foreground">
+                  {t.checkout.exness.switchOptionHint}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setExnessPath("new");
+                  setStep("exness-new");
+                }}
+                className="rounded-lg border border-primary/50 bg-primary/[0.06] p-4 text-start transition-colors hover:bg-primary/10"
+              >
+                <span className="text-sm font-medium text-primary">
+                  {t.checkout.exness.newOption}
+                </span>
+                <span className="mt-1 block text-xs text-muted-foreground">
+                  {t.checkout.exness.newOptionHint}
+                </span>
+              </button>
+            </div>
+          </>
+        )}
+
+        {step === "exness-switch" && (
+          <>
+            <DialogHeader>
+              <DialogTitle>{t.checkout.exness.switchTitle}</DialogTitle>
+            </DialogHeader>
+            <ol className="grid gap-2.5">
+              {[
+                t.checkout.exness.switchStep1,
+                t.checkout.exness.switchStep2,
+                t.checkout.exness.switchStep3,
+              ].map((stepText, i) => (
+                <li key={i} className="flex gap-3 text-sm">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-md bg-secondary text-xs font-semibold text-primary">
+                    {i + 1}
+                  </span>
+                  <span className="pt-0.5 text-foreground/90">{stepText}</span>
+                </li>
+              ))}
+              <li className="flex gap-3 text-sm">
+                <span className="grid size-6 shrink-0 place-items-center rounded-md bg-secondary text-xs font-semibold text-primary">
+                  4
+                </span>
+                <span className="min-w-0 flex-1 pt-0.5">
+                  <span className="block text-foreground/90">
+                    {t.checkout.exness.switchStep4}
+                  </span>
+                  <span className="mt-2 block">{referralLinkBox}</span>
+                </span>
+              </li>
+            </ol>
+            <p className="rounded-lg bg-secondary/40 px-3 py-2 text-xs text-muted-foreground">
+              {t.checkout.exness.switchNote}
+            </p>
+            <Button
+              onClick={() => setStep("exness-email")}
+              className="w-full"
+            >
+              {t.checkout.exness.switchDone}
+            </Button>
+          </>
+        )}
+
+        {step === "exness-new" && (
+          <>
+            <DialogHeader>
+              <DialogTitle>{t.checkout.exness.newTitle}</DialogTitle>
+              <DialogDescription>{t.checkout.exness.newBody}</DialogDescription>
+            </DialogHeader>
+            <Button asChild className="w-full">
+              <a href={EXNESS_REFERRAL_URL} target="_blank" rel="noreferrer nofollow sponsored">
+                {t.checkout.exness.newCta}
+                <ExternalLink className="size-4" />
+              </a>
+            </Button>
+            {referralLinkBox}
+            <Button variant="outline" onClick={() => setStep("exness-email")} className="w-full">
+              {t.checkout.exness.newDone}
+            </Button>
+          </>
+        )}
+
+        {step === "exness-email" && (
+          <>
+            <DialogHeader>
+              <span className="mb-1 inline-flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <MailCheck className="size-5" />
+              </span>
+              <DialogTitle>{t.checkout.exness.emailTitle}</DialogTitle>
+              <DialogDescription>{t.checkout.exness.emailSubtitle}</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-1.5">
+              <Label htmlFor="exness-email">{t.checkout.exness.emailLabel}</Label>
+              <Input
+                id="exness-email"
+                type="email"
+                value={exnessAccountEmail}
+                onChange={(e) => setExnessAccountEmail(e.target.value)}
+                autoComplete="email"
+              />
+            </div>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button onClick={submitExnessEmail} disabled={loading} className="w-full">
+              {loading && <Loader2 className="size-4 animate-spin" />}
+              {loading ? t.checkout.exness.sending : t.checkout.exness.submit}
+            </Button>
+          </>
+        )}
+
+        {step === "exness-pending" && (
+          <>
+            <DialogHeader>
+              <span className="mb-1 inline-flex size-10 items-center justify-center rounded-lg bg-accent/12 text-accent">
+                <Check className="size-5" />
+              </span>
+              <DialogTitle>{t.checkout.exness.pendingTitle}</DialogTitle>
+              <DialogDescription>{t.checkout.exness.pendingBody}</DialogDescription>
+            </DialogHeader>
+            <Button onClick={() => setOpen(false)} className="w-full">
+              {t.checkout.exness.pendingCta}
             </Button>
           </>
         )}

@@ -65,25 +65,55 @@ product is a one-file change.
 
 ## The purchase flow
 
-`BuyDialog` (`src/components/commerce/buy-dialog.tsx`) walks through up to four steps —
+`BuyDialog` (`src/components/commerce/buy-dialog.tsx`) walks through several steps —
 skipping whichever don't apply to that product:
 
 1. **Price choice** (bots & indicators with an Exness discount only): two buttons,
-   standard vs. Exness-referral price. Picking "without Exness" on a **bot**
-   shows a VPS warning (a bot needs one to run 24/7; Exness gives one free from a
-   $2,000 deposit) with a chance to switch to the Exness price instead.
-2. **Details**: name + email, always. If they stuck with the standard price after
-   seeing the VPS warning, this also fires a background `/api/leads` call
-   (`source: "checkout_no_exness"`) so systeme.io can remarket to them if they
-   don't finish checking out.
-3. **Payment method**: card (Stripe) or crypto — crypto is restricted to
+   standard vs. Exness-referral price.
+2. **Details**: name + email, always.
+3. **Standard price, on a bot**: a VPS warning (a bot needs one to run 24/7;
+   Exness gives one free from a $2,000 deposit) with a chance to switch to the
+   Exness price instead. If they stick with standard, submitting details fires a
+   background `/api/leads` call (`source: "checkout_no_exness"`) so systeme.io
+   can remarket to them if they don't finish checking out.
+4. **Exness price**: a verification gate — see below — before payment unlocks.
+5. **Payment method**: card (Stripe) or crypto — crypto is restricted to
    USDT/USDC/BNB (NOWPayments `pay_currency`, see `CRYPTO_CURRENCIES` in
    `lib/payments.ts` — verify the exact ticker spelling against NOWPayments'
    `/v1/currencies` before going live).
-4. **After payment** (bots only): the success page shows a short form —
+6. **After payment** (bots only): the success page shows a short form —
    account number + MT4/5 server — since bots are compiled by hand per account
    today. The same form is linked from the buyer's confirmation email in case
    they close the tab first.
+
+## Exness price verification
+
+The Exness price is real money off, so it's gated server-side, not just a UI
+choice — `/api/checkout` rejects `priceChoice: "exness"` unless it comes with a
+signed token (`lib/exness.ts`). The flow to get one:
+
+1. After choosing the Exness price and entering their details, the buyer says
+   whether they already have an Exness account.
+   - **Already have one** → choose "switch partner" (in-app instructions: log
+     in, open live chat, type "change partner", submit the form with our
+     referral link — flagged as ~72h to confirm) or "open an additional
+     account" with a different email (faster).
+   - **Don't have one** → straight to opening a new account with our link.
+2. Either way, they submit the email their Exness account is/will be
+   registered under. `POST /api/exness/verify-request` emails **you**
+   (`ORDER_NOTIFICATION_EMAIL`) the case, plus a ready-to-forward **resume
+   link** — `lib/exness.ts#buildExnessResumeLink` — that's HMAC-signed for
+   that exact (product, email) pair.
+3. There's no partner-API integration yet (`checkExnessAccount` in
+   `lib/exness.ts` is a stub — wire it up once Exness partner-API access
+   exists), so today verification is you checking your Exness partner
+   dashboard by hand and forwarding that resume link once confirmed.
+4. Opening the resume link drops the buyer straight past the whole gate,
+   with the Exness price already unlocked — `/api/checkout` re-validates the
+   signature server-side, so the link can't be edited or guessed.
+
+Set `EXNESS_VERIFY_SECRET` to a real random string before launch — without it
+the signing falls back to a shared, insecure dev value.
 
 ## How a bot purchase gets fulfilled today
 
@@ -102,9 +132,7 @@ what *is* automated:
    account-details form. Both emails go out via Zoho Mail SMTP
    (`lib/email.ts`) — see `.env.example` for the `ZOHO_SMTP_*` keys.
 4. When the buyer submits account number + server, `api/orders/account-details`
-   emails you that too — match it to the sale by the email address (and, for
-   the Exness price tier, cross-check the account against your Exness partner
-   dashboard before compiling, since the discount is currently honor-system).
+   emails you that too — match it to the sale by the email address.
 
 Once there's a license-key system that can validate an account number at
 runtime, swap the "email a human" steps for a real API call and attach the
@@ -119,6 +147,8 @@ See `.env.example`. Everything is optional — features activate as keys are add
 - **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 - **NOWPayments:** `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`
 - **Zoho Mail SMTP:** `ZOHO_SMTP_USER`, `ZOHO_SMTP_PASS`, `ORDER_NOTIFICATION_EMAIL`
+- **Exness verification:** `EXNESS_VERIFY_SECRET` (set a real one before launch),
+  reserved `EXNESS_API_KEY` for future partner-API access
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,
   `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`
 
@@ -126,6 +156,8 @@ See `.env.example`. Everything is optional — features activate as keys are add
 
 - A license-key system, so bot delivery can become fully automatic instead of
   "email the order details to a human to compile"
+- Exness partner-API integration (`checkExnessAccount` in `lib/exness.ts`),
+  so account verification stops being a manual dashboard check
 - Telegram bot: add/remove buyers from the private signals channel on
   subscription start / lapse
 - systeme.io: move buyers to the post-purchase email sequence

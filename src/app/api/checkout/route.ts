@@ -9,6 +9,7 @@ import {
   CRYPTO_CURRENCIES,
 } from "@/lib/payments";
 import { encodeOrderDescription, type BuyerInfo } from "@/lib/orders";
+import { verifyExnessToken } from "@/lib/exness";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,10 @@ const schema = z.object({
   // Bots & indicators only — ignored for signals (flat monthly price).
   priceChoice: z.enum(["standard", "exness"]).default("standard"),
   cryptoCurrency: z.enum(["USDT", "USDC", "BNB"]).optional(),
+  // Required when priceChoice is "exness" — proves the Exness account was
+  // verified (see lib/exness.ts + /api/exness/verify-request).
+  exnessEmail: z.string().trim().email().max(190).optional(),
+  exnessToken: z.string().trim().max(64).optional(),
 });
 
 export async function POST(request: Request) {
@@ -37,8 +42,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
 
-  const { slug, kind, method, name, email, priceChoice, cryptoCurrency } =
-    parsed.data;
+  const {
+    slug,
+    kind,
+    method,
+    name,
+    email,
+    priceChoice,
+    cryptoCurrency,
+    exnessEmail,
+    exnessToken,
+  } = parsed.data;
   const locale =
     parsed.data.locale && isLocale(parsed.data.locale)
       ? parsed.data.locale
@@ -63,7 +77,16 @@ export async function POST(request: Request) {
       // Custom-build products go through /contact, never instant checkout.
       return NextResponse.json({ error: "requires_consultation" }, { status: 400 });
     }
-    amountUSD = priceChoice === "exness" ? product.exnessPriceUSD : product.priceUSD;
+    const hasDiscount = product.exnessPriceUSD < product.priceUSD;
+    if (priceChoice === "exness" && hasDiscount) {
+      if (!exnessEmail || !verifyExnessToken(slug, exnessEmail, exnessToken)) {
+        return NextResponse.json({ error: "exness_not_verified" }, { status: 403 });
+      }
+    }
+    amountUSD =
+      priceChoice === "exness" && hasDiscount
+        ? product.exnessPriceUSD
+        : product.priceUSD;
     productName = `TradingIA — ${product.name}`;
   }
 

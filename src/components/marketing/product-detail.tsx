@@ -21,10 +21,13 @@ export function ProductDetail({
   product,
   locale,
   t,
+  verifiedExness,
 }: {
   product: Product;
   locale: Locale;
   t: Dictionary;
+  /** Set when the visitor arrived via a signed Exness-verification resume link. */
+  verifiedExness?: { email: string; token: string } | null;
 }) {
   const isBot = product.kind === "bot";
   const listBase = isBot ? "/bots" : "/indicators";
@@ -205,6 +208,8 @@ export function ProductDetail({
                     label={detail.buyCta}
                     priceUSD={product.priceUSD}
                     exnessPriceUSD={product.exnessPriceUSD}
+                    verifiedExnessEmail={verifiedExness?.email}
+                    verifiedExnessToken={verifiedExness?.token}
                     block
                   />
                   <Button asChild variant="outline" size="lg" className="w-full">

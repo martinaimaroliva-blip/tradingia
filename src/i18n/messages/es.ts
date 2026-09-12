@@ -456,6 +456,50 @@ export const es: Dictionary = {
       success: "¡Listo! Ya tenemos todo para preparar tu bot.",
       error: "No se pudo enviar. Inténtalo de nuevo o escribinos.",
     },
+    exness: {
+      gateTitle: "¿Ya tenés cuenta en Exness?",
+      gateSubtitle: "Para confirmar el precio con Exness necesitamos verificar tu cuenta.",
+      hasAccount: "Ya tengo cuenta en Exness",
+      noAccount: "No tengo cuenta en Exness",
+
+      optionsTitle: "¿Cómo preferís continuar?",
+      switchOption: "Cambiar de partner en mi cuenta actual",
+      switchOptionHint: "Puede demorar hasta 72 horas en confirmarse.",
+      newOption: "Crear una cuenta nueva con otro correo",
+      newOptionHint:
+        "Más rápido y simple. Podés tener más de una cuenta en Exness, pero no con el mismo correo.",
+
+      switchTitle: "Cómo cambiar de partner",
+      switchStep1: "Ingresá a tu cuenta de Exness",
+      switchStep2: "Andá al chat en línea",
+      switchStep3: "Escribí \"cambio de partner\"",
+      switchStep4: "Completá el formulario que te pida — usá este link cuando te lo solicite:",
+      switchDone: "Ya lo hice",
+      switchNote:
+        "Este cambio puede demorar hasta 72 horas en confirmarse. Te avisamos por correo apenas esté.",
+
+      newTitle: "Creá tu cuenta de Exness",
+      newBody:
+        "Hacé clic para registrarte con nuestro link. Usá un correo que no hayas usado antes en Exness.",
+      newCta: "Abrir mi cuenta de Exness",
+      newDone: "Ya me registré",
+
+      linkLabel: "Tu link de referido",
+      copy: "Copiar",
+      copied: "¡Copiado!",
+
+      emailTitle: "¿Con qué correo?",
+      emailSubtitle: "Es el correo de tu cuenta de Exness — puede ser distinto al que pusiste antes.",
+      emailLabel: "Correo de tu cuenta de Exness",
+      submit: "Enviar y verificar",
+      sending: "Enviando…",
+      submitError: "No se pudo enviar. Intentá de nuevo.",
+
+      pendingTitle: "¡Listo! Estamos verificando tu cuenta",
+      pendingBody:
+        "En cuanto confirmemos que tu cuenta quedó bajo nuestro link, te mandamos un correo con el link para completar la compra al precio con Exness.",
+      pendingCta: "Entendido",
+    },
   },
   footer: {
     tagline:
