@@ -73,7 +73,7 @@ export const en = {
         cta: "Browse indicators",
       },
       signals: {
-        title: "Signals membership",
+        title: "Signals",
         description:
           "A monthly subscription to our private Telegram channel. Actionable calls with entry, stop-loss and take-profit, plus market context.",
         cta: "See plans",

@@ -75,7 +75,7 @@ export const es: Dictionary = {
         cta: "Ver indicadores",
       },
       signals: {
-        title: "Membresía de señales",
+        title: "Señales",
         description:
           "Suscripción mensual a nuestro canal privado de Telegram. Operaciones concretas con entrada, stop-loss y take-profit, más contexto de mercado.",
         cta: "Ver planes",
