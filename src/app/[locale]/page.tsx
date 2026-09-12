@@ -22,7 +22,6 @@ import { Section, SectionHeading } from "@/components/marketing/section";
 import { Faq } from "@/components/marketing/faq";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { bots, indicators } from "@/lib/products";
 
 const categoryIcons = [Bot, LineChart, Radio];
 const howIcons = [CreditCard, Zap, CheckCircle2];
@@ -39,8 +38,6 @@ export default async function HomePage({
   const l = locale as Locale;
   const t = await getDictionary(l);
   const lp = (p: string) => `/${l}${p === "/" ? "" : p}`;
-
-  const featured = [bots[0], indicators[1], bots[2]];
 
   return (
     <>
@@ -131,29 +128,6 @@ export default async function HomePage({
               </Link>
             );
           })}
-        </div>
-
-        {/* Featured products */}
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((p) => (
-            <Link
-              key={p.slug}
-              href={lp(`/${p.kind === "bot" ? "bots" : "indicators"}/${p.slug}`)}
-              className="group flex flex-col rounded-xl border border-border bg-card/60 p-5 transition-colors hover:border-primary/40"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <Badge variant="outline">{p.assetLabel[l]}</Badge>
-                {p.badge === "popular" && (
-                  <Badge variant="accent">{t.common.mostPopular}</Badge>
-                )}
-                {p.badge === "new" && (
-                  <Badge variant="primary">{t.common.comingSoon}</Badge>
-                )}
-              </div>
-              <h4 className="mt-3 font-semibold">{p.name}</h4>
-              <p className="mt-1.5 text-sm text-muted-foreground">{p.tagline[l]}</p>
-            </Link>
-          ))}
         </div>
       </Section>
 
