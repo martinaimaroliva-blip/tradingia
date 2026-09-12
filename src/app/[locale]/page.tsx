@@ -11,6 +11,9 @@ import {
   Wallet,
   Gauge,
   CheckCircle2,
+  Clock,
+  Globe,
+  BrainCircuit,
 } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -25,6 +28,7 @@ import { formatUSD } from "@/lib/utils";
 const categoryIcons = [Bot, LineChart, Radio];
 const howIcons = [CreditCard, Zap, CheckCircle2];
 const exnessIcons = [Gauge, Wallet, Server, ShieldCheck];
+const advantageIcons = [Clock, Globe, BrainCircuit, Gauge];
 
 export default async function HomePage({
   params,
@@ -62,20 +66,24 @@ export default async function HomePage({
           </div>
 
           {/* Advantages */}
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
-            {t.home.stats.map((s) => (
-              <div
-                key={s.label}
-                className="flex min-h-[112px] flex-col items-center justify-center bg-card px-5 py-6 text-center sm:min-h-[124px]"
-              >
-                <div className="text-2xl font-semibold text-foreground sm:text-3xl">
-                  {s.value}
+          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 border-y border-border/70 py-9 sm:grid-cols-4 sm:gap-y-0 sm:divide-x sm:divide-border/70 sm:py-0">
+            {t.home.stats.map((s, i) => {
+              const Icon = advantageIcons[i];
+              return (
+                <div
+                  key={s.label}
+                  className="flex flex-col items-center gap-2.5 px-4 text-center sm:py-9"
+                >
+                  <Icon className="size-5 text-primary" strokeWidth={1.75} />
+                  <div className="text-xl font-semibold text-foreground sm:text-2xl">
+                    {s.value}
+                  </div>
+                  <div className="max-w-[11rem] text-xs leading-snug text-muted-foreground">
+                    {s.label}
+                  </div>
                 </div>
-                <div className="mt-1.5 text-xs leading-snug text-muted-foreground">
-                  {s.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
