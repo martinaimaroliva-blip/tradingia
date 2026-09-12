@@ -406,9 +406,9 @@ export const en = {
     success: {
       title: "Payment received",
       subtitle:
-        "Thank you. Your access is being provisioned — check your email in the next few minutes for credentials, the manual and next steps.",
+        "Thank you. We've logged your purchase. Check your email — that's where we'll send your credentials, the manual and next steps.",
       cta: "Back to home",
-      note: "Didn't get anything after 15 minutes? Contact us and we'll sort it out.",
+      note: "No news after a couple of hours? Contact us and we'll sort it out.",
     },
     cancel: {
       title: "Checkout cancelled",
@@ -418,7 +418,11 @@ export const en = {
     },
     dialog: {
       title: "Choose how to pay",
-      subtitle: "Both methods are verified automatically and grant instant access.",
+      subtitle: "Fill in your details and choose how to pay. Both methods are verified automatically.",
+      detailsTitle: "Your details",
+      accountLabel: "MT4/MT5 account number",
+      brokerLabel: "Broker",
+      accountNote: "We need this to compile and activate the bot on your account.",
       card: "Pay with card",
       cardHint: "Visa, Mastercard, Amex via Stripe",
       crypto: "Pay with crypto",
@@ -426,6 +430,7 @@ export const en = {
       continue: "Continue",
       processing: "Redirecting…",
       error: "Could not start checkout. Please try again.",
+      missingFields: "Fill in every field to continue.",
     },
   },
   footer: {

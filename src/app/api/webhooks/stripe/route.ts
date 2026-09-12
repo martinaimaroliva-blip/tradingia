@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { getStripe } from "@/lib/payments";
 import { optionalEnv } from "@/lib/env";
 import { fulfilPurchase } from "@/lib/delivery";
+import type { BuyerInfo } from "@/lib/orders";
 
 export const runtime = "nodejs";
 
@@ -35,28 +36,40 @@ export async function POST(request: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
+        const email =
+          session.customer_details?.email ?? session.customer_email ?? undefined;
+        const buyer: BuyerInfo | null = email
+          ? {
+              name: session.metadata?.buyerName ?? "",
+              email,
+              accountNumber: session.metadata?.accountNumber,
+              broker: session.metadata?.broker,
+            }
+          : null;
         await fulfilPurchase({
           provider: "stripe",
           reference: session.id,
           kind: session.metadata?.kind,
           slug: session.metadata?.slug,
+          productName: session.metadata?.productName,
           locale: session.metadata?.locale,
-          email: session.customer_details?.email ?? session.customer_email ?? undefined,
           amount: session.amount_total ? session.amount_total / 100 : undefined,
           currency: session.currency ?? undefined,
+          buyer,
         });
         break;
       }
       case "invoice.paid": {
         // Recurring signals renewal — keep Telegram access active.
         const invoice = event.data.object as Stripe.Invoice;
+        const email = invoice.customer_email ?? undefined;
         await fulfilPurchase({
           provider: "stripe",
           reference: invoice.id ?? "invoice",
           kind: "signal",
-          email: invoice.customer_email ?? undefined,
           amount: invoice.amount_paid ? invoice.amount_paid / 100 : undefined,
           currency: invoice.currency ?? undefined,
+          buyer: email ? { name: "", email } : null,
         });
         break;
       }

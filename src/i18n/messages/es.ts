@@ -407,9 +407,9 @@ export const es: Dictionary = {
     success: {
       title: "Pago recibido",
       subtitle:
-        "Gracias. Estamos habilitando tu acceso: revisa tu correo en los próximos minutos para las credenciales, el manual y los siguientes pasos.",
+        "Gracias. Ya registramos tu compra. Revisa tu correo: ahí te vamos a enviar las credenciales, el manual y los siguientes pasos.",
       cta: "Volver al inicio",
-      note: "¿No recibiste nada después de 15 minutos? Contáctanos y lo resolvemos.",
+      note: "¿No tuviste novedades en unas horas? Contáctanos y lo resolvemos.",
     },
     cancel: {
       title: "Checkout cancelado",
@@ -419,7 +419,11 @@ export const es: Dictionary = {
     },
     dialog: {
       title: "Elige cómo pagar",
-      subtitle: "Ambos métodos se verifican automáticamente y dan acceso inmediato.",
+      subtitle: "Completá tus datos y elegí cómo pagar. Ambos métodos se verifican automáticamente.",
+      detailsTitle: "Tus datos",
+      accountLabel: "Número de cuenta MT4/MT5",
+      brokerLabel: "Bróker",
+      accountNote: "Lo necesitamos para compilar y activar el bot en tu cuenta.",
       card: "Pagar con tarjeta",
       cardHint: "Visa, Mastercard, Amex vía Stripe",
       crypto: "Pagar con cripto",
@@ -427,6 +431,7 @@ export const es: Dictionary = {
       continue: "Continuar",
       processing: "Redirigiendo…",
       error: "No se pudo iniciar el checkout. Inténtalo de nuevo.",
+      missingFields: "Completá todos los campos para continuar.",
     },
   },
   footer: {

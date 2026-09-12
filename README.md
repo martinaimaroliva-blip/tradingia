@@ -59,7 +59,30 @@ src/
 ## Adding a product
 
 Edit `src/lib/products.ts` (add to `bots`, `indicators` or `signalPlans`), then add the
-matching Stripe Price ID env var: slug `aurum-scalper` → `STRIPE_PRICE_AURUM_SCALPER`.
+matching Stripe Price ID env var: slug `ziza` → `STRIPE_PRICE_ZIZA`.
+
+## How a bot purchase gets fulfilled today
+
+Bots are compiled by hand per MT4/MT5 account, so full end-to-end automation isn't
+possible yet — here's what *is* automated:
+
+1. `BuyDialog` collects name, email and (for bots) the account number + broker
+   *before* redirecting to Stripe or NOWPayments.
+2. Card payments: that email goes to Stripe as `customer_email`; the rest rides
+   along in `metadata`, which Stripe echoes back on the webhook.
+3. Crypto payments: NOWPayments' IPN has no "customer" field, so the buyer's
+   details are packed into the order description (`src/lib/orders.ts`,
+   base64) and unpacked in `api/webhooks/nowpayments`.
+4. On a confirmed payment, `lib/delivery.ts` emails **you**
+   (`ORDER_NOTIFICATION_EMAIL`) everything needed to compile and send the
+   file by hand, and emails the **buyer** a "we've got your order" note so
+   they don't think it's stuck. Both emails go out via Zoho Mail SMTP
+   (`lib/email.ts`) — see `.env.example` for the `ZOHO_SMTP_*` keys.
+
+Once there's a license-key system that can validate an account number at
+runtime, swap the "email a human" step in `fulfilPurchase` for a real API
+call and attach the actual file — the webhook plumbing already has
+everything (product, buyer, account number, broker) it would need.
 
 ## Environment variables
 
@@ -68,12 +91,14 @@ See `.env.example`. Everything is optional — features activate as keys are add
 - **systeme.io:** `SYSTEMEIO_API_KEY`, optional `SYSTEMEIO_TAG_ID`
 - **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*`
 - **NOWPayments:** `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`
+- **Zoho Mail SMTP:** `ZOHO_SMTP_USER`, `ZOHO_SMTP_PASS`, `ORDER_NOTIFICATION_EMAIL`
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,
   `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`
 
 ## Still to wire up (phase 2)
 
-- `lib/delivery.ts`: email the bot/indicator license + manual after payment
+- A license-key system, so bot delivery can become fully automatic instead of
+  "email the order details to a human to compile"
 - Telegram bot: add/remove buyers from the private signals channel on
   subscription start / lapse
 - systeme.io: move buyers to the post-purchase email sequence
