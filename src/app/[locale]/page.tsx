@@ -62,11 +62,10 @@ export default async function HomePage({
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t.home.hero.subtitle}
             </p>
-            <p className="mt-6 text-xs text-muted-foreground">{t.home.hero.note}</p>
           </div>
 
           {/* Advantages */}
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 border-y border-border/70 py-9 sm:grid-cols-4 sm:gap-y-0 sm:divide-x sm:divide-border/70 sm:py-0">
+          <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 border-y border-border/70 py-9 sm:grid-cols-4 sm:gap-y-0 sm:divide-x sm:divide-border/70 sm:py-0">
             {t.home.stats.map((s, i) => {
               const Icon = advantageIcons[i];
               return (

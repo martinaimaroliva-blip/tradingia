@@ -50,7 +50,6 @@ export const es: Dictionary = {
         "Quítale la emoción al trading y haz crecer tu rendimiento con la tecnología que ya usan los profesionales.",
       ctaPrimary: "Ver los bots",
       ctaSecondary: "Ver planes de señales",
-      note: "Sin suscripción para bots e indicadores · Cancela las señales cuando quieras",
     },
     stats: [
       { value: "24/7", label: "Activo aunque no mires la pantalla" },

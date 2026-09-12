@@ -48,7 +48,6 @@ export const en = {
         "Take the emotion out of trading and grow your performance with the technology professionals already use.",
       ctaPrimary: "Explore the bots",
       ctaSecondary: "See signal plans",
-      note: "No subscription for bots & indicators · Cancel signals anytime",
     },
     stats: [
       { value: "24/7", label: "Active even when you're not watching" },
