@@ -44,10 +44,10 @@ export const es: Dictionary = {
   home: {
     hero: {
       badge: "Trading automatizado, sin complicaciones",
-      title: "Opera con ventaja:",
+      title: "Opera con la ventaja de la IA:",
       titleHighlight: "bots, indicadores y señales",
       subtitle:
-        "Estrategias automatizadas probadas, indicadores profesionales y una sala de señales en vivo. Elige un producto, paga con tarjeta o cripto y accede al instante.",
+        "Quítale la emoción al trading y haz crecer tu rendimiento con la tecnología que ya usan los profesionales.",
       ctaPrimary: "Ver los bots",
       ctaSecondary: "Ver planes de señales",
       note: "Sin suscripción para bots e indicadores · Cancela las señales cuando quieras",
