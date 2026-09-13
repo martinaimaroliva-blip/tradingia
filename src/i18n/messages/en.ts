@@ -516,6 +516,8 @@ export const en = {
       cardHint: "Visa, Mastercard, Amex via Stripe",
       crypto: "Pay with crypto",
       cryptoHint: "USDT, USDC or BNB",
+      mercadopago: "Mercado Pago",
+      mercadopagoHint: "Card, installments and cash in Argentina",
       continue: "Continue",
       processing: "Redirecting…",
       error: "Could not start checkout. Please try again.",

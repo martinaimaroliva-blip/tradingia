@@ -4,7 +4,7 @@ import { sendMail } from "@/lib/email";
 import type { BuyerInfo } from "@/lib/orders";
 
 export interface FulfilmentInput {
-  provider: "stripe" | "nowpayments";
+  provider: "stripe" | "nowpayments" | "mercadopago";
   reference: string;
   kind?: string;
   slug?: string;
@@ -63,7 +63,14 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       ["Tipo", input.kind ?? "—"],
       ["Precio elegido", priceTierLabel],
       ["Monto", amountLabel],
-      ["Método de pago", input.provider === "stripe" ? "Tarjeta (Stripe)" : "Cripto (NOWPayments)"],
+      [
+        "Método de pago",
+        input.provider === "stripe"
+          ? "Tarjeta (Stripe)"
+          : input.provider === "mercadopago"
+            ? "Mercado Pago"
+            : "Cripto (NOWPayments)",
+      ],
       ["Referencia", input.reference],
       ["Comprador", input.buyer?.name ?? "—"],
       ["Email", input.buyer?.email ?? "—"],

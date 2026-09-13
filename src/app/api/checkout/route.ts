@@ -6,6 +6,7 @@ import { siteUrl } from "@/lib/env";
 import {
   createStripeCheckout,
   createCryptoInvoice,
+  createMercadoPagoPreference,
   CRYPTO_CURRENCIES,
 } from "@/lib/payments";
 import { encodeOrderDescription, type BuyerInfo } from "@/lib/orders";
@@ -16,7 +17,7 @@ export const runtime = "nodejs";
 const schema = z.object({
   slug: z.string().trim().min(1).max(60),
   kind: z.enum(["bot", "indicator", "signal"]),
-  method: z.enum(["card", "crypto"]),
+  method: z.enum(["card", "crypto", "mercadopago"]),
   locale: z.string().trim().max(5).optional(),
   name: z.string().trim().min(1).max(120),
   email: z.string().trim().email().max(190),
@@ -116,6 +117,29 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: result.error },
         { status: result.error === "stripe_not_configured" ? 501 : 502 },
+      );
+    }
+    return NextResponse.json({ url: result.url });
+  }
+
+  if (method === "mercadopago") {
+    const result = await createMercadoPagoPreference({
+      productName,
+      unitAmountUSD: amountUSD,
+      // MP's IPN only carries the external_reference + payment id, so we
+      // pack buyer/product details into it the same way as the crypto flow.
+      externalReference: encodeOrderDescription(
+        `${kind}_${slug}_${Date.now()}`,
+        { ...buyer, productName },
+      ),
+      successUrl,
+      cancelUrl,
+      payerEmail: email,
+    });
+    if ("error" in result) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: result.error === "mercadopago_not_configured" ? 501 : 502 },
       );
     }
     return NextResponse.json({ url: result.url });

@@ -77,10 +77,19 @@ skipping whichever don't apply to that product:
    background `/api/leads` call (`source: "checkout_no_exness"`) so systeme.io
    can remarket to them if they don't finish checking out.
 4. **Exness price**: a verification gate — see below — before payment unlocks.
-5. **Payment method**: card (Stripe) or crypto — crypto is restricted to
-   USDT/USDC/BNB (NOWPayments `pay_currency`, see `CRYPTO_CURRENCIES` in
-   `lib/payments.ts` — verify the exact ticker spelling against NOWPayments'
-   `/v1/currencies` before going live).
+5. **Payment method**: card (Stripe), crypto, or Mercado Pago.
+   - Crypto is restricted to USDT/USDC/BNB (NOWPayments `pay_currency`, see
+     `CRYPTO_CURRENCIES` in `lib/payments.ts` — verify the exact ticker
+     spelling against NOWPayments' `/v1/currencies` before going live).
+   - Mercado Pago (`lib/payments.ts#createMercadoPagoPreference`, Checkout
+     Pro) is the local option for Argentina — card, cuotas, cash. It bills
+     in USD by default; most AR seller accounts are ARS-only, so if
+     preferences get rejected either ask Mercado Pago to enable USD for the
+     account or set `MERCADOPAGO_CURRENCY=ARS` + a `MERCADOPAGO_FX_RATE` you
+     control (nothing here guesses an exchange rate).
+   - Stripe needs a business entity in a country it supports (not Argentina)
+     to actually receive payouts — see the note in the "Payment providers by
+     country" section below before relying on it.
 6. **After payment** (bots only): the success page shows a short form —
    account number + MT4/5 server — since bots are compiled by hand per account
    today. The same form is linked from the buyer's confirmation email in case
@@ -154,6 +163,29 @@ runtime, swap the "email a human" steps for a real API call and attach the
 actual file — the webhook plumbing already carries everything (product,
 buyer, price tier) that would need.
 
+## Payment providers by country
+
+- **Stripe** requires the merchant account itself to be domiciled in a
+  country Stripe supports for payouts — Argentina isn't one of them. It
+  works fine as coded (dynamic `price_data`, no per-product setup) for
+  anyone with a business entity in a supported country (US, UK, EU, etc.);
+  it then accepts cards from essentially anywhere, including Colombia,
+  Chile and Saudi Arabia.
+- **Mercado Pago** is the practical self-serve option for an Argentina-based
+  seller today, but accounts are per-country — an Argentine Mercado Pago
+  account collects from Argentine cardholders; reaching Colombia or Chile
+  with local payment methods the same way would need separate Mercado Pago
+  accounts opened in those countries, not one account covering the region.
+- **Crypto (NOWPayments)** has no such border — it's the one method that
+  already works the same everywhere, which is why it's worth leaning on for
+  customers a card processor doesn't reach yet (e.g. Colombia without a
+  Mercado Pago Colombia account).
+
+None of this is a code limitation — it's each provider's own merchant
+onboarding rules. Wiring in another country-specific processor later is the
+same pattern as Mercado Pago: a function in `lib/payments.ts`, a checkout
+branch, a webhook route.
+
 ## Environment variables
 
 See `.env.example`. Everything is optional — features activate as keys are added:
@@ -161,6 +193,8 @@ See `.env.example`. Everything is optional — features activate as keys are add
 - **systeme.io:** `SYSTEMEIO_API_KEY`, optional `SYSTEMEIO_TAG_ID`
 - **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 - **NOWPayments:** `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`
+- **Mercado Pago:** `MERCADOPAGO_ACCESS_TOKEN`, `MERCADOPAGO_WEBHOOK_SECRET`,
+  optional `MERCADOPAGO_SANDBOX`/`MERCADOPAGO_CURRENCY`/`MERCADOPAGO_FX_RATE`
 - **Zoho Mail SMTP:** `ZOHO_SMTP_USER`, `ZOHO_SMTP_PASS`, `ORDER_NOTIFICATION_EMAIL`
 - **Exness verification:** `EXNESS_VERIFY_SECRET` (set a real one before launch),
   reserved `EXNESS_API_KEY` for future partner-API access

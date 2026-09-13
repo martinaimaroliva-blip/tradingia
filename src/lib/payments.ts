@@ -144,3 +144,92 @@ export async function createCryptoInvoice(
     return { error: "crypto_error" };
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/*  Mercado Pago (Checkout Pro) — local card/cuotas/cash for Argentina        */
+/* -------------------------------------------------------------------------- */
+
+const MERCADOPAGO_BASE = "https://api.mercadopago.com";
+
+export interface MercadoPagoPreferenceRequest {
+  productName: string;
+  unitAmountUSD: number;
+  externalReference: string;
+  successUrl: string;
+  cancelUrl: string;
+  payerEmail?: string;
+}
+
+/**
+ * Creates a Checkout Pro preference and returns its hosted payment page.
+ *
+ * Currency note: this bills in USD (`currency_id: "USD"`). Most Argentine
+ * Mercado Pago seller accounts are approved for ARS only by default — if
+ * preferences get rejected, either request USD support from Mercado Pago
+ * for this account, or set MERCADOPAGO_CURRENCY=ARS and MERCADOPAGO_FX_RATE
+ * (USD → ARS) below so amounts convert at a fixed rate you control instead
+ * of silently guessing an FX rate.
+ */
+export async function createMercadoPagoPreference(
+  req: MercadoPagoPreferenceRequest,
+): Promise<{ url: string } | { error: string }> {
+  const accessToken = optionalEnv("MERCADOPAGO_ACCESS_TOKEN");
+  if (!accessToken) return { error: "mercadopago_not_configured" };
+
+  const currency = optionalEnv("MERCADOPAGO_CURRENCY") ?? "USD";
+  const fxRate = Number(optionalEnv("MERCADOPAGO_FX_RATE") ?? "1");
+  const unitPrice =
+    currency === "USD" ? req.unitAmountUSD : req.unitAmountUSD * fxRate;
+
+  try {
+    const res = await fetch(`${MERCADOPAGO_BASE}/checkout/preferences`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        items: [
+          {
+            title: req.productName,
+            quantity: 1,
+            currency_id: currency,
+            unit_price: Math.round(unitPrice * 100) / 100,
+          },
+        ],
+        external_reference: req.externalReference,
+        back_urls: {
+          success: req.successUrl,
+          pending: req.successUrl,
+          failure: req.cancelUrl,
+        },
+        auto_return: "approved",
+        notification_url: `${siteUrl()}/api/webhooks/mercadopago`,
+        ...(req.payerEmail ? { payer: { email: req.payerEmail } } : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const body = await res.text();
+      console.error("[mercadopago] preference creation failed", res.status, body);
+      return { error: "mercadopago_error" };
+    }
+
+    const data = (await res.json()) as {
+      init_point?: string;
+      sandbox_init_point?: string;
+    };
+    const url =
+      optionalEnv("MERCADOPAGO_SANDBOX") === "true"
+        ? data.sandbox_init_point
+        : data.init_point;
+    return url ? { url } : { error: "mercadopago_no_url" };
+  } catch (err) {
+    console.error("[mercadopago] request error", err);
+    return { error: "mercadopago_error" };
+  }
+}
+
+export function getMercadoPagoAccessToken(): string | undefined {
+  return optionalEnv("MERCADOPAGO_ACCESS_TOKEN");
+}

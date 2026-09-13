@@ -512,6 +512,8 @@ export const ar: Dictionary = {
       cardHint: "فيزا، ماستركارد، أمريكان إكسبريس عبر Stripe",
       crypto: "الدفع بالعملات الرقمية",
       cryptoHint: "USDT أو USDC أو BNB",
+      mercadopago: "Mercado Pago",
+      mercadopagoHint: "بطاقة وتقسيط ودفع نقدي في الأرجنتين",
       continue: "متابعة",
       processing: "جارٍ التحويل…",
       error: "تعذّر بدء الدفع. حاول مرة أخرى.",

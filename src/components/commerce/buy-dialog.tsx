@@ -14,6 +14,7 @@ import {
   Check,
   ExternalLink,
   MailCheck,
+  Wallet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatUSD } from "@/lib/utils";
@@ -31,7 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
 
-type Method = "card" | "crypto";
+type Method = "card" | "crypto" | "mercadopago";
 type PriceChoice = "standard" | "exness";
 type CryptoCoin = "USDT" | "USDC" | "BNB";
 type Step =
@@ -260,6 +261,12 @@ export function BuyDialog({
         icon: <Bitcoin className="size-5" />,
         title: t.checkout.dialog.crypto,
         hint: t.checkout.dialog.cryptoHint,
+      },
+      {
+        id: "mercadopago",
+        icon: <Wallet className="size-5" />,
+        title: t.checkout.dialog.mercadopago,
+        hint: t.checkout.dialog.mercadopagoHint,
       },
     ];
 

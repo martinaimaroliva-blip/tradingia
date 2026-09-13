@@ -517,6 +517,8 @@ export const es: Dictionary = {
       cardHint: "Visa, Mastercard, Amex vía Stripe",
       crypto: "Pagar con cripto",
       cryptoHint: "USDT, USDC o BNB",
+      mercadopago: "Mercado Pago",
+      mercadopagoHint: "Tarjeta, cuotas y efectivo en Argentina",
       continue: "Continuar",
       processing: "Redirigiendo…",
       error: "No se pudo iniciar el checkout. Inténtalo de nuevo.",
