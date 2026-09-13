@@ -13,6 +13,7 @@ export const es: Dictionary = {
     indicators: "Indicadores",
     signals: "Señales",
     whyExness: "Por qué Exness",
+    referrals: "Compartí y ganá",
     contact: "Contacto",
     cta: "Empezar",
     menu: "Menú",
@@ -355,6 +356,81 @@ export const es: Dictionary = {
     disclaimer:
       "TradingIA no está afiliada a Exness más allá de una relación de introducción/referido. Podemos ganar una comisión cuando abres una cuenta a través de nuestro enlace, sin costo adicional para ti. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
   },
+  referrals: {
+    hero: {
+      badge: "Programa de referidos",
+      title: "Compartí y ganá",
+      titleHighlight: "con cada persona que sumes",
+      subtitle:
+        "Abrí tu cuenta de Exness con nuestro link y quedás dentro de nuestra red. Más adelante vas a poder compartir tu propio link y ganar con cada persona que sumes.",
+      ctaPrimary: "Abrir mi cuenta de Exness",
+      ctaSecondary: "Quiero ser partner",
+    },
+    how: {
+      title: "Cómo funciona",
+      subtitle: "Así identificamos que alguien llegó por vos.",
+      steps: [
+        {
+          title: "Abrís tu cuenta con nuestro link",
+          description:
+            "Nuestro link de Exness ya tiene nuestro código de partner incorporado. Cualquier cuenta que se abra con él queda asociada a nuestra red automáticamente, sin ningún paso extra.",
+        },
+        {
+          title: "Nos contás que querés sumarte como partner",
+          description:
+            "Completá el formulario de esta página. Revisamos tu caso y te contamos los próximos pasos.",
+        },
+        {
+          title: "Compartís tu propio link",
+          description:
+            "Estamos construyendo, con la API de Partners de Exness, un link único para cada partner. Así identificamos exactamente quién trajo a quién dentro de la red y repartimos las comisiones en consecuencia.",
+        },
+      ],
+    },
+    earn: {
+      title: "Qué vas a poder ganar",
+      subtitle: "Dos fuentes de ingresos, no solo una.",
+      items: [
+        {
+          title: "Comisión por producto",
+          description:
+            "Una parte de cada bot, indicador o señal que compren las personas que sumaste a la red.",
+        },
+        {
+          title: "Comisión por spread",
+          description:
+            "Una parte de lo que Exness nos paga por la actividad de trading de tus referidos: un ingreso recurrente mientras sigan operando, no solo por la venta inicial.",
+        },
+      ],
+    },
+    form: {
+      title: "Quiero ser partner",
+      subtitle: "Dejanos tus datos y te contactamos con los próximos pasos.",
+      submit: "Enviar",
+      sending: "Enviando…",
+      success: "¡Listo! Te vamos a contactar a la brevedad.",
+      error: "No se pudo enviar. Inténtalo de nuevo.",
+    },
+    faq: {
+      title: "Preguntas frecuentes",
+      items: [
+        {
+          q: "¿Necesito ser trader para participar?",
+          a: "No. Cualquiera puede compartir el link y sumar personas a la red.",
+        },
+        {
+          q: "¿Cuándo tengo mi propio link?",
+          a: "Estamos construyendo la integración con la API de Partners de Exness. Mientras tanto usás el link general y nosotros llevamos el registro de quién trajiste.",
+        },
+        {
+          q: "¿Cómo y cuándo cobro?",
+          a: "Se coordina directamente con vos una vez que estés sumado como partner.",
+        },
+      ],
+    },
+    disclaimer:
+      "Los referidos de Exness dependen de los términos y condiciones del programa de partners de Exness, que pueden cambiar. TradingIA no garantiza montos ni plazos de comisión.",
+  },
   contact: {
     hero: {
       title: "Contacto y reservas",
@@ -516,6 +592,7 @@ export const es: Dictionary = {
       indicators: "Indicadores",
       signals: "Señales",
       whyExness: "Por qué Exness",
+      referrals: "Compartí y ganá",
       contact: "Contacto",
       terms: "Términos del Servicio",
       privacy: "Política de Privacidad",

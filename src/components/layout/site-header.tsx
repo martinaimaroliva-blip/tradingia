@@ -24,6 +24,7 @@ function useNav() {
     { href: "/indicators", label: t.nav.indicators },
     { href: "/signals", label: t.nav.signals },
     { href: "/exness", label: t.nav.whyExness },
+    { href: "/referrals", label: t.nav.referrals },
     { href: "/contact", label: t.nav.contact },
   ];
 }

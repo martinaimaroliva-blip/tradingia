@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/indicators",
     "/signals",
     "/exness",
+    "/referrals",
     "/contact",
     "/legal/terms",
     "/legal/privacy",

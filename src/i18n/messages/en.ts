@@ -11,6 +11,7 @@ export const en = {
     indicators: "Indicators",
     signals: "Signals",
     whyExness: "Why Exness",
+    referrals: "Share & earn",
     contact: "Contact",
     cta: "Get started",
     menu: "Menu",
@@ -355,6 +356,81 @@ export const en = {
     disclaimer:
       "TradingIA is not affiliated with Exness beyond an introducing/referral relationship. We may earn a commission when you open an account through our link, at no additional cost to you. Availability of account types, VPS and swap-free status depends on your region and Exness's own terms. Trading leveraged products carries a high risk of losing money.",
   },
+  referrals: {
+    hero: {
+      badge: "Referral program",
+      title: "Share and earn",
+      titleHighlight: "with every person you bring in",
+      subtitle:
+        "Open your Exness account through our link and you're in our network. Down the line you'll be able to share your own link and earn from every person you bring in.",
+      ctaPrimary: "Open my Exness account",
+      ctaSecondary: "I want to become a partner",
+    },
+    how: {
+      title: "How it works",
+      subtitle: "This is how we identify that someone came through you.",
+      steps: [
+        {
+          title: "You open your account with our link",
+          description:
+            "Our Exness link already carries our partner code. Any account opened through it gets tied to our network automatically — no extra step needed.",
+        },
+        {
+          title: "You tell us you want to become a partner",
+          description:
+            "Fill in the form on this page. We review your case and walk you through the next steps.",
+        },
+        {
+          title: "You share your own link",
+          description:
+            "We're building, with the Exness Partners API, a unique link for each partner. That's how we'll identify exactly who brought whom into the network and split commissions accordingly.",
+        },
+      ],
+    },
+    earn: {
+      title: "What you'll be able to earn",
+      subtitle: "Two income streams, not just one.",
+      items: [
+        {
+          title: "Product commission",
+          description:
+            "A share of every bot, indicator or signal purchased by the people you bring into the network.",
+        },
+        {
+          title: "Spread commission",
+          description:
+            "A share of what Exness pays us for your referrals' trading activity — a recurring income while they keep trading, not just a one-time sale.",
+        },
+      ],
+    },
+    form: {
+      title: "I want to become a partner",
+      subtitle: "Leave your details and we'll reach out with the next steps.",
+      submit: "Send",
+      sending: "Sending…",
+      success: "Done! We'll be in touch shortly.",
+      error: "Could not submit. Please try again.",
+    },
+    faq: {
+      title: "Frequently asked questions",
+      items: [
+        {
+          q: "Do I need to be a trader to take part?",
+          a: "No. Anyone can share the link and bring people into the network.",
+        },
+        {
+          q: "When do I get my own link?",
+          a: "We're building the integration with the Exness Partners API. In the meantime you use the general link and we keep track of who you brought in.",
+        },
+        {
+          q: "How and when do I get paid?",
+          a: "That's coordinated directly with you once you're set up as a partner.",
+        },
+      ],
+    },
+    disclaimer:
+      "Exness referrals are subject to the terms and conditions of the Exness partner program, which can change. TradingIA does not guarantee commission amounts or timelines.",
+  },
   contact: {
     hero: {
       title: "Contact & booking",
@@ -515,6 +591,7 @@ export const en = {
       indicators: "Indicators",
       signals: "Signals",
       whyExness: "Why Exness",
+      referrals: "Share & earn",
       contact: "Contact",
       terms: "Terms of Service",
       privacy: "Privacy Policy",
