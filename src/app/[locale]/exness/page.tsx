@@ -14,6 +14,7 @@ import { isLocale } from "@/i18n/config";
 import { Section, SectionHeading } from "@/components/marketing/section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
 
 const benefitIcons = [Gauge, Wallet, Server, ShieldCheck, Waves, TrendingUp];
 
@@ -39,7 +40,8 @@ export default async function ExnessPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
-  const referralUrl = process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || "#";
+  const referralUrl =
+    process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || DEFAULT_EXNESS_REFERRAL_URL;
 
   return (
     <>

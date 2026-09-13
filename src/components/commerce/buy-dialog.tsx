@@ -29,6 +29,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
 
 type Method = "card" | "crypto";
 type PriceChoice = "standard" | "exness";
@@ -45,7 +46,8 @@ type Step =
   | "exness-pending"
   | "payment";
 
-const EXNESS_REFERRAL_URL = process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || "#";
+const EXNESS_REFERRAL_URL =
+  process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || DEFAULT_EXNESS_REFERRAL_URL;
 
 export function BuyDialog({
   slug,
