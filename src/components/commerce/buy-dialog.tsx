@@ -15,6 +15,7 @@ import {
   ExternalLink,
   MailCheck,
   Wallet,
+  Landmark,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatUSD } from "@/lib/utils";
@@ -34,7 +35,7 @@ import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
 
 type Method = "card" | "crypto" | "mercadopago";
 type PriceChoice = "standard" | "exness";
-type CryptoCoin = "USDT" | "USDC" | "BNB";
+type UsdtNetwork = "TRC20" | "BEP20";
 type Step =
   | "price"
   | "vps-warning"
@@ -92,7 +93,7 @@ export function BuyDialog({
   const [priceChoice, setPriceChoice] = React.useState<PriceChoice>(initialPriceChoice);
   const [exnessPath, setExnessPath] = React.useState<"switch" | "new">("new");
   const [method, setMethod] = React.useState<Method>("card");
-  const [coin, setCoin] = React.useState<CryptoCoin>("USDT");
+  const [network, setNetwork] = React.useState<UsdtNetwork>("TRC20");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [copied, setCopied] = React.useState(false);
@@ -114,7 +115,7 @@ export function BuyDialog({
     setPriceChoice(initialPriceChoice);
     setExnessPath("new");
     setMethod("card");
-    setCoin("USDT");
+    setNetwork("TRC20");
     setError(null);
     setLoading(false);
     setCopied(false);
@@ -231,7 +232,7 @@ export function BuyDialog({
           name,
           email,
           priceChoice,
-          ...(method === "crypto" ? { cryptoCurrency: coin } : {}),
+          ...(method === "crypto" ? { cryptoNetwork: network } : {}),
           ...(priceChoice === "exness" && liveVerified
             ? { exnessEmail: liveVerified.email, exnessToken: liveVerified.token }
             : priceChoice === "exness" && isVerified
@@ -672,25 +673,45 @@ export function BuyDialog({
                   />
                 </button>
               ))}
+
+              <div
+                aria-disabled
+                className="flex cursor-not-allowed items-center gap-3 rounded-lg border border-dashed border-border p-3.5 text-start opacity-60"
+              >
+                <span className="grid size-10 shrink-0 place-items-center rounded-md bg-secondary text-muted-foreground">
+                  <Landmark className="size-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium">
+                    {t.checkout.dialog.dlocal}
+                  </span>
+                  <span className="block text-xs text-muted-foreground">
+                    {t.checkout.dialog.dlocalHint}
+                  </span>
+                </span>
+                <Badge variant="outline" className="ms-auto shrink-0">
+                  {t.common.comingSoon}
+                </Badge>
+              </div>
             </div>
 
             {method === "crypto" && (
               <div className="grid gap-1.5">
-                <Label>{t.checkout.dialog.cryptoCurrencyLabel}</Label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(["USDT", "USDC", "BNB"] as CryptoCoin[]).map((c) => (
+                <Label>{t.checkout.dialog.cryptoNetworkLabel}</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  {(["TRC20", "BEP20"] as UsdtNetwork[]).map((n) => (
                     <button
-                      key={c}
+                      key={n}
                       type="button"
-                      onClick={() => setCoin(c)}
+                      onClick={() => setNetwork(n)}
                       className={cn(
                         "rounded-lg border py-2 text-sm font-medium transition-colors",
-                        coin === c
+                        network === n
                           ? "border-primary/60 bg-primary/10 text-primary"
                           : "border-border text-muted-foreground hover:bg-secondary/50",
                       )}
                     >
-                      {c}
+                      {n === "TRC20" ? "USDT (TRC20)" : "USDT (BEP20)"}
                     </button>
                   ))}
                 </div>

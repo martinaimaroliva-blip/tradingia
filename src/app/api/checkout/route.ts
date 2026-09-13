@@ -7,7 +7,7 @@ import {
   createStripeCheckout,
   createCryptoInvoice,
   createMercadoPagoPreference,
-  CRYPTO_CURRENCIES,
+  USDT_NETWORKS,
 } from "@/lib/payments";
 import { encodeOrderDescription, type BuyerInfo } from "@/lib/orders";
 import { verifyExnessToken } from "@/lib/exness";
@@ -23,7 +23,7 @@ const schema = z.object({
   email: z.string().trim().email().max(190),
   // Bots & indicators only — ignored for signals (flat monthly price).
   priceChoice: z.enum(["standard", "exness"]).default("standard"),
-  cryptoCurrency: z.enum(["USDT", "USDC", "BNB"]).optional(),
+  cryptoNetwork: z.enum(["TRC20", "BEP20"]).optional(),
   // Required when priceChoice is "exness" — proves the Exness account was
   // verified (see lib/exness.ts + /api/exness/verify-request).
   exnessEmail: z.string().trim().email().max(190).optional(),
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     name,
     email,
     priceChoice,
-    cryptoCurrency,
+    cryptoNetwork,
     exnessEmail,
     exnessToken,
   } = parsed.data;
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
     description: encodeOrderDescription(productName, buyer),
     successUrl,
     cancelUrl,
-    payCurrency: cryptoCurrency ? CRYPTO_CURRENCIES[cryptoCurrency] : undefined,
+    payCurrency: cryptoNetwork ? USDT_NETWORKS[cryptoNetwork] : undefined,
   });
   if ("error" in result) {
     return NextResponse.json(

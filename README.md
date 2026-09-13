@@ -78,9 +78,14 @@ skipping whichever don't apply to that product:
    can remarket to them if they don't finish checking out.
 4. **Exness price**: a verification gate — see below — before payment unlocks.
 5. **Payment method**: card (Stripe), crypto, or Mercado Pago.
-   - Crypto is restricted to USDT/USDC/BNB (NOWPayments `pay_currency`, see
-     `CRYPTO_CURRENCIES` in `lib/payments.ts` — verify the exact ticker
-     spelling against NOWPayments' `/v1/currencies` before going live).
+   - Crypto is USDT only, on TRC20 or BEP20 (NOWPayments `pay_currency`, see
+     `USDT_NETWORKS` in `lib/payments.ts` — verify the exact ticker spelling
+     against NOWPayments' `/v1/currencies` before going live). Chosen over
+     Binance Pay: Binance Pay requires the payer to have a Binance account
+     and pay via their app/QR, whereas this accepts USDT from any wallet on
+     the chosen network — closer to what was asked for.
+   - **dLocal** is shown as a fourth, disabled "coming soon" option — no
+     integration yet, pending their onboarding.
    - Mercado Pago (`lib/payments.ts#createMercadoPagoPreference`, Checkout
      Pro) is the local option for Argentina — card, cuotas, cash. It bills
      in USD by default; most AR seller accounts are ARS-only, so if

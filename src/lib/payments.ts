@@ -83,18 +83,16 @@ export async function createStripeCheckout(
 const NOWPAYMENTS_BASE = "https://api.nowpayments.io/v1";
 
 /**
- * The only coins we offer at checkout, mapped to NOWPayments' currency
- * tickers (BEP-20 / BSC network — cheap fees, and it pairs naturally with
- * BNB). Verify these against NOWPayments' `/v1/currencies` endpoint before
- * going live — exact ticker spelling can change on their side.
+ * USDT only, on one of two networks — mapped to NOWPayments' currency
+ * tickers. Verify these against NOWPayments' `/v1/currencies` endpoint
+ * before going live — exact ticker spelling can change on their side.
  */
-export const CRYPTO_CURRENCIES = {
-  USDT: "usdtbsc",
-  USDC: "usdcbsc",
-  BNB: "bnbbsc",
+export const USDT_NETWORKS = {
+  TRC20: "usdttrc20",
+  BEP20: "usdtbsc",
 } as const;
 
-export type CryptoCurrency = keyof typeof CRYPTO_CURRENCIES;
+export type UsdtNetwork = keyof typeof USDT_NETWORKS;
 
 export interface CryptoInvoiceRequest {
   amountUSD: number;
