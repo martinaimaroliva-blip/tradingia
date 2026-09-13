@@ -569,6 +569,7 @@ export const ar: Dictionary = {
       pendingBody:
         "بمجرد تأكيد أن حسابك أصبح تحت رابطنا، سنرسل إليك بريداً إلكترونياً بالرابط لإتمام شرائك بسعر Exness.",
       pendingCta: "فهمت",
+      verifiedBanner: "تحقّقنا من حسابك في Exness — يمكنك الآن الدفع بسعر Exness.",
     },
   },
   footer: {

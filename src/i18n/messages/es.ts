@@ -575,6 +575,7 @@ export const es: Dictionary = {
       pendingBody:
         "En cuanto confirmemos que tu cuenta quedó bajo nuestro link, te mandamos un correo con el link para completar la compra al precio con Exness.",
       pendingCta: "Entendido",
+      verifiedBanner: "Verificamos tu cuenta de Exness — ya podés pagar al precio con Exness.",
     },
   },
   footer: {

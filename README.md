@@ -100,20 +100,35 @@ signed token (`lib/exness.ts`). The flow to get one:
      account" with a different email (faster).
    - **Don't have one** → straight to opening a new account with our link.
 2. Either way, they submit the email their Exness account is/will be
-   registered under. `POST /api/exness/verify-request` emails **you**
-   (`ORDER_NOTIFICATION_EMAIL`) the case, plus a ready-to-forward **resume
-   link** — `lib/exness.ts#buildExnessResumeLink` — that's HMAC-signed for
-   that exact (product, email) pair.
-3. There's no partner-API integration yet (`checkExnessAccount` in
-   `lib/exness.ts` is a stub — wire it up once Exness partner-API access
-   exists), so today verification is you checking your Exness partner
-   dashboard by hand and forwarding that resume link once confirmed.
-4. Opening the resume link drops the buyer straight past the whole gate,
+   registered under. `POST /api/exness/verify-request` checks it live
+   against the Exness Partner API (`POST /api/partner/affiliation/`,
+   `lib/exness.ts#checkExnessAccount` — auth is `Authorization: JWT
+   <EXNESS_API_KEY>`).
+   - **Affiliated already** (typical for "open a new account", which Exness
+     usually attributes right away): the buyer is dropped straight into the
+     payment step in the same session — no waiting.
+   - **Not affiliated yet** (typical right after "switch partner", which
+     Exness reviews manually): falls back to notifying **you**
+     (`ORDER_NOTIFICATION_EMAIL`) with the case, plus a ready-to-forward
+     **resume link** (`lib/exness.ts#buildExnessResumeLink`, HMAC-signed for
+     that exact product+email) to send once you confirm it in your Exness
+     partner dashboard.
+   - **`EXNESS_API_KEY` not set**: skips straight to the manual/resume-link
+     path above for every case.
+3. Opening the resume link drops the buyer straight past the whole gate,
    with the Exness price already unlocked — `/api/checkout` re-validates the
    signature server-side, so the link can't be edited or guessed.
 
 Set `EXNESS_VERIFY_SECRET` to a real random string before launch — without it
-the signing falls back to a shared, insecure dev value.
+the signing falls back to a shared, insecure dev value. The affiliation
+check's response also includes the client's Exness account number(s)
+(`accounts`) — not wired up yet, but a good candidate for pre-filling the
+post-payment account-details form later instead of asking again.
+
+Today this gate only exists for **bots and indicators** (the only products
+with an `exnessPriceUSD` in `lib/products.ts`) — signals don't have an
+Exness-linked price yet, so there's nothing to verify there. Say the word if
+you want a signals tier added to this flow too.
 
 ## How a bot purchase gets fulfilled today
 

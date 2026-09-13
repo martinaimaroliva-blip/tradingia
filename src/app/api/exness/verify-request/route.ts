@@ -4,7 +4,11 @@ import { isLocale } from "@/i18n/config";
 import { getProduct } from "@/lib/products";
 import { optionalEnv } from "@/lib/env";
 import { sendMail } from "@/lib/email";
-import { buildExnessResumeLink, checkExnessAccount } from "@/lib/exness";
+import {
+  buildExnessResumeLink,
+  checkExnessAccount,
+  signExnessToken,
+} from "@/lib/exness";
 
 export const runtime = "nodejs";
 
@@ -49,6 +53,7 @@ export async function POST(request: Request) {
 
   const resumeLink = buildExnessResumeLink(locale, slug, kind, exnessEmail);
   const auto = await checkExnessAccount(exnessEmail);
+  const verified = auto.configured && auto.linked === true;
 
   const notifyTo =
     optionalEnv("ORDER_NOTIFICATION_EMAIL") ?? optionalEnv("NEXT_PUBLIC_CONTACT_EMAIL");
@@ -59,31 +64,37 @@ export async function POST(request: Request) {
       : "Cuenta nueva (recién creada o a crear)";
 
   if (notifyTo) {
+    const statusLine = verified
+      ? `<p style="color:#16a34a"><strong>✓ Verificado automáticamente por la API de Exness.</strong> El cliente ya pasó directo al pago — esto es solo para tu registro.</p>`
+      : auto.configured
+        ? `<p><strong>La API de Exness todavía no muestra esta cuenta como afiliada</strong> (camino: ${escapeHtml(pathLabel)}). Revisá tu panel de partner y, cuando confirmes, reenviale este link al cliente para que complete la compra al precio con Exness:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`
+        : `<p>La verificación automática por API todavía no está conectada (falta EXNESS_API_KEY). Revisá tu panel de partner de Exness a mano y, cuando confirmes, reenviale este link al cliente:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`;
+
     await sendMail({
       to: notifyTo,
-      subject: `Verificar cuenta de Exness — ${product.name}`,
+      subject: `${verified ? "✓ Verificado" : "Verificar"} cuenta de Exness — ${product.name}`,
       html: `
         <h2>Pedido de verificación de Exness</h2>
         <p><strong>Producto:</strong> ${escapeHtml(product.name)}</p>
         <p><strong>Cliente:</strong> ${escapeHtml(name)} — ${escapeHtml(contactEmail)}</p>
         <p><strong>Email de la cuenta de Exness:</strong> ${escapeHtml(exnessEmail)}</p>
         <p><strong>Camino elegido:</strong> ${escapeHtml(pathLabel)}</p>
-        <p>Revisá tu panel de partner de Exness. Cuando confirmes que esa cuenta está
-        bajo tu link, reenviale este link al cliente para que complete la compra al
-        precio con Exness (no hace falta que vuelva a verificar nada):</p>
-        <p><a href="${resumeLink}">${resumeLink}</a></p>
-        ${auto.configured ? "" : "<p><em>La verificación automática por API todavía no está conectada.</em></p>"}
+        ${statusLine}
       `,
-      text: `Producto: ${product.name}\nCliente: ${name} <${contactEmail}>\nEmail Exness: ${exnessEmail}\nCamino: ${pathLabel}\n\nLink para reenviar una vez verificado:\n${resumeLink}`,
+      text: `Producto: ${product.name}\nCliente: ${name} <${contactEmail}>\nEmail Exness: ${exnessEmail}\nCamino: ${pathLabel}\nVerificado automáticamente: ${verified ? "sí" : "no"}\n\nLink de retomo:\n${resumeLink}`,
     });
   } else {
     console.info(
       "[exness] ORDER_NOTIFICATION_EMAIL not set — verification request logged only",
-      { slug, exnessEmail, path },
+      { slug, exnessEmail, path, verified },
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({
+    ok: true,
+    verified,
+    ...(verified ? { token: signExnessToken(slug, exnessEmail) } : {}),
+  });
 }
 
 function escapeHtml(value: string): string {

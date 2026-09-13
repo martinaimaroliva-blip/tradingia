@@ -59,18 +59,69 @@ export function buildExnessResumeLink(
   return `${base}/${locale}/${path}/${slug}?${params.toString()}`;
 }
 
+const EXNESS_API_BASE = "https://my.exnessaffiliates.com";
+
+export interface ExnessAffiliationResult {
+  /** False when EXNESS_API_KEY isn't set — caller should fall back to the
+   * manual "email a human" flow. */
+  configured: boolean;
+  /** Whether this email is affiliated to our partner account, per Exness. */
+  linked?: boolean;
+  /** The client's Exness account number(s), when affiliated. */
+  accounts?: string[];
+  clientUid?: string;
+  error?: string;
+}
+
 /**
- * TODO: once Exness partner API access is available, check here whether
- * `email` is actually registered under our partner link and return a real
- * verdict instead of `configured: false`. Until then, verification is done
- * by a human reading the notification email and replying with the signed
- * resume link (see buildExnessResumeLink).
+ * Checks live, via the Exness Partner API, whether `email` is registered
+ * under our partner link — POST /api/partner/affiliation/, documented at
+ * https://my.exnessaffiliates.com/api/schema/#!/partner/partner_affiliation_create
+ *
+ * Auth is a JWT bearer token in the Authorization header (note: literally
+ * "JWT <token>", not "Bearer <token>" — that's how Exness's API expects it).
  */
 export async function checkExnessAccount(
-  _email: string,
-): Promise<{ configured: boolean; linked?: boolean }> {
-  const apiKey = optionalEnv("EXNESS_API_KEY");
-  if (!apiKey) return { configured: false };
-  // Placeholder — wire the real endpoint here once we have API docs/access.
-  return { configured: false };
+  email: string,
+): Promise<ExnessAffiliationResult> {
+  const token = optionalEnv("EXNESS_API_KEY");
+  if (!token) return { configured: false };
+
+  try {
+    const res = await fetch(`${EXNESS_API_BASE}/api/partner/affiliation/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`,
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.status === 401) {
+      console.error(
+        "[exness] Partner API rejected our token (401) — check EXNESS_API_KEY",
+      );
+      return { configured: true, error: "unauthorized" };
+    }
+    if (!res.ok) {
+      const body = await res.text();
+      console.error("[exness] affiliation check failed", res.status, body);
+      return { configured: true, error: `http_${res.status}` };
+    }
+
+    const data = (await res.json()) as {
+      affiliation: boolean;
+      accounts: string[];
+      client_uid: string;
+    };
+    return {
+      configured: true,
+      linked: data.affiliation,
+      accounts: data.accounts,
+      clientUid: data.client_uid,
+    };
+  } catch (err) {
+    console.error("[exness] request error", err);
+    return { configured: true, error: "request_failed" };
+  }
 }

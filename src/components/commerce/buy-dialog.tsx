@@ -101,6 +101,12 @@ export function BuyDialog({
   const [exnessAccountEmail, setExnessAccountEmail] = React.useState(
     verifiedExnessEmail ?? "",
   );
+  // Set when the live Exness Partner API check confirms affiliation during
+  // this session (as opposed to `isVerified`, which comes from a resume link
+  // opened after a prior, asynchronous confirmation).
+  const [liveVerified, setLiveVerified] = React.useState<
+    { email: string; token: string } | null
+  >(null);
 
   function reset() {
     setStep(initialStep);
@@ -111,6 +117,7 @@ export function BuyDialog({
     setError(null);
     setLoading(false);
     setCopied(false);
+    setLiveVerified(null);
   }
 
   function onOpenChange(next: boolean) {
@@ -194,7 +201,13 @@ export function BuyDialog({
         }),
       });
       if (!res.ok) throw new Error("failed");
-      setStep("exness-pending");
+      const data = (await res.json()) as { verified?: boolean; token?: string };
+      if (data.verified && data.token) {
+        setLiveVerified({ email: exnessAccountEmail, token: data.token });
+        setStep("payment");
+      } else {
+        setStep("exness-pending");
+      }
     } catch {
       setError(t.checkout.exness.submitError);
     } finally {
@@ -218,9 +231,11 @@ export function BuyDialog({
           email,
           priceChoice,
           ...(method === "crypto" ? { cryptoCurrency: coin } : {}),
-          ...(priceChoice === "exness" && isVerified
-            ? { exnessEmail: verifiedExnessEmail, exnessToken: verifiedExnessToken }
-            : {}),
+          ...(priceChoice === "exness" && liveVerified
+            ? { exnessEmail: liveVerified.email, exnessToken: liveVerified.token }
+            : priceChoice === "exness" && isVerified
+              ? { exnessEmail: verifiedExnessEmail, exnessToken: verifiedExnessToken }
+              : {}),
         }),
       });
       const data = (await res.json()) as { url?: string; error?: string };
@@ -603,6 +618,13 @@ export function BuyDialog({
             <DialogHeader>
               <DialogTitle>{t.checkout.dialog.title}</DialogTitle>
             </DialogHeader>
+
+            {(liveVerified || (isVerified && priceChoice === "exness")) && (
+              <p className="flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/10 px-3 py-2 text-xs text-accent">
+                <Check className="size-3.5" />
+                {t.checkout.exness.verifiedBanner}
+              </p>
+            )}
 
             <div className="grid gap-2.5">
               {methodOptions.map((opt) => (

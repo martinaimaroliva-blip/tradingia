@@ -574,6 +574,7 @@ export const en = {
       pendingBody:
         "As soon as we confirm your account is under our link, we'll email you the link to finish your purchase at the Exness price.",
       pendingCta: "Got it",
+      verifiedBanner: "We verified your Exness account — you can now pay the Exness price.",
     },
   },
   footer: {
