@@ -107,7 +107,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
 
     await sendMail({
       to: input.buyer.email,
-      subject: `Recibimos tu pago — ${input.productName ?? "TradingIA"}`,
+      subject: `Recibimos tu pago — ${input.productName ?? "SmartradeBot"}`,
       html: `
         <p>¡Gracias, ${escapeHtml(input.buyer.name || "")}! Registramos tu pago de <strong>${escapeHtml(
           amountLabel,

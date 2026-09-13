@@ -2,9 +2,9 @@ import type { Dictionary } from "../types";
 
 export const es: Dictionary = {
   meta: {
-    siteName: "TradingIA",
+    siteName: "SmartradeBot",
     tagline: "Bots, indicadores y señales de trading",
-    defaultTitle: "TradingIA — Bots, indicadores y señales de trading",
+    defaultTitle: "SmartradeBot — Bots, indicadores y señales de trading",
     defaultDescription:
       "Bots de trading automatizados, indicadores profesionales y una membresía mensual de señales. Compra en minutos y accede al instante, sin intervención humana.",
   },
@@ -354,7 +354,7 @@ export const es: Dictionary = {
     },
     cta: "Abrir mi cuenta de Exness",
     disclaimer:
-      "TradingIA no está afiliada a Exness más allá de una relación de introducción/referido. Podemos ganar una comisión cuando abres una cuenta a través de nuestro enlace, sin costo adicional para ti. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
+      "SmartradeBot no está afiliada a Exness más allá de una relación de introducción/referido. Podemos ganar una comisión cuando abres una cuenta a través de nuestro enlace, sin costo adicional para ti. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
   },
   referrals: {
     hero: {
@@ -429,7 +429,7 @@ export const es: Dictionary = {
       ],
     },
     disclaimer:
-      "Los referidos de Exness dependen de los términos y condiciones del programa de partners de Exness, que pueden cambiar. TradingIA no garantiza montos ni plazos de comisión.",
+      "Los referidos de Exness dependen de los términos y condiciones del programa de partners de Exness, que pueden cambiar. SmartradeBot no garantiza montos ni plazos de comisión.",
   },
   contact: {
     hero: {

@@ -28,7 +28,7 @@ export function Logo({
       </span>
       {withWordmark && (
         <span className="text-[17px] font-semibold tracking-tight">
-          Trading<span className="text-primary">IA</span>
+          Smartrade<span className="text-primary">Bot</span>
         </span>
       )}
     </span>

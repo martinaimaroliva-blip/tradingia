@@ -68,7 +68,7 @@ export async function POST(request: Request) {
     const plan = getSignalPlan(slug);
     if (!plan) return NextResponse.json({ error: "not_found" }, { status: 404 });
     amountUSD = plan.priceUSD;
-    productName = `TradingIA Signals — ${plan.name.en}`;
+    productName = `SmartradeBot Signals — ${plan.name.en}`;
   } else {
     const product = getProduct(slug);
     if (!product || product.kind !== kind) {
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
       priceChoice === "exness" && hasDiscount
         ? product.exnessPriceUSD
         : product.priceUSD;
-    productName = `TradingIA — ${product.name}`;
+    productName = `SmartradeBot — ${product.name}`;
   }
 
   const buyer: BuyerInfo = { name, email };

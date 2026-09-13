@@ -9,7 +9,7 @@ function secret(): string {
     console.warn(
       "[exness] EXNESS_VERIFY_SECRET not set — using an insecure dev fallback. Set it before going live.",
     );
-    return "tradingia-exness-dev-secret";
+    return "smartradebot-exness-dev-secret";
   }
   return value;
 }

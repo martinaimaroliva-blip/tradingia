@@ -4,6 +4,7 @@ import { isLocale } from "@/i18n/config";
 import { getProduct } from "@/lib/products";
 import { optionalEnv } from "@/lib/env";
 import { sendMail } from "@/lib/email";
+import { upsertLead } from "@/lib/systemeio";
 import {
   buildExnessResumeLink,
   checkExnessAccount,
@@ -88,6 +89,19 @@ export async function POST(request: Request) {
       "[exness] ORDER_NOTIFICATION_EMAIL not set — verification request logged only",
       { slug, exnessEmail, path, verified },
     );
+  }
+
+  if (verified) {
+    // Buyer is one step from paying — tag them in the funnel separately from
+    // a plain lead so a "close the sale" automation can target just this group.
+    await upsertLead({
+      email: contactEmail,
+      name,
+      locale,
+      source: "exness_verified",
+      path: `${kind}/${slug}`,
+      tagId: optionalEnv("SYSTEMEIO_TAG_ID_EXNESS_VERIFIED"),
+    });
   }
 
   return NextResponse.json({

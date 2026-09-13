@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const STORAGE_KEY = "tradingia_lead_v1";
+const STORAGE_KEY = "smartradebot_lead_v1";
 const REOPEN_AFTER_MS = 1000 * 60 * 60 * 24 * 7; // 7 days after a dismissal
 const TIME_TRIGGER_MS = 60_000;
 

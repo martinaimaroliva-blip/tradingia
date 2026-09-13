@@ -1,12 +1,12 @@
-# TradingIA
+# SmartradeBot
 
-Sales website for trading **bots**, **indicators** and a monthly **signals** membership.
+Sales website for trading **bots**, **indicators** and a monthly **signals** membership. Live at [smartradebot.com](https://smartradebot.com).
 
 - **Framework:** Next.js 16 (App Router) · React 19 · TypeScript
 - **Styling:** Tailwind CSS v4 · shadcn-style UI primitives (Radix)
 - **i18n:** hand-rolled dictionaries — Spanish / English / Arabic, with geo + `Accept-Language` detection and full RTL for Arabic
 - **Payments:** Stripe (cards + signal subscriptions) and NOWPayments (crypto), both verified via webhooks
-- **CRM / funnel:** systeme.io (lead capture popup + contact form)
+- **CRM / funnel:** systeme.io — lead capture popup, contact form, referral form, standard-price (no-Exness) remarketing, and Exness-verified buyers all sync as contacts, tagged with their funnel stage via a `funnel_stage` custom field (works on any plan, including free — tags are optional on top)
 - **Hosting:** Vercel
 
 ## Getting started
@@ -120,7 +120,10 @@ signed token (`lib/exness.ts`). The flow to get one:
    <EXNESS_API_KEY>`).
    - **Affiliated already** (typical for "open a new account", which Exness
      usually attributes right away): the buyer is dropped straight into the
-     payment step in the same session — no waiting.
+     payment step in the same session — no waiting. This also upserts the
+     buyer into systeme.io with `funnel_stage: "exness_verified"` (plus
+     `SYSTEMEIO_TAG_ID_EXNESS_VERIFIED` if set), so the funnel automation
+     knows they're one step from paying even if they abandon checkout.
    - **Not affiliated yet** (typical right after "switch partner", which
      Exness reviews manually): falls back to notifying **you**
      (`ORDER_NOTIFICATION_EMAIL`) with the case, plus a ready-to-forward
@@ -195,7 +198,13 @@ branch, a webhook route.
 
 See `.env.example`. Everything is optional — features activate as keys are added:
 
-- **systeme.io:** `SYSTEMEIO_API_KEY`, optional `SYSTEMEIO_TAG_ID`
+- **systeme.io:** `SYSTEMEIO_API_KEY`, optional `SYSTEMEIO_TAG_ID` (tag applied to
+  every lead/contact form/referral submission), optional
+  `SYSTEMEIO_TAG_ID_EXNESS_VERIFIED` (a separate tag applied only when a buyer's
+  Exness affiliation is confirmed — use it to trigger a "close the sale" automation)
+- **Site URL:** `NEXT_PUBLIC_SITE_URL` — set to `https://smartradebot.com` in
+  Vercel once the domain is connected (used for metadata, OG tags and links in
+  emails)
 - **Stripe:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 - **NOWPayments:** `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`
 - **Mercado Pago:** `MERCADOPAGO_ACCESS_TOKEN`, `MERCADOPAGO_WEBHOOK_SECRET`,
