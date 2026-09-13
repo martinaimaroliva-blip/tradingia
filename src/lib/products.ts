@@ -232,7 +232,7 @@ export const bots: Product[] = [
       ],
     },
     priceUSD: 1999,
-    exnessPriceUSD: 1500,
+    exnessPriceUSD: 1599,
     badge: "new",
   },
   {
@@ -285,7 +285,7 @@ export const bots: Product[] = [
       ],
     },
     priceUSD: 1999,
-    exnessPriceUSD: 1500,
+    exnessPriceUSD: 1599,
     badge: "new",
   },
   {
