@@ -285,7 +285,7 @@ export function BuyDialog({
   }
 
   const referralLinkBox = (
-    <div className="flex items-center gap-2 rounded-lg border border-border bg-secondary/40 p-2.5">
+    <div className="flex min-w-0 items-center gap-2 rounded-lg border border-border bg-secondary/40 p-2.5">
       <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
         {EXNESS_REFERRAL_URL}
       </span>
@@ -500,7 +500,7 @@ export function BuyDialog({
             <DialogHeader>
               <DialogTitle>{t.checkout.exness.switchTitle}</DialogTitle>
             </DialogHeader>
-            <ol className="grid gap-2.5">
+            <ol className="grid min-w-0 gap-2.5">
               {[
                 t.checkout.exness.switchStep1,
                 t.checkout.exness.switchStep2,
