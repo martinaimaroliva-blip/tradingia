@@ -5,25 +5,25 @@ export const FILE_NAME = "xauusd-impulse-signal.indie.py";
 
 export const INSTALL_INSTRUCTIONS: Localized = {
   es: [
-    "Abrí Exness Terminal (web o app) y entrá a la pestaña Indicadores.",
-    'Hacé clic en "+ Crear indicador".',
-    "Borrá el código de ejemplo que aparece y pegá el código del archivo adjunto en este correo.",
-    "Guardá el indicador.",
-    "Abrí un gráfico de XAUUSD y agregalo desde tus indicadores guardados.",
+    "Entrá a Exness Terminal desde la web (no está disponible en la app móvil) e iniciá sesión en tu cuenta de trading.",
+    'Andá a la pestaña "Indicadores" y hacé clic en "Crear nuevo script".',
+    "Borrá el código de ejemplo y pegá el código del archivo adjunto en este correo.",
+    "Aplicá el script a tu gráfico de XAUUSD.",
+    "Guardalo — queda disponible para reutilizar con un clic.",
   ].join("\n"),
   en: [
-    "Open Exness Terminal (web or app) and go to the Indicators tab.",
-    'Click "+ Create indicator".',
-    "Delete the sample code that appears and paste the code from the file attached to this email.",
-    "Save the indicator.",
-    "Open an XAUUSD chart and add it from your saved indicators.",
+    "Open Exness Terminal from the web (not available on the mobile app) and sign in to your trading account.",
+    'Go to the "Indicators" tab and click "Create new script".',
+    "Delete the sample code and paste the code from the file attached to this email.",
+    "Apply the script to your XAUUSD chart.",
+    "Save it — it stays ready to reuse with one click.",
   ].join("\n"),
   ar: [
-    'افتح Exness Terminal (نسخة الويب أو التطبيق) وادخل إلى تبويب "المؤشرات".',
-    'اضغط على "+ إنشاء مؤشر".',
-    "احذف الكود التجريبي الظاهر والصق الكود الموجود في الملف المرفق بهذا البريد.",
-    "احفظ المؤشر.",
-    "افتح رسماً بيانياً لزوج XAUUSD وأضِفه من مؤشراتك المحفوظة.",
+    "افتح Exness Terminal من متصفح الويب (غير متاح على تطبيق الجوال) وسجّل الدخول إلى حساب التداول الخاص بك.",
+    'اذهب إلى تبويب "المؤشرات" واضغط على "إنشاء سكربت جديد".',
+    "احذف الكود التجريبي والصق الكود الموجود في الملف المرفق بهذا البريد.",
+    "طبّق السكربت على رسمك البياني لزوج XAUUSD.",
+    "احفظه — يبقى جاهزاً لإعادة الاستخدام بنقرة واحدة.",
   ].join("\n"),
 };
 

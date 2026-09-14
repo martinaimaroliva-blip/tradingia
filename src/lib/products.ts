@@ -631,19 +631,19 @@ export const indicators: Product[] = [
     },
     howItWorks: {
       es: [
-        "Añadilo a tu gráfico de XAU/USD en M5 dentro de la plataforma de Exness.",
+        "Pegalo como script en Exness Terminal (versión web) y aplicalo a tu gráfico de XAU/USD en M5.",
         "El indicador monitorea cada vela buscando impulso + tendencia confirmada.",
         "Si empieza a formarse un posible movimiento, aparece una prealerta amarilla.",
         "Cuando se confirma, muestra una etiqueta verde (compra) o roja (venta) — la entrada y gestión quedan en tus manos.",
       ],
       en: [
-        "Add it to your XAU/USD M5 chart inside the Exness platform.",
+        "Paste it as a script in Exness Terminal (web version) and apply it to your XAU/USD M5 chart.",
         "The indicator watches every candle for impulse plus a confirmed trend.",
         "A yellow pre-alert appears while a potential move is forming.",
         "Once confirmed, it shows a green (buy) or red (sell) label — entry and execution stay yours.",
       ],
       ar: [
-        "أضفه إلى رسمك البياني لزوج XAU/USD على فريم 5 دقائق داخل منصة Exness.",
+        "ألصقه كسكربت في Exness Terminal (نسخة الويب) وطبّقه على رسمك البياني لزوج XAU/USD على فريم 5 دقائق.",
         "يراقب المؤشر كل شمعة بحثاً عن زخم مع اتجاه مؤكَّد.",
         "يظهر تنبيه أصفر مسبق أثناء تشكّل حركة محتملة.",
         "عند التأكيد، يُظهر بطاقة خضراء (شراء) أو حمراء (بيع) — يبقى الدخول والتنفيذ بيدك.",
