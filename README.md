@@ -133,8 +133,11 @@ signed token (`lib/exness.ts`). The flow to get one:
 2. Either way, they submit the email their Exness account is/will be
    registered under. `POST /api/exness/verify-request` checks it live
    against the Exness Partner API (`POST /api/partner/affiliation/`,
-   `lib/exness.ts#checkExnessAccount` — auth is `Authorization: JWT
-   <EXNESS_API_KEY>`).
+   `lib/exness.ts#checkExnessAccount`) — reusable for any product that needs
+   this check, not just bots/indicators. Auth is `Authorization: JWT <token>`,
+   where the token comes from re-authenticating with
+   `EXNESS_AFFILIATES_LOGIN`/`EXNESS_AFFILIATES_PASSWORD` on every check
+   (Exness JWTs expire, so there's no long-lived key to store).
    - **Affiliated already** (typical for "open a new account", which Exness
      usually attributes right away): the buyer is dropped straight into the
      payment step in the same session — no waiting. This also upserts the
@@ -147,7 +150,7 @@ signed token (`lib/exness.ts`). The flow to get one:
      **resume link** (`lib/exness.ts#buildExnessResumeLink`, HMAC-signed for
      that exact product+email) to send once you confirm it in your Exness
      partner dashboard.
-   - **`EXNESS_API_KEY` not set**: skips straight to the manual/resume-link
+   - **No Exness credentials set**: skips straight to the manual/resume-link
      path above for every case.
 3. Opening the resume link drops the buyer straight past the whole gate,
    with the Exness price already unlocked — `/api/checkout` re-validates the
@@ -182,6 +185,12 @@ what *is* automated:
    (`lib/email.ts`) — see `.env.example` for the `ZOHO_SMTP_*` keys.
 4. When the buyer submits account number + server, `api/orders/account-details`
    emails you that too — match it to the sale by the email address.
+
+Signals and file-deliverable indicators skip step 4 entirely and are fully
+automatic: a signals purchase (`kind: "signal"`) gets a one-time Telegram
+invite link generated on the spot (`lib/telegram.ts`) and emailed to the
+buyer; an indicator registered in `lib/deliverables/` gets its file attached
+and localized install steps swapped in — see "Automated delivery" above.
 
 Once there's a license-key system that can validate an account number at
 runtime, swap the "email a human" steps for a real API call and attach the
@@ -228,7 +237,9 @@ See `.env.example`. Everything is optional — features activate as keys are add
   optional `MERCADOPAGO_SANDBOX`/`MERCADOPAGO_CURRENCY`/`MERCADOPAGO_FX_RATE`
 - **Zoho Mail SMTP:** `ZOHO_SMTP_USER`, `ZOHO_SMTP_PASS`, `ORDER_NOTIFICATION_EMAIL`
 - **Exness verification:** `EXNESS_VERIFY_SECRET` (set a real one before launch),
-  reserved `EXNESS_API_KEY` for future partner-API access
+  `EXNESS_AFFILIATES_LOGIN`/`EXNESS_AFFILIATES_PASSWORD` for live partner-API
+  checks (fallback: a manually obtained `EXNESS_API_KEY`)
+- **Telegram signals access:** `TELEGRAM_BOT_TOKEN`, `TELEGRAM_SIGNALS_CHANNEL_ID`
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,
   `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`
 
@@ -236,9 +247,8 @@ See `.env.example`. Everything is optional — features activate as keys are add
 
 - A license-key system, so bot delivery can become fully automatic instead of
   "email the order details to a human to compile"
-- Exness partner-API integration (`checkExnessAccount` in `lib/exness.ts`),
-  so account verification stops being a manual dashboard check
-- Telegram bot: add/remove buyers from the private signals channel on
-  subscription start / lapse
+- Telegram: buyers get a one-time VIP invite link automatically on purchase
+  (`lib/telegram.ts`) — removing them on subscription lapse/cancellation is
+  still manual
 - systeme.io: move buyers to the post-purchase email sequence
 - Native Arabic copy review

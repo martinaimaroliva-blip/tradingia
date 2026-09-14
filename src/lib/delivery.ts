@@ -3,8 +3,18 @@ import { optionalEnv, siteUrl } from "@/lib/env";
 import { sendMail } from "@/lib/email";
 import { upsertLead } from "@/lib/systemeio";
 import { getDeliverable } from "@/lib/deliverables";
+import { createSignalsInviteLink } from "@/lib/telegram";
 import type { BuyerInfo } from "@/lib/orders";
 import type { Locale } from "@/i18n/config";
+
+const SIGNALS_DELIVERY_LINE: Record<Locale, (link: string) => string> = {
+  es: (link) =>
+    `<p>Acá tenés tu acceso al canal VIP de señales (link de un solo uso): <a href="${link}">${link}</a></p>`,
+  en: (link) =>
+    `<p>Here's your access to the VIP signals channel (one-time link): <a href="${link}">${link}</a></p>`,
+  ar: (link) =>
+    `<p>هذا رابط دخولك إلى قناة الإشارات VIP (رابط لمرة واحدة): <a href="${link}">${link}</a></p>`,
+};
 
 export interface FulfilmentInput {
   provider: "stripe" | "nowpayments" | "mercadopago";
@@ -120,18 +130,29 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       : "";
 
     const deliverable = getDeliverable(input.slug);
-    const deliveryLine = deliverable
-      ? `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
-          deliverable.fileName,
-        )}</code>). Para instalarlo:</p><ol>${deliverable
-          .instructions(locale)
-          .split("\n")
-          .map((step) => `<li>${escapeHtml(step)}</li>`)
-          .join("")}</ol>`
-      : `<p>Te vamos a enviar el archivo, la licencia y el manual a este mismo correo en las próximas horas.</p>`;
-    const deliveryLineText = deliverable
-      ? `Adjunto: ${deliverable.fileName}. Para instalarlo:\n${deliverable.instructions(locale)}`
-      : "Te enviamos el archivo, la licencia y el manual a este correo en las próximas horas.";
+    const signalsInviteLink =
+      input.kind === "signal" ? await createSignalsInviteLink() : null;
+
+    let deliveryLine: string;
+    let deliveryLineText: string;
+    if (signalsInviteLink) {
+      deliveryLine = SIGNALS_DELIVERY_LINE[locale](signalsInviteLink);
+      deliveryLineText = `Tu acceso al canal VIP (link de un solo uso): ${signalsInviteLink}`;
+    } else if (deliverable) {
+      deliveryLine = `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
+        deliverable.fileName,
+      )}</code>). Para instalarlo:</p><ol>${deliverable
+        .instructions(locale)
+        .split("\n")
+        .map((step) => `<li>${escapeHtml(step)}</li>`)
+        .join("")}</ol>`;
+      deliveryLineText = `Adjunto: ${deliverable.fileName}. Para instalarlo:\n${deliverable.instructions(locale)}`;
+    } else {
+      deliveryLine =
+        "<p>Te vamos a enviar el archivo, la licencia y el manual a este mismo correo en las próximas horas.</p>";
+      deliveryLineText =
+        "Te enviamos el archivo, la licencia y el manual a este correo en las próximas horas.";
+    }
 
     await sendMail({
       to: input.buyer.email,

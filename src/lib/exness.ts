@@ -62,7 +62,7 @@ export function buildExnessResumeLink(
 const EXNESS_API_BASE = "https://my.exnessaffiliates.com";
 
 export interface ExnessAffiliationResult {
-  /** False when EXNESS_API_KEY isn't set — caller should fall back to the
+  /** False when no credentials are set — caller should fall back to the
    * manual "email a human" flow. */
   configured: boolean;
   /** Whether this email is affiliated to our partner account, per Exness. */
@@ -74,17 +74,53 @@ export interface ExnessAffiliationResult {
 }
 
 /**
+ * Gets a JWT for the Exness Partner API.
+ *
+ * Exness JWTs expire, so the real credential is the partner login/password
+ * (POST /api/auth/), not a fixed token — EXNESS_AFFILIATES_LOGIN/PASSWORD
+ * re-authenticate on every call. EXNESS_API_KEY is kept as a fallback for a
+ * manually pasted token, for quick testing without the partner password.
+ */
+async function getExnessToken(): Promise<string | null> {
+  const login = optionalEnv("EXNESS_AFFILIATES_LOGIN");
+  const password = optionalEnv("EXNESS_AFFILIATES_PASSWORD");
+  if (login && password) {
+    try {
+      const res = await fetch(`${EXNESS_API_BASE}/api/auth/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login, password }),
+      });
+      if (!res.ok) {
+        console.error("[exness] auth failed", res.status, await res.text());
+        return null;
+      }
+      const data = (await res.json()) as { token?: string };
+      return data.token ?? null;
+    } catch (err) {
+      console.error("[exness] auth request error", err);
+      return null;
+    }
+  }
+  return optionalEnv("EXNESS_API_KEY") ?? null;
+}
+
+/**
  * Checks live, via the Exness Partner API, whether `email` is registered
  * under our partner link — POST /api/partner/affiliation/, documented at
  * https://my.exnessaffiliates.com/api/schema/#!/partner/partner_affiliation_create
  *
  * Auth is a JWT bearer token in the Authorization header (note: literally
  * "JWT <token>", not "Bearer <token>" — that's how Exness's API expects it).
+ *
+ * Reusable everywhere we need to know if a customer is a partner-linked
+ * Exness client before unlocking a referral price — not tied to bots or
+ * indicators specifically.
  */
 export async function checkExnessAccount(
   email: string,
 ): Promise<ExnessAffiliationResult> {
-  const token = optionalEnv("EXNESS_API_KEY");
+  const token = await getExnessToken();
   if (!token) return { configured: false };
 
   try {
@@ -99,7 +135,7 @@ export async function checkExnessAccount(
 
     if (res.status === 401) {
       console.error(
-        "[exness] Partner API rejected our token (401) — check EXNESS_API_KEY",
+        "[exness] Partner API rejected our token (401) — check EXNESS_AFFILIATES_LOGIN/PASSWORD or EXNESS_API_KEY",
       );
       return { configured: true, error: "unauthorized" };
     }
