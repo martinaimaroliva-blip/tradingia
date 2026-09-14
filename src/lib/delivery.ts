@@ -1,6 +1,7 @@
 import "server-only";
 import { optionalEnv, siteUrl } from "@/lib/env";
 import { sendMail } from "@/lib/email";
+import { upsertLead } from "@/lib/systemeio";
 import type { BuyerInfo } from "@/lib/orders";
 
 export interface FulfilmentInput {
@@ -93,6 +94,15 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
   }
 
   if (input.buyer?.email) {
+    await upsertLead({
+      email: input.buyer.email,
+      name: input.buyer.name,
+      locale: input.locale,
+      source: "purchased",
+      path: [input.kind, input.slug].filter(Boolean).join("/") || undefined,
+      tagId: optionalEnv("SYSTEMEIO_TAG_ID_PURCHASED"),
+    });
+
     const isBot = input.kind === "bot";
     const locale = input.locale && ["es", "en", "ar"].includes(input.locale)
       ? input.locale
