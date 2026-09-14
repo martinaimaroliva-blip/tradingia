@@ -63,6 +63,23 @@ dashboard setup needed. Checkout builds the Stripe amount on the fly from `price
 `exnessPriceUSD` (`price_data`, not a pre-created Price ID), so adding or repricing a
 product is a one-file change.
 
+### Automated delivery (file products, e.g. indicators)
+
+If the product is a file the buyer can just be emailed (not account-bound like a
+bot, which still needs the manual compile-and-send flow below):
+
+1. Add a module under `src/lib/deliverables/` exporting the file content as a
+   string constant (`CODE`/`FILE_NAME`) and localized `INSTALL_INSTRUCTIONS`
+   — see `xauusd-impulse-signal.ts` for the shape.
+2. Register it by slug in `src/lib/deliverables/index.ts`.
+3. Set `hasAutoDelivery: true` on the product in `products.ts` (cosmetic flag
+   only — the actual lookup is by slug in `getDeliverable`).
+
+`fulfilPurchase` (`lib/delivery.ts`) checks the registry on every confirmed
+payment and, when it finds a match, attaches the file and swaps the generic
+"we'll send it by hand" line for the real install steps — no human involved.
+Everything without a registry entry keeps working exactly as before.
+
 ## The purchase flow
 
 `BuyDialog` (`src/components/commerce/buy-dialog.tsx`) walks through several steps —
