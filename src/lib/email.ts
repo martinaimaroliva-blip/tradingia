@@ -26,6 +26,7 @@ export interface SendMailInput {
   html: string;
   text?: string;
   replyTo?: string;
+  attachments?: { filename: string; content: string }[];
 }
 
 /**
@@ -54,6 +55,7 @@ export async function sendMail(input: SendMailInput): Promise<boolean> {
       html: input.html,
       text: input.text,
       replyTo: input.replyTo,
+      attachments: input.attachments,
     });
     return true;
   } catch (err) {

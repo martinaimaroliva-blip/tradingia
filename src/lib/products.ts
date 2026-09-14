@@ -27,6 +27,14 @@ export interface Product {
   /** True for bespoke products (e.g. the custom bot) that need a conversation
    * before delivery — the buy flow routes to contact instead of checkout. */
   requiresConsultation?: boolean;
+  /**
+   * True when src/lib/deliverables has a matching entry (keyed by slug) with
+   * the actual file + install instructions — fulfilPurchase attaches it and
+   * emails the buyer automatically instead of a human sending it by hand.
+   * Doesn't hold the file itself: this module is imported by client
+   * components too, and the deliverable content must stay server-only.
+   */
+  hasAutoDelivery?: boolean;
 }
 
 export interface SignalPlan {
@@ -643,6 +651,7 @@ export const indicators: Product[] = [
     },
     priceUSD: 300,
     exnessPriceUSD: 200,
+    hasAutoDelivery: true,
   },
 ];
 

@@ -2,7 +2,9 @@ import "server-only";
 import { optionalEnv, siteUrl } from "@/lib/env";
 import { sendMail } from "@/lib/email";
 import { upsertLead } from "@/lib/systemeio";
+import { getDeliverable } from "@/lib/deliverables";
 import type { BuyerInfo } from "@/lib/orders";
+import type { Locale } from "@/i18n/config";
 
 export interface FulfilmentInput {
   provider: "stripe" | "nowpayments" | "mercadopago";
@@ -104,9 +106,11 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
     });
 
     const isBot = input.kind === "bot";
-    const locale = input.locale && ["es", "en", "ar"].includes(input.locale)
-      ? input.locale
-      : "es";
+    const locale = (
+      input.locale && ["es", "en", "ar"].includes(input.locale)
+        ? input.locale
+        : "es"
+    ) as Locale;
     const accountFormUrl = `${siteUrl()}/${locale}/checkout/success?kind=bot&email=${encodeURIComponent(
       input.buyer.email,
     )}`;
@@ -114,6 +118,20 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
     const nextStepLine = isBot
       ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
       : "";
+
+    const deliverable = getDeliverable(input.slug);
+    const deliveryLine = deliverable
+      ? `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
+          deliverable.fileName,
+        )}</code>). Para instalarlo:</p><ol>${deliverable
+          .instructions(locale)
+          .split("\n")
+          .map((step) => `<li>${escapeHtml(step)}</li>`)
+          .join("")}</ol>`
+      : `<p>Te vamos a enviar el archivo, la licencia y el manual a este mismo correo en las próximas horas.</p>`;
+    const deliveryLineText = deliverable
+      ? `Adjunto: ${deliverable.fileName}. Para instalarlo:\n${deliverable.instructions(locale)}`
+      : "Te enviamos el archivo, la licencia y el manual a este correo en las próximas horas.";
 
     await sendMail({
       to: input.buyer.email,
@@ -123,11 +141,15 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
           amountLabel,
         )}</strong> por <strong>${escapeHtml(input.productName ?? "tu compra")}</strong>.</p>
         ${nextStepLine}
-        <p>Te vamos a enviar el archivo, la licencia y el manual a este mismo correo en las próximas horas. Cualquier duda, respondé este mensaje.</p>
+        ${deliveryLine}
+        <p>Cualquier duda, respondé este mensaje.</p>
       `,
       text: `¡Gracias! Registramos tu pago de ${amountLabel} por ${
         input.productName ?? "tu compra"
-      }. ${isBot ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}Te enviamos el archivo, la licencia y el manual a este correo en las próximas horas.`,
+      }. ${isBot ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}`,
+      attachments: deliverable
+        ? [{ filename: deliverable.fileName, content: deliverable.code }]
+        : undefined,
     });
   }
 }
