@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
-import { Section, SectionHeading } from "@/components/marketing/section";
+import { Section } from "@/components/marketing/section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
@@ -94,35 +94,6 @@ export default async function ExnessPage({
               </div>
             );
           })}
-        </div>
-      </Section>
-
-      <Section className="border-y border-border bg-card/30">
-        <SectionHeading title={t.exnessPage.steps.title} align="start" />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {t.exnessPage.steps.items.map((step, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-6">
-              <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-3 font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10">
-          <Button asChild size="lg">
-            <a
-              href={referralUrl}
-              target={referralUrl.startsWith("http") ? "_blank" : undefined}
-              rel="noreferrer nofollow sponsored"
-            >
-              {t.exnessPage.cta}
-              <ArrowRight className="size-4 rtl:rotate-180" />
-            </a>
-          </Button>
         </div>
       </Section>
 

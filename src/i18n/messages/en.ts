@@ -304,12 +304,12 @@ export const en = {
       {
         title: "Tighter spreads, lower cost per trade",
         description:
-          "Raw Spread and Zero accounts keep transaction costs minimal. For bots that trade often, spread is one of the biggest hidden costs — smaller spreads directly protect the edge.",
+          "Low spreads keep transaction costs minimal. For bots that trade often, spread is one of the biggest hidden costs — smaller spreads directly protect the edge.",
       },
       {
         title: "Automatic instant deposits & withdrawals",
         description:
-          "Funding and payouts are processed automatically and are usually instant. You are not waiting on manual approval to add margin or take profits out.",
+          "Deposits are instant and automatic. Withdrawals too: processed 24 hours a day, 7 days a week, with no manual intervention — you're never waiting on approval to take your profits out.",
       },
       {
         title: "Free VPS for eligible accounts",
@@ -317,9 +317,9 @@ export const en = {
           "A VPS keeps your bot running 24/7 with a stable connection close to the broker's servers — no need to leave your own computer on. Exness provides one free for qualifying account balances or volume.",
       },
       {
-        title: "Swap-free account types",
+        title: "Swap-free",
         description:
-          "Swap-free (Islamic) accounts remove overnight financing charges on supported instruments, which helps strategies that hold positions for more than a day.",
+          "Accounts carry no overnight financing charge (swap) on supported instruments, which helps strategies that hold positions for more than a day.",
       },
       {
         title: "Deep liquidity and fast execution",
@@ -332,26 +332,6 @@ export const en = {
           "Flexible minimum deposits and account types let you start small and move up without changing your whole setup.",
       },
     ],
-    steps: {
-      title: "How to claim the lower bot price",
-      items: [
-        {
-          title: "Open an account with our link",
-          description:
-            "Use the button below to register with Exness through our referral link.",
-        },
-        {
-          title: "Fund and verify",
-          description:
-            "Complete verification and make your first deposit so the account is active.",
-        },
-        {
-          title: "Send us your account number",
-          description:
-            "Message us the Exness account number. We confirm it and give you the referral price on any bot.",
-        },
-      ],
-    },
     cta: "Open my Exness account",
     disclaimer:
       "SmartradeBot is not affiliated with Exness beyond an introducing/referral relationship. We may earn a commission when you open an account through our link, at no additional cost to you. Availability of account types, VPS and swap-free status depends on your region and Exness's own terms. Trading leveraged products carries a high risk of losing money.",

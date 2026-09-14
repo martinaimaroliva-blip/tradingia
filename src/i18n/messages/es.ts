@@ -304,12 +304,12 @@ export const es: Dictionary = {
       {
         title: "Spreads más ajustados, menor costo por operación",
         description:
-          "Las cuentas Raw Spread y Zero mantienen los costos de transacción al mínimo. Para bots que operan seguido, el spread es uno de los mayores costos ocultos: spreads menores protegen la ventaja de forma directa.",
+          "Los spreads bajos mantienen los costos de transacción al mínimo. Para bots que operan seguido, el spread es uno de los mayores costos ocultos: spreads menores protegen la ventaja de forma directa.",
       },
       {
         title: "Depósitos y retiros automáticos e instantáneos",
         description:
-          "La financiación y los pagos se procesan automáticamente y suelen ser instantáneos. No esperas una aprobación manual para agregar margen o retirar ganancias.",
+          "Los depósitos son instantáneos y automáticos. Los retiros también: se procesan las 24 horas, los 7 días de la semana, sin intervención manual — nunca esperás una aprobación para sacar tus ganancias.",
       },
       {
         title: "VPS gratis para cuentas elegibles",
@@ -317,9 +317,9 @@ export const es: Dictionary = {
           "Un VPS mantiene tu bot operando 24/7 con una conexión estable y cercana a los servidores del bróker, sin dejar tu computadora encendida. Exness ofrece uno gratis según el saldo o volumen de la cuenta.",
       },
       {
-        title: "Tipos de cuenta sin swap",
+        title: "Sin swap",
         description:
-          "Las cuentas sin swap (islámicas) eliminan los cargos de financiación overnight en los instrumentos compatibles, útil para estrategias que mantienen posiciones más de un día.",
+          "Las cuentas no cobran cargos de financiación overnight (swap) en los instrumentos compatibles, útil para estrategias que mantienen posiciones más de un día.",
       },
       {
         title: "Liquidez profunda y ejecución rápida",
@@ -332,26 +332,6 @@ export const es: Dictionary = {
           "Depósitos mínimos flexibles y varios tipos de cuenta te permiten empezar pequeño y crecer sin cambiar toda tu configuración.",
       },
     ],
-    steps: {
-      title: "Cómo obtener el precio menor del bot",
-      items: [
-        {
-          title: "Abre una cuenta con nuestro enlace",
-          description:
-            "Usa el botón de abajo para registrarte en Exness a través de nuestro enlace de referido.",
-        },
-        {
-          title: "Fondea y verifica",
-          description:
-            "Completa la verificación y haz tu primer depósito para que la cuenta quede activa.",
-        },
-        {
-          title: "Envíanos tu número de cuenta",
-          description:
-            "Mándanos el número de cuenta de Exness. Lo confirmamos y te damos el precio de referido en cualquier bot.",
-        },
-      ],
-    },
     cta: "Abrir mi cuenta de Exness",
     disclaimer:
       "SmartradeBot no está afiliada a Exness más allá de una relación de introducción/referido. Podemos ganar una comisión cuando abres una cuenta a través de nuestro enlace, sin costo adicional para ti. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
