@@ -529,14 +529,14 @@ export function BuyDialog({
                 t.checkout.exness.switchStep2,
                 t.checkout.exness.switchStep3,
               ].map((stepText, i) => (
-                <li key={i} className="flex gap-3 text-sm">
+                <li key={i} className="flex min-w-0 gap-3 text-sm">
                   <span className="grid size-6 shrink-0 place-items-center rounded-md bg-secondary text-xs font-semibold text-primary">
                     {i + 1}
                   </span>
-                  <span className="pt-0.5 text-foreground/90">{stepText}</span>
+                  <span className="min-w-0 pt-0.5 text-foreground/90">{stepText}</span>
                 </li>
               ))}
-              <li className="flex gap-3 text-sm">
+              <li className="flex min-w-0 gap-3 text-sm">
                 <span className="grid size-6 shrink-0 place-items-center rounded-md bg-secondary text-xs font-semibold text-primary">
                   4
                 </span>
