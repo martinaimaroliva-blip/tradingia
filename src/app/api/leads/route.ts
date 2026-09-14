@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { optionalEnv } from "@/lib/env";
 import { upsertLead } from "@/lib/systemeio";
 
 export const runtime = "nodejs";
@@ -48,6 +49,13 @@ export async function POST(request: Request) {
     locale: lead.locale || undefined,
     source: lead.source,
     path: lead.path || undefined,
+    // The one tag most free systeme.io plans allow is reserved for the
+    // highest-value automation (checkout abandoned right before Exness
+    // verification) — everything else still syncs via funnel_stage alone.
+    tagId:
+      lead.source === "checkout_no_exness"
+        ? optionalEnv("SYSTEMEIO_TAG_ID")
+        : undefined,
   });
 
   if (!result.ok) {
