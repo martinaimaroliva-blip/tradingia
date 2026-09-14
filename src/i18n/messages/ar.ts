@@ -459,6 +459,7 @@ export const ar: Dictionary = {
     },
     directTitle: "تواصل معنا مباشرةً",
     telegramCta: "راسلنا على تيليجرام",
+    whatsappCta: "راسلنا على واتساب",
     emailCta: "أرسل بريداً إلكترونياً",
   },
   lead: {

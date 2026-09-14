@@ -463,6 +463,7 @@ export const es: Dictionary = {
     },
     directTitle: "Contáctanos directo",
     telegramCta: "Escribir por Telegram",
+    whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un correo",
   },
   lead: {

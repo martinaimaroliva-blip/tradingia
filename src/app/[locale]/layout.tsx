@@ -13,6 +13,7 @@ import { I18nProvider } from "@/components/providers/i18n-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { LeadCaptureModal } from "@/components/lead/lead-capture-modal";
+import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -91,6 +92,7 @@ export default async function LocaleLayout({
           <main className="flex-1">{children}</main>
           <SiteFooter />
           <LeadCaptureModal />
+          <WhatsAppButton />
         </I18nProvider>
       </body>
     </html>

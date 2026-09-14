@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CalendarClock, Mail, Send } from "lucide-react";
+import { CalendarClock, Mail, MessageCircle, Send } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact/contact-form";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 export async function generateMetadata({
   params,
@@ -82,6 +83,15 @@ export default async function ContactPage({
           <div className="rounded-xl border border-border bg-card p-6">
             <h2 className="text-sm font-semibold">{t.contact.directTitle}</h2>
             <div className="mt-3 space-y-2">
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm transition-colors hover:bg-secondary/60"
+              >
+                <MessageCircle className="size-4 text-primary" />
+                {t.contact.whatsappCta}
+              </a>
               <a
                 href={telegramUrl}
                 target="_blank"

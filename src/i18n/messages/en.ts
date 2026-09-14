@@ -463,6 +463,7 @@ export const en = {
     },
     directTitle: "Reach us directly",
     telegramCta: "Message on Telegram",
+    whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
   },
   lead: {
