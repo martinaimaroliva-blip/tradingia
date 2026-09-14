@@ -30,7 +30,7 @@ export default async function ContactPage({
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
 
-  const meetUrl = process.env.NEXT_PUBLIC_MEET_URL || "#";
+  const meetUrl = process.env.NEXT_PUBLIC_MEET_URL || whatsappUrl();
   const telegramUrl = process.env.NEXT_PUBLIC_TELEGRAM_URL || "#";
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@example.com";
 
