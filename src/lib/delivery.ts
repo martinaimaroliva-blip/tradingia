@@ -146,7 +146,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
 
     // Signals have no file of their own — the channel link(s) ARE the whole
     // delivery. Everything else keeps its normal delivery content, and a
-    // channel (if any, e.g. ZIZA's owners group) is shown as an addition.
+    // channel (if any, e.g. SIZA's owners group) is shown as an addition.
     let deliveryLine: string;
     let deliveryLineText: string;
     if (isSignal) {
@@ -179,7 +179,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
     }
 
     // Additive extras: a follow-up Telegram group for a non-signal product
-    // (e.g. ZIZA's owners channel), and/or a note pointing to the booking
+    // (e.g. SIZA's owners channel), and/or a note pointing to the booking
     // link (e.g. "book your install call with an Expert").
     let extraLine = "";
     let extraLineText = "";

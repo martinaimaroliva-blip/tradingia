@@ -4,7 +4,7 @@ import { optionalEnv } from "@/lib/env";
 /** Which env var(s) hold the chat id(s) a product grants access to, keyed
  * by slug — works for any product kind, not just signals. The multi-asset
  * signal pack reuses the per-asset channels instead of a separate combined
- * one; ZIZA grants its own bot-owners follow-up group. */
+ * one; SIZA grants its own bot-owners follow-up group. */
 const PRODUCT_CHANNEL_ENV_VARS: Record<string, string[]> = {
   "signal-xauusd": ["TELEGRAM_CHANNEL_XAUUSD_ID"],
   "signal-btcusd": ["TELEGRAM_CHANNEL_BTCUSD_ID"],
@@ -13,7 +13,7 @@ const PRODUCT_CHANNEL_ENV_VARS: Record<string, string[]> = {
     "TELEGRAM_CHANNEL_BTCUSD_ID",
     "TELEGRAM_CHANNEL_EURUSD_ID",
   ],
-  ziza: ["TELEGRAM_CHANNEL_ZIZA_ID"],
+  siza: ["TELEGRAM_CHANNEL_SIZA_ID"],
 };
 
 /**
