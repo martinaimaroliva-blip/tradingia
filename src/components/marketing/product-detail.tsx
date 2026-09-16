@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   CalendarClock,
@@ -100,6 +101,31 @@ export function ProductDetail({
               {product.description[locale]}
             </p>
           </section>
+
+          {product.backtestImages && product.backtestImages.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold">{t.common.backtestTitle}</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {product.backtestImages.map((img, i) => (
+                  <div
+                    key={i}
+                    className="overflow-hidden rounded-xl border border-border bg-card"
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt[locale]}
+                      width={1280}
+                      height={600}
+                      className="h-auto w-full"
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t.common.backtestDisclaimer}
+              </p>
+            </section>
+          )}
 
           <section>
             <h2 className="text-lg font-semibold">{detail.features}</h2>

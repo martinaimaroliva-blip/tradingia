@@ -32,6 +32,9 @@ export const en = {
     exnessOnlyBadge: "Exness referral only",
     exnessOnlyHint:
       "This promo price requires a verified Exness account opened through our link — there's no price without it.",
+    backtestTitle: "Backtest results",
+    backtestDisclaimer:
+      "Simulated historical results — past performance doesn't guarantee future results.",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",

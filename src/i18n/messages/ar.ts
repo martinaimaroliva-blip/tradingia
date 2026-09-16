@@ -34,6 +34,9 @@ export const ar: Dictionary = {
     exnessOnlyBadge: "فقط بإحالة Exness",
     exnessOnlyHint:
       "يتطلب هذا السعر الترويجي حساب Exness موثّقاً تم فتحه عبر رابطنا — لا توجد نسخة بدونه.",
+    backtestTitle: "نتائج الاختبار الرجعي",
+    backtestDisclaimer:
+      "نتائج تاريخية محاكاة — الأداء السابق لا يضمن نتائج مستقبلية.",
     allProducts: "كل المنتجات",
     needHelp: "لديك أسئلة؟",
     contactUs: "تواصل معنا",

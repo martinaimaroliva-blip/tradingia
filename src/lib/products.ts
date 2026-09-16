@@ -48,6 +48,9 @@ export interface Product {
    * (NEXT_PUBLIC_MEET_URL) is appended automatically; don't include it here.
    */
   postPurchaseNote?: Localized;
+  /** Real backtest screenshots (equity curve, Strategy Tester report, …),
+   * shown in a dedicated section on the product page when present. */
+  backtestImages?: { src: string; alt: Localized }[];
 }
 
 export const bots: Product[] = [
@@ -202,6 +205,24 @@ export const bots: Product[] = [
       en: "After payment, book a slot with our Expert to install it on your account — use the link below. You'll also be added to the SIZA follow-up group (daily analysis, configuration tweaks and support). The license is lifetime, for your account.",
       ar: "بعد الدفع، حدّد موعداً مع خبيرنا لتثبيته على حسابك — استخدم الرابط أدناه. ستتم إضافتك أيضاً إلى مجموعة متابعة SIZA (تحليلات يومية، تعديلات على الإعدادات، ودعم). الترخيص مدى الحياة لحسابك.",
     },
+    backtestImages: [
+      {
+        src: "/products/siza/backtest-equity.jpg",
+        alt: {
+          es: "Curva de balance/patrimonio del backtest de SIZA, de $10.000 a $14.686 en 9 meses",
+          en: "SIZA's backtest balance/equity curve, from $10,000 to $14,686 over 9 months",
+          ar: "منحنى الرصيد/حقوق الملكية لاختبار SIZA الرجعي، من 10,000$ إلى 14,686$ خلال 9 أشهر",
+        },
+      },
+      {
+        src: "/products/siza/backtest-report.jpg",
+        alt: {
+          es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de SIZA",
+          en: "MT5 Strategy Tester report with SIZA's full backtest metrics",
+          ar: "تقرير Strategy Tester في MT5 بمقاييس اختبار SIZA الرجعي الكاملة",
+        },
+      },
+    ],
   },
   {
     slug: "paramedica",

@@ -34,6 +34,9 @@ export const es: Dictionary = {
     exnessOnlyBadge: "Solo con referido de Exness",
     exnessOnlyHint:
       "Este precio promocional requiere una cuenta de Exness verificada abierta con nuestro enlace — no tiene versión sin él.",
+    backtestTitle: "Resultados de backtest",
+    backtestDisclaimer:
+      "Resultados históricos simulados — el rendimiento pasado no garantiza resultados futuros.",
     allProducts: "Todos los productos",
     needHelp: "¿Tienes dudas?",
     contactUs: "Contáctanos",
