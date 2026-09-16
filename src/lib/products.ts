@@ -191,8 +191,8 @@ export const bots: Product[] = [
         "يغلق كل شيء قبل نهاية الجلسة أو عند بلوغ الهدف النهائي.",
       ],
     },
-    priceUSD: 7500,
-    exnessPriceUSD: 5000,
+    priceUSD: 4999,
+    exnessPriceUSD: 2999,
     badge: "popular",
   },
   {
