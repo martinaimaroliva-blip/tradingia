@@ -30,8 +30,14 @@ export function ProductDetail({
   verifiedExness?: { email: string; token: string } | null;
 }) {
   const isBot = product.kind === "bot";
-  const listBase = isBot ? "/bots" : "/indicators";
-  const detail = isBot ? t.bots.detail : t.indicators.detail;
+  const isSignal = product.kind === "signal";
+  const listBase = isBot ? "/bots" : isSignal ? "/signals" : "/indicators";
+  const detail = isBot
+    ? t.bots.detail
+    : isSignal
+      ? t.signals.detail
+      : t.indicators.detail;
+  const navLabel = isBot ? t.nav.bots : isSignal ? t.nav.signals : t.nav.indicators;
   const lp = (p: string) => `/${locale}${p}`;
   const discounted = product.exnessPriceUSD < product.priceUSD;
   const saving = product.priceUSD - product.exnessPriceUSD;
@@ -57,7 +63,7 @@ export function ProductDetail({
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="size-4 rtl:rotate-180" />
-            {isBot ? t.nav.bots : t.nav.indicators}
+            {navLabel}
           </Link>
 
           <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -157,34 +163,17 @@ export function ProductDetail({
         {/* Sticky buy card */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-xl border border-border bg-card p-6">
-            <div className="text-xs font-medium text-muted-foreground">
-              {detail.basePriceLabel}
-            </div>
-            <div
-              className={cn(
-                "mt-1 text-2xl font-semibold",
-                discounted && "text-muted-foreground line-through decoration-1",
-              )}
-            >
-              {formatUSD(product.priceUSD, locale)}
-            </div>
-
-            {discounted && (
-              <div className="mt-4 rounded-lg border border-accent/30 bg-accent/10 p-4">
+            {product.requiresExnessVerification ? (
+              <div className="rounded-lg border border-accent/30 bg-accent/10 p-4">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-accent">
                   <Sparkles className="size-3.5" />
-                  {detail.exnessPriceLabel}
+                  {t.common.exnessOnlyBadge}
                 </div>
-                <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-foreground">
-                    {formatUSD(product.exnessPriceUSD, locale)}
-                  </span>
-                  <span className="text-xs font-medium text-accent">
-                    {fmt(detail.save, { amount: formatUSD(saving, locale) })}
-                  </span>
+                <div className="mt-1 text-3xl font-bold text-foreground">
+                  {formatUSD(product.exnessPriceUSD, locale)}
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  {detail.exnessHint}
+                  {t.common.exnessOnlyHint}
                 </p>
                 <Link
                   href={lp("/exness")}
@@ -193,12 +182,56 @@ export function ProductDetail({
                   {t.nav.whyExness} →
                 </Link>
               </div>
+            ) : (
+              <>
+                <div className="text-xs font-medium text-muted-foreground">
+                  {detail.basePriceLabel}
+                </div>
+                <div
+                  className={cn(
+                    "mt-1 text-2xl font-semibold",
+                    discounted && "text-muted-foreground line-through decoration-1",
+                  )}
+                >
+                  {formatUSD(product.priceUSD, locale)}
+                </div>
+
+                {discounted && (
+                  <div className="mt-4 rounded-lg border border-accent/30 bg-accent/10 p-4">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-accent">
+                      <Sparkles className="size-3.5" />
+                      {detail.exnessPriceLabel}
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-foreground">
+                        {formatUSD(product.exnessPriceUSD, locale)}
+                      </span>
+                      <span className="text-xs font-medium text-accent">
+                        {fmt(detail.save, { amount: formatUSD(saving, locale) })}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {detail.exnessHint}
+                    </p>
+                    <Link
+                      href={lp("/exness")}
+                      className="mt-2 inline-block text-xs font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      {t.nav.whyExness} →
+                    </Link>
+                  </div>
+                )}
+              </>
             )}
 
             <div className="mt-5 space-y-2.5">
               {product.requiresConsultation ? (
                 <Button asChild size="lg" className="w-full">
-                  <Link href={lp(`/contact?topic=${isBot ? "bots" : "indicators"}`)}>
+                  <Link
+                    href={lp(
+                      `/contact?topic=${isBot ? "bots" : isSignal ? "signals" : "indicators"}`,
+                    )}
+                  >
                     <MessageCircleQuestion className="size-4" />
                     {t.bots.detail.customCta}
                   </Link>
@@ -213,6 +246,7 @@ export function ProductDetail({
                     exnessPriceUSD={product.exnessPriceUSD}
                     verifiedExnessEmail={verifiedExness?.email}
                     verifiedExnessToken={verifiedExness?.token}
+                    requiresExnessVerification={product.requiresExnessVerification}
                     block
                   />
                   <Button asChild variant="outline" size="lg" className="w-full">

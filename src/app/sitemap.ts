@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
-import { bots, indicators } from "@/lib/products";
+import { bots, indicators, signals } from "@/lib/products";
 import { siteUrl } from "@/lib/env";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -35,6 +35,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const i of indicators) {
       entries.push({
         url: `${base}/${locale}/indicators/${i.slug}`,
+        priority: 0.8,
+      });
+    }
+    for (const s of signals) {
+      entries.push({
+        url: `${base}/${locale}/signals/${s.slug}`,
         priority: 0.8,
       });
     }

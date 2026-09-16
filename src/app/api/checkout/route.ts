@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { isLocale } from "@/i18n/config";
-import { getProduct, getSignalPlan } from "@/lib/products";
+import { getProduct } from "@/lib/products";
 import { siteUrl } from "@/lib/env";
 import {
   createStripeCheckout,
@@ -59,25 +59,28 @@ export async function POST(request: Request) {
       ? parsed.data.locale
       : "es";
 
-  // Resolve the item + amount for the chosen price tier.
+  // Resolve the item + amount for the chosen price tier. Every product kind
+  // (bots, indicators, signals) is a one-time payment — signals used to be
+  // a monthly subscription, but that model was replaced by one-time,
+  // per-asset Telegram channel access.
   let amountUSD: number;
-  let productName: string;
-  const isSubscription = kind === "signal";
 
-  if (kind === "signal") {
-    const plan = getSignalPlan(slug);
-    if (!plan) return NextResponse.json({ error: "not_found" }, { status: 404 });
-    amountUSD = plan.priceUSD;
-    productName = `SmartradeBot Signals — ${plan.name.en}`;
+  const product = getProduct(slug);
+  if (!product || product.kind !== kind) {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
+  if (product.requiresConsultation) {
+    // Custom-build products go through /contact, never instant checkout.
+    return NextResponse.json({ error: "requires_consultation" }, { status: 400 });
+  }
+  if (product.requiresExnessVerification) {
+    // No standalone price at all — this promo only exists for verified
+    // Exness referrals, regardless of what priceChoice the client sent.
+    if (!exnessEmail || !verifyExnessToken(slug, exnessEmail, exnessToken)) {
+      return NextResponse.json({ error: "exness_not_verified" }, { status: 403 });
+    }
+    amountUSD = product.exnessPriceUSD;
   } else {
-    const product = getProduct(slug);
-    if (!product || product.kind !== kind) {
-      return NextResponse.json({ error: "not_found" }, { status: 404 });
-    }
-    if (product.requiresConsultation) {
-      // Custom-build products go through /contact, never instant checkout.
-      return NextResponse.json({ error: "requires_consultation" }, { status: 400 });
-    }
     const hasDiscount = product.exnessPriceUSD < product.priceUSD;
     if (priceChoice === "exness" && hasDiscount) {
       if (!exnessEmail || !verifyExnessToken(slug, exnessEmail, exnessToken)) {
@@ -88,8 +91,8 @@ export async function POST(request: Request) {
       priceChoice === "exness" && hasDiscount
         ? product.exnessPriceUSD
         : product.priceUSD;
-    productName = `SmartradeBot — ${product.name}`;
   }
+  const productName = `SmartradeBot — ${product.name}`;
 
   const buyer: BuyerInfo = { name, email };
 
@@ -107,7 +110,7 @@ export async function POST(request: Request) {
     const result = await createStripeCheckout({
       productName,
       unitAmountUSD: amountUSD,
-      mode: isSubscription ? "subscription" : "payment",
+      mode: "payment",
       successUrl: stripeSuccessUrl,
       cancelUrl,
       customerEmail: email,

@@ -6,7 +6,7 @@ export const es: Dictionary = {
     tagline: "Bots, indicadores y señales de trading",
     defaultTitle: "SmartradeBot — Bots, indicadores y señales de trading",
     defaultDescription:
-      "Bots de trading automatizados, indicadores profesionales y una membresía mensual de señales. Compra en minutos y accede al instante, sin intervención humana.",
+      "Bots de trading automatizados, indicadores profesionales y señales de pago único. Compra en minutos y accede al instante, sin intervención humana.",
   },
   nav: {
     bots: "Bots",
@@ -31,6 +31,9 @@ export const es: Dictionary = {
     comingSoon: "Próximamente",
     customBadge: "Personalizado",
     bundleBadge: "Incluye indicador gratis",
+    exnessOnlyBadge: "Solo con referido de Exness",
+    exnessOnlyHint:
+      "Este precio promocional requiere una cuenta de Exness verificada abierta con nuestro enlace — no tiene versión sin él.",
     allProducts: "Todos los productos",
     needHelp: "¿Tienes dudas?",
     contactUs: "Contáctanos",
@@ -81,8 +84,8 @@ export const es: Dictionary = {
       signals: {
         title: "Señales",
         description:
-          "Suscripción mensual a nuestro canal privado de Telegram. Operaciones concretas con entrada, stop-loss y take-profit, más contexto de mercado.",
-        cta: "Ver planes",
+          "Pago único, acceso directo al canal de Telegram del activo que elijas. Operaciones concretas con entrada, stop-loss y take-profit, más contexto de mercado.",
+        cta: "Ver señales",
       },
     },
     how: {
@@ -167,7 +170,7 @@ export const es: Dictionary = {
       items: [
         {
           q: "¿Tengo que pagar una suscripción por los bots?",
-          a: "No. Los bots e indicadores son de pago único. Solo la membresía de señales es una suscripción mensual.",
+          a: "No. Todo en el sitio es de pago único — bots, indicadores y señales.",
         },
         {
           q: "¿Cómo recibo el bot después de pagar?",
@@ -179,7 +182,7 @@ export const es: Dictionary = {
         },
         {
           q: "¿Cómo se entregan las señales?",
-          a: "A través de un canal privado de Telegram. Al suscribirte recibes una invitación; el acceso se retira automáticamente si la suscripción caduca.",
+          a: "A través de un canal privado de Telegram. Al comprar recibís el link de invitación por correo — el acceso queda activo sin vencimiento, no es una suscripción.",
         },
         {
           q: "¿Puedo pagar con criptomonedas?",
@@ -258,42 +261,32 @@ export const es: Dictionary = {
   },
   signals: {
     hero: {
-      title: "Membresía de señales",
+      title: "Señales",
       subtitle:
-        "Suscripción mensual a nuestro canal privado de señales. Cada operación incluye entrada, stop-loss, take-profit y el razonamiento detrás.",
+        "Pago único, acceso directo al canal de Telegram del activo que elijas. Cada señal incluye entrada, stop-loss, take-profit y el razonamiento detrás.",
     },
-    includes: {
-      title: "Qué incluye",
-      items: [
-        "Operaciones concretas con entrada, SL y TP",
-        "Contexto de mercado y sesgo diario",
-        "Gestión de la operación (mover a break-even, parciales, salidas)",
-        "Canal privado de Telegram con la comunidad",
-        "Cancela cuando quieras: el acceso termina al cerrar el período",
-      ],
+    listNote:
+      "Pago único · Acceso al canal de Telegram del activo elegido, sin vencimiento.",
+    empty: "Estamos agregando nuevas señales. Vuelve pronto.",
+    detail: {
+      overview: "Descripción",
+      features: "Qué incluye",
+      howItWorks: "Cómo funciona",
+      pricing: "Precio",
+      manual: "Acceso",
+      specs: "Especificaciones",
+      basePriceLabel: "Precio estándar",
+      exnessPriceLabel: "Con referido de Exness",
+      exnessHint:
+        "Abre una cuenta en Exness con nuestro enlace para desbloquear este precio.",
+      save: "Ahorras {amount}",
+      buyCta: "Comprar esta señal",
+      contactCta: "Hacer una consulta",
+      scheduleCta: "Agendar una llamada",
+      deliveryNote:
+        "Después del pago recibís el link de acceso al canal de Telegram por correo automáticamente.",
+      relatedTitle: "Otras señales",
     },
-    telegram: {
-      title: "Se entrega en un canal privado de Telegram",
-      description:
-        "Al suscribirte recibes un enlace de invitación al canal cerrado. Si falla una renovación, el acceso se retira automáticamente hasta que vuelvas a suscribirte.",
-    },
-    plansTitle: "Elige tu plan",
-    plansNote: "Precios en USD. Facturación mensual. Cancela cuando quieras.",
-    faq: [
-      {
-        q: "¿Cuántas señales por semana?",
-        a: "Depende de las condiciones del mercado: calidad sobre cantidad. Por lo general, varias oportunidades por semana en los instrumentos cubiertos.",
-      },
-      {
-        q: "¿Qué mercados cubren?",
-        a: "Principalmente oro (XAUUSD) y pares de divisas mayores, con alguna operación ocasional en índices y cripto.",
-      },
-      {
-        q: "¿Qué pasa si cancelo?",
-        a: "Mantienes el acceso hasta el final del período pagado y luego se te retira del canal automáticamente.",
-      },
-    ],
-    cta: "Suscribirme ahora",
   },
   exnessPage: {
     hero: {
@@ -566,7 +559,7 @@ export const es: Dictionary = {
   },
   footer: {
     tagline:
-      "Bots de trading automatizados, indicadores profesionales y una membresía mensual de señales.",
+      "Bots de trading automatizados, indicadores profesionales y señales de pago único.",
     productsTitle: "Productos",
     companyTitle: "Compañía",
     legalTitle: "Legal",

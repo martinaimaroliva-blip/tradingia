@@ -59,6 +59,7 @@ export function BuyDialog({
   exnessPriceUSD,
   verifiedExnessEmail,
   verifiedExnessToken,
+  requiresExnessVerification = false,
   size = "lg",
   variant = "default",
   className,
@@ -75,6 +76,9 @@ export function BuyDialog({
    * verified" resume link — lets them skip straight past the Exness gate. */
   verifiedExnessEmail?: string;
   verifiedExnessToken?: string;
+  /** No standalone price at all — skips the "choose your price" step and
+   * always requires Exness verification before payment. */
+  requiresExnessVerification?: boolean;
   size?: ButtonProps["size"];
   variant?: ButtonProps["variant"];
   className?: string;
@@ -86,7 +90,8 @@ export function BuyDialog({
   const isVerified = Boolean(verifiedExnessEmail && verifiedExnessToken);
 
   const initialStep: Step = isVerified ? "details" : hasDiscount ? "price" : "details";
-  const initialPriceChoice: PriceChoice = isVerified ? "exness" : "standard";
+  const initialPriceChoice: PriceChoice =
+    isVerified || requiresExnessVerification ? "exness" : "standard";
 
   const [open, setOpen] = React.useState(false);
   const [step, setStep] = React.useState<Step>(initialStep);

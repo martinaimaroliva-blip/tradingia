@@ -14,7 +14,8 @@ export function ProductListing({
   t: Dictionary;
 }) {
   const products = getProductsByKind(kind);
-  const copy = kind === "bot" ? t.bots : t.indicators;
+  const copy =
+    kind === "bot" ? t.bots : kind === "indicator" ? t.indicators : t.signals;
 
   return (
     <>

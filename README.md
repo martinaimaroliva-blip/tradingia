@@ -1,6 +1,6 @@
 # SmartradeBot
 
-Sales website for trading **bots**, **indicators** and a monthly **signals** membership. Live at [smartradebot.com](https://smartradebot.com).
+Sales website for trading **bots**, **indicators** and one-time **signals** channel access. Live at [smartradebot.com](https://smartradebot.com).
 
 - **Framework:** Next.js 16 (App Router) · React 19 · TypeScript
 - **Styling:** Tailwind CSS v4 · shadcn-style UI primitives (Radix)
@@ -58,7 +58,7 @@ src/
 
 ## Adding a product
 
-Edit `src/lib/products.ts` (add to `bots`, `indicators` or `signalPlans`) — no Stripe
+Edit `src/lib/products.ts` (add to `bots`, `indicators` or `signals`) — no Stripe
 dashboard setup needed. Checkout builds the Stripe amount on the fly from `priceUSD`/
 `exnessPriceUSD` (`price_data`, not a pre-created Price ID), so adding or repricing a
 product is a one-file change.
@@ -186,11 +186,13 @@ what *is* automated:
 4. When the buyer submits account number + server, `api/orders/account-details`
    emails you that too — match it to the sale by the email address.
 
-Signals and file-deliverable indicators skip step 4 entirely and are fully
-automatic: a signals purchase (`kind: "signal"`) gets a one-time Telegram
-invite link generated on the spot (`lib/telegram.ts`) and emailed to the
-buyer; an indicator registered in `lib/deliverables/` gets its file attached
-and localized install steps swapped in — see "Automated delivery" above.
+Signals and file-deliverable bots/indicators skip step 4 entirely and are
+fully automatic: a signals purchase (`kind: "signal"`, one-time — not a
+subscription) gets one or more one-time Telegram invite links generated on
+the spot (`lib/telegram.ts`, one per channel the specific pack grants) and
+emailed to the buyer; a product registered in `lib/deliverables/` gets its
+file(s) attached and localized install steps swapped in — see "Automated
+delivery" above.
 
 Once there's a license-key system that can validate an account number at
 runtime, swap the "email a human" steps for a real API call and attach the
@@ -239,7 +241,9 @@ See `.env.example`. Everything is optional — features activate as keys are add
 - **Exness verification:** `EXNESS_VERIFY_SECRET` (set a real one before launch),
   `EXNESS_AFFILIATES_LOGIN`/`EXNESS_AFFILIATES_PASSWORD` for live partner-API
   checks (fallback: a manually obtained `EXNESS_API_KEY`)
-- **Telegram signals access:** `TELEGRAM_BOT_TOKEN`, `TELEGRAM_SIGNALS_CHANNEL_ID`
+- **Telegram signals access:** `TELEGRAM_BOT_TOKEN`, plus one id per channel a
+  signal pack can grant — `TELEGRAM_CHANNEL_XAUUSD_ID`,
+  `TELEGRAM_CHANNEL_BTCUSD_ID`, `TELEGRAM_CHANNEL_EURUSD_ID`
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,
   `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`
 

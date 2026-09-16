@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 export type Localized = Record<Locale, string>;
 export type LocalizedList = Record<Locale, string[]>;
 
-export type ProductKind = "bot" | "indicator";
+export type ProductKind = "bot" | "indicator" | "signal";
 
 export interface Product {
   slug: string;
@@ -35,16 +35,12 @@ export interface Product {
    * components too, and the deliverable content must stay server-only.
    */
   hasAutoDelivery?: boolean;
-}
-
-export interface SignalPlan {
-  slug: string;
-  name: Localized;
-  priceUSD: number;
-  interval: "month";
-  highlight?: boolean;
-  tagline: Localized;
-  features: LocalizedList;
+  /**
+   * True when there's no standalone standard price at all — priceUSD equals
+   * exnessPriceUSD and checkout requires a verified Exness affiliation
+   * regardless of priceChoice. Used for Exness-only promo pricing.
+   */
+  requiresExnessVerification?: boolean;
 }
 
 export const bots: Product[] = [
@@ -729,107 +725,220 @@ export const indicators: Product[] = [
   },
 ];
 
-export const signalPlans: SignalPlan[] = [
+export const signals: Product[] = [
   {
-    slug: "core",
-    name: { es: "Core", en: "Core", ar: "Core" },
-    priceUSD: 39,
-    interval: "month",
+    slug: "signal-xauusd",
+    kind: "signal",
+    name: "Señal XAUUSD",
+    asset: "XAUUSD",
+    assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
+    timeframe: "Intradía",
+    platform: "Telegram",
+    strategyTag: {
+      es: "Señales de oro",
+      en: "Gold signals",
+      ar: "إشارات الذهب",
+    },
     tagline: {
-      es: "Las señales esenciales y el canal de la comunidad.",
-      en: "The essential signals and the community channel.",
-      ar: "الإشارات الأساسية وقناة المجتمع.",
+      es: "Señales de trading en oro (XAU/USD), directo a tu Telegram.",
+      en: "Gold (XAU/USD) trading signals, straight to your Telegram.",
+      ar: "إشارات تداول على الذهب (XAU/USD)، مباشرة إلى تيليجرام.",
+    },
+    description: {
+      es: "Acceso de pago único al canal de Telegram donde publicamos nuestras señales de oro (XAU/USD). Cada señal trae el precio de entrada, el stop-loss, el take-profit y el razonamiento detrás — vos decidís cuándo y cómo ejecutarla. El acceso queda activo sin vencimiento, no es una suscripción.",
+      en: "One-time access to the Telegram channel where we post our gold (XAU/USD) trading signals. Every call comes with the entry price, stop-loss, take-profit and the reasoning behind it — you decide when and how to execute it. Access stays open with no expiry; this isn't a subscription.",
+      ar: "وصول بدفعة واحدة إلى قناة تيليجرام التي ننشر فيها إشارات تداول الذهب (XAU/USD). كل صفقة تأتي مع سعر الدخول ووقف الخسارة وجني الأرباح والسبب وراءها — القرار بالتنفيذ ووقته يعود لك. يبقى الوصول مفتوحاً دون انتهاء؛ هذا ليس اشتراكاً.",
     },
     features: {
       es: [
-        "Señales intradía con entrada, SL y TP",
-        "Sesgo diario del mercado",
-        "Canal privado de Telegram",
-        "Actualizaciones de gestión de la operación",
+        "Señales con entrada, stop-loss y take-profit",
+        "Contexto y razonamiento detrás de cada operación",
+        "Actualizaciones de gestión (break-even, parciales, cierre)",
+        "Acceso de por vida — no es una suscripción mensual",
       ],
       en: [
-        "Intraday signals with entry, SL and TP",
-        "Daily market bias",
-        "Private Telegram channel",
-        "Trade-management updates",
+        "Signals with entry, stop-loss and take-profit",
+        "Context and reasoning behind every trade",
+        "Management updates (break-even, partials, close)",
+        "Lifetime access — not a monthly subscription",
       ],
       ar: [
-        "إشارات يومية مع الدخول ووقف الخسارة وجني الأرباح",
-        "اتجاه السوق اليومي",
-        "قناة تيليجرام خاصة",
-        "تحديثات إدارة الصفقة",
+        "إشارات مع سعر دخول ووقف خسارة وجني أرباح",
+        "سياق وسبب كل صفقة",
+        "تحديثات إدارة الصفقة (نقطة تعادل، جني جزئي، إغلاق)",
+        "وصول مدى الحياة — ليس اشتراكاً شهرياً",
       ],
     },
+    howItWorks: {
+      es: [
+        "Pagás una sola vez y recibís por mail el link de invitación al canal de Telegram.",
+        "Te unís al canal — el acceso queda activo, sin vencimiento.",
+        "Publicamos ahí cada señal de XAUUSD, con entrada, SL y TP.",
+        "Vos decidís si la operás y con qué tamaño según tu propia gestión de riesgo.",
+      ],
+      en: [
+        "Pay once and get the Telegram invite link by email.",
+        "Join the channel — access stays active, no expiry.",
+        "We post every XAUUSD signal there, with entry, SL and TP.",
+        "You decide whether to trade it and at what size, using your own risk management.",
+      ],
+      ar: [
+        "ادفع مرة واحدة واستلم رابط دعوة تيليجرام عبر البريد.",
+        "انضم إلى القناة — يبقى الوصول نشطاً دون انتهاء.",
+        "ننشر هناك كل إشارة على XAUUSD، مع الدخول ووقف الخسارة وجني الأرباح.",
+        "أنت من يقرر التنفيذ وحجم الصفقة وفق إدارة مخاطرك الخاصة.",
+      ],
+    },
+    priceUSD: 150,
+    exnessPriceUSD: 99,
   },
   {
-    slug: "pro",
-    name: { es: "Pro", en: "Pro", ar: "Pro" },
-    priceUSD: 79,
-    interval: "month",
-    highlight: true,
+    slug: "signal-btcusd",
+    kind: "signal",
+    name: "Señal BTCUSD",
+    asset: "BTCUSD",
+    assetLabel: {
+      es: "Bitcoin (BTC/USD)",
+      en: "Bitcoin (BTC/USD)",
+      ar: "بيتكوين (BTC/USD)",
+    },
+    timeframe: "Intradía",
+    platform: "Telegram",
+    strategyTag: {
+      es: "Señales de Bitcoin",
+      en: "Bitcoin signals",
+      ar: "إشارات بيتكوين",
+    },
     tagline: {
-      es: "Todo lo de Core más swing trading y soporte prioritario.",
-      en: "Everything in Core plus swing trades and priority support.",
-      ar: "كل ما في Core إضافةً إلى صفقات السوينج والدعم ذي الأولوية.",
+      es: "Señales de trading en Bitcoin (BTC/USD), directo a tu Telegram.",
+      en: "Bitcoin (BTC/USD) trading signals, straight to your Telegram.",
+      ar: "إشارات تداول على بيتكوين (BTC/USD)، مباشرة إلى تيليجرام.",
+    },
+    description: {
+      es: "Acceso de pago único al canal de Telegram donde publicamos nuestras señales de Bitcoin (BTC/USD). Cada señal trae el precio de entrada, el stop-loss, el take-profit y el razonamiento detrás — vos decidís cuándo y cómo ejecutarla. El acceso queda activo sin vencimiento, no es una suscripción.",
+      en: "One-time access to the Telegram channel where we post our Bitcoin (BTC/USD) trading signals. Every call comes with the entry price, stop-loss, take-profit and the reasoning behind it — you decide when and how to execute it. Access stays open with no expiry; this isn't a subscription.",
+      ar: "وصول بدفعة واحدة إلى قناة تيليجرام التي ننشر فيها إشارات تداول بيتكوين (BTC/USD). كل صفقة تأتي مع سعر الدخول ووقف الخسارة وجني الأرباح والسبب وراءها — القرار بالتنفيذ ووقته يعود لك. يبقى الوصول مفتوحاً دون انتهاء؛ هذا ليس اشتراكاً.",
     },
     features: {
       es: [
-        "Todo lo incluido en Core",
-        "Setups de swing (varios días)",
-        "Directo semanal de análisis",
-        "Soporte prioritario en el canal",
-        "Registro de operaciones publicado",
+        "Señales con entrada, stop-loss y take-profit",
+        "Contexto y razonamiento detrás de cada operación",
+        "Actualizaciones de gestión (break-even, parciales, cierre)",
+        "Acceso de por vida — no es una suscripción mensual",
       ],
       en: [
-        "Everything in Core",
-        "Swing setups (multi-day)",
-        "Weekly analysis livestream",
-        "Priority support in the channel",
-        "Published trade log",
+        "Signals with entry, stop-loss and take-profit",
+        "Context and reasoning behind every trade",
+        "Management updates (break-even, partials, close)",
+        "Lifetime access — not a monthly subscription",
       ],
       ar: [
-        "كل ما في Core",
-        "صفقات سوينج (عدة أيام)",
-        "بث تحليل أسبوعي مباشر",
-        "دعم ذو أولوية في القناة",
-        "سجل صفقات منشور",
+        "إشارات مع سعر دخول ووقف خسارة وجني أرباح",
+        "سياق وسبب كل صفقة",
+        "تحديثات إدارة الصفقة (نقطة تعادل، جني جزئي، إغلاق)",
+        "وصول مدى الحياة — ليس اشتراكاً شهرياً",
       ],
     },
+    howItWorks: {
+      es: [
+        "Pagás una sola vez y recibís por mail el link de invitación al canal de Telegram.",
+        "Te unís al canal — el acceso queda activo, sin vencimiento.",
+        "Publicamos ahí cada señal de BTCUSD, con entrada, SL y TP.",
+        "Vos decidís si la operás y con qué tamaño según tu propia gestión de riesgo.",
+      ],
+      en: [
+        "Pay once and get the Telegram invite link by email.",
+        "Join the channel — access stays active, no expiry.",
+        "We post every BTCUSD signal there, with entry, SL and TP.",
+        "You decide whether to trade it and at what size, using your own risk management.",
+      ],
+      ar: [
+        "ادفع مرة واحدة واستلم رابط دعوة تيليجرام عبر البريد.",
+        "انضم إلى القناة — يبقى الوصول نشطاً دون انتهاء.",
+        "ننشر هناك كل إشارة على BTCUSD، مع الدخول ووقف الخسارة وجني الأرباح.",
+        "أنت من يقرر التنفيذ وحجم الصفقة وفق إدارة مخاطرك الخاصة.",
+      ],
+    },
+    priceUSD: 150,
+    exnessPriceUSD: 99,
   },
   {
-    slug: "vip",
-    name: { es: "VIP", en: "VIP", ar: "VIP" },
-    priceUSD: 199,
-    interval: "month",
+    slug: "signal-multi",
+    kind: "signal",
+    name: "Señal Multi-Activo",
+    asset: "MULTI",
+    assetLabel: {
+      es: "Oro + Bitcoin + EUR/USD",
+      en: "Gold + Bitcoin + EUR/USD",
+      ar: "الذهب + بيتكوين + EUR/USD",
+    },
+    timeframe: "Intradía",
+    platform: "Telegram",
+    strategyTag: {
+      es: "Señales multi-activo",
+      en: "Multi-asset signals",
+      ar: "إشارات متعددة الأصول",
+    },
     tagline: {
-      es: "Acompañamiento cercano y revisión mensual de tu operativa.",
-      en: "Close guidance and a monthly review of your trading.",
-      ar: "متابعة عن قرب ومراجعة شهرية لتداولك.",
+      es: "Las tres señales juntas — Oro, Bitcoin y EUR/USD — a precio promocional.",
+      en: "All three signals together — Gold, Bitcoin and EUR/USD — at a promo price.",
+      ar: "الإشارات الثلاث معاً — الذهب وبيتكوين وEUR/USD — بسعر ترويجي.",
+    },
+    description: {
+      es: "Acceso de pago único a los tres canales de señales juntos: Oro (XAU/USD), Bitcoin (BTC/USD) y EUR/USD, a un precio promocional. Cada señal trae entrada, stop-loss, take-profit y el razonamiento detrás. Este precio promocional está disponible únicamente para quienes abren su cuenta de Exness con nuestro enlace de referido — no tiene versión sin link.",
+      en: "One-time access to all three signal channels together: Gold (XAU/USD), Bitcoin (BTC/USD) and EUR/USD, at a promo price. Every call comes with entry, stop-loss, take-profit and the reasoning behind it. This promo price is only available to buyers who open their Exness account through our referral link — there's no non-referral version.",
+      ar: "وصول بدفعة واحدة إلى قنوات الإشارات الثلاث معاً: الذهب (XAU/USD) وبيتكوين (BTC/USD) وEUR/USD، بسعر ترويجي. كل صفقة تأتي مع الدخول ووقف الخسارة وجني الأرباح والسبب وراءها. هذا السعر الترويجي متاح فقط لمن يفتح حساب Exness عبر رابط الإحالة الخاص بنا — لا توجد نسخة بدون الرابط.",
     },
     features: {
       es: [
-        "Todo lo incluido en Pro",
-        "Llamada mensual 1:1 de revisión (Google Meet)",
-        "Ajuste de gestión de riesgo a tu cuenta",
-        "Acceso anticipado a nuevos bots e indicadores",
+        "Acceso a los 3 canales: Oro, Bitcoin y EUR/USD",
+        "Señales con entrada, stop-loss y take-profit en cada activo",
+        "Contexto y razonamiento detrás de cada operación",
+        "Acceso de por vida — no es una suscripción mensual",
+        "Precio promocional solo disponible con referido de Exness",
       ],
       en: [
-        "Everything in Pro",
-        "Monthly 1:1 review call (Google Meet)",
-        "Risk management tuned to your account",
-        "Early access to new bots and indicators",
+        "Access to all 3 channels: Gold, Bitcoin and EUR/USD",
+        "Signals with entry, stop-loss and take-profit on every asset",
+        "Context and reasoning behind every trade",
+        "Lifetime access — not a monthly subscription",
+        "Promo price only available with the Exness referral",
       ],
       ar: [
-        "كل ما في Pro",
-        "مكالمة مراجعة شهرية فردية (Google Meet)",
-        "ضبط إدارة المخاطر بما يناسب حسابك",
-        "وصول مبكر إلى الروبوتات والمؤشرات الجديدة",
+        "وصول إلى القنوات الثلاث: الذهب وبيتكوين وEUR/USD",
+        "إشارات مع دخول ووقف خسارة وجني أرباح على كل أداة",
+        "سياق وسبب كل صفقة",
+        "وصول مدى الحياة — ليس اشتراكاً شهرياً",
+        "السعر الترويجي متاح فقط مع إحالة Exness",
       ],
     },
+    howItWorks: {
+      es: [
+        "Abrí tu cuenta de Exness con nuestro enlace (es requisito para este precio).",
+        "Verificamos tu afiliación y desbloqueamos el precio promocional.",
+        "Pagás una sola vez y recibís por mail los 3 links de invitación a Telegram.",
+        "Te unís a los 3 canales — el acceso queda activo, sin vencimiento.",
+      ],
+      en: [
+        "Open your Exness account through our link (required for this price).",
+        "We verify your affiliation and unlock the promo price.",
+        "Pay once and get all 3 Telegram invite links by email.",
+        "Join all 3 channels — access stays active, no expiry.",
+      ],
+      ar: [
+        "افتح حساب Exness عبر رابطنا (مطلوب لهذا السعر).",
+        "نتحقق من انتسابك ونفتح السعر الترويجي.",
+        "ادفع مرة واحدة واستلم روابط الدعوة الثلاث لتيليجرام عبر البريد.",
+        "انضم إلى القنوات الثلاث — يبقى الوصول نشطاً دون انتهاء.",
+      ],
+    },
+    priceUSD: 200,
+    exnessPriceUSD: 200,
+    requiresExnessVerification: true,
   },
 ];
 
-export const allProducts: Product[] = [...bots, ...indicators];
+export const allProducts: Product[] = [...bots, ...indicators, ...signals];
 
 export function getProduct(slug: string): Product | undefined {
   return allProducts.find((p) => p.slug === slug);
@@ -837,8 +946,4 @@ export function getProduct(slug: string): Product | undefined {
 
 export function getProductsByKind(kind: ProductKind): Product[] {
   return allProducts.filter((p) => p.kind === kind);
-}
-
-export function getSignalPlan(slug: string): SignalPlan | undefined {
-  return signalPlans.find((p) => p.slug === slug);
 }

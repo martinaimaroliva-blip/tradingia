@@ -15,7 +15,7 @@ export const runtime = "nodejs";
 
 const schema = z.object({
   slug: z.string().trim().min(1).max(60),
-  kind: z.enum(["bot", "indicator"]),
+  kind: z.enum(["bot", "indicator", "signal"]),
   name: z.string().trim().min(1).max(120),
   contactEmail: z.string().trim().email().max(190),
   exnessEmail: z.string().trim().email().max(190),

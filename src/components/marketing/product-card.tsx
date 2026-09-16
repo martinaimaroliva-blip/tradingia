@@ -16,9 +16,19 @@ export function ProductCard({
   locale: Locale;
   t: Dictionary;
 }) {
-  const base = product.kind === "bot" ? "/bots" : "/indicators";
+  const base =
+    product.kind === "bot"
+      ? "/bots"
+      : product.kind === "indicator"
+        ? "/indicators"
+        : "/signals";
   const href = `/${locale}${base}/${product.slug}`;
-  const detail = product.kind === "bot" ? t.bots.detail : t.indicators.detail;
+  const detail =
+    product.kind === "bot"
+      ? t.bots.detail
+      : product.kind === "indicator"
+        ? t.indicators.detail
+        : t.signals.detail;
   const discounted = product.exnessPriceUSD < product.priceUSD;
 
   return (
@@ -77,12 +87,15 @@ export function ProductCard({
         {discounted && (
           <p className="mt-1 text-xs text-accent">{detail.exnessPriceLabel}</p>
         )}
+        {product.requiresExnessVerification && (
+          <p className="mt-1 text-xs text-accent">{t.common.exnessOnlyBadge}</p>
+        )}
       </div>
 
       <div className="mt-4 flex items-center gap-2">
         {product.requiresConsultation ? (
           <Link
-            href={`/${locale}/contact?topic=${product.kind === "bot" ? "bots" : "indicators"}`}
+            href={`/${locale}/contact?topic=${base.slice(1)}`}
             className="inline-flex h-9 flex-1 items-center justify-center rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             {t.bots.detail.customCta}
@@ -94,6 +107,7 @@ export function ProductCard({
             label={detail.buyCta}
             priceUSD={product.priceUSD}
             exnessPriceUSD={product.exnessPriceUSD}
+            requiresExnessVerification={product.requiresExnessVerification}
             size="sm"
             block
           />

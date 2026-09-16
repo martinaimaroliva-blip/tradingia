@@ -49,11 +49,12 @@ export function verifyExnessToken(
 export function buildExnessResumeLink(
   locale: Locale,
   slug: string,
-  kind: "bot" | "indicator",
+  kind: "bot" | "indicator" | "signal",
   email: string,
 ): string {
   const base = siteUrl();
-  const path = kind === "bot" ? "bots" : "indicators";
+  const path =
+    kind === "bot" ? "bots" : kind === "indicator" ? "indicators" : "signals";
   const token = signExnessToken(slug, email);
   const params = new URLSearchParams({ exnessEmail: email, exnessToken: token });
   return `${base}/${locale}/${path}/${slug}?${params.toString()}`;

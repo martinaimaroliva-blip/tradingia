@@ -3,17 +3,14 @@ import { optionalEnv, siteUrl } from "@/lib/env";
 import { sendMail } from "@/lib/email";
 import { upsertLead } from "@/lib/systemeio";
 import { getDeliverable } from "@/lib/deliverables";
-import { createSignalsInviteLink } from "@/lib/telegram";
+import { createSignalInviteLinks } from "@/lib/telegram";
 import type { BuyerInfo } from "@/lib/orders";
 import type { Locale } from "@/i18n/config";
 
-const SIGNALS_DELIVERY_LINE: Record<Locale, (link: string) => string> = {
-  es: (link) =>
-    `<p>Acá tenés tu acceso al canal VIP de señales (link de un solo uso): <a href="${link}">${link}</a></p>`,
-  en: (link) =>
-    `<p>Here's your access to the VIP signals channel (one-time link): <a href="${link}">${link}</a></p>`,
-  ar: (link) =>
-    `<p>هذا رابط دخولك إلى قناة الإشارات VIP (رابط لمرة واحدة): <a href="${link}">${link}</a></p>`,
+const SIGNALS_DELIVERY_INTRO: Record<Locale, string> = {
+  es: "Acá tenés tu acceso (link de un solo uso por canal):",
+  en: "Here's your access (one-time link per channel):",
+  ar: "هذا وصولك (رابط لمرة واحدة لكل قناة):",
 };
 
 export interface FulfilmentInput {
@@ -132,14 +129,18 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
       : "";
 
-    const signalsInviteLink =
-      input.kind === "signal" ? await createSignalsInviteLink() : null;
+    const signalsInviteLinks =
+      input.kind === "signal" && input.slug
+        ? await createSignalInviteLinks(input.slug)
+        : [];
 
     let deliveryLine: string;
     let deliveryLineText: string;
-    if (signalsInviteLink) {
-      deliveryLine = SIGNALS_DELIVERY_LINE[locale](signalsInviteLink);
-      deliveryLineText = `Tu acceso al canal VIP (link de un solo uso): ${signalsInviteLink}`;
+    if (signalsInviteLinks.length > 0) {
+      deliveryLine = `<p>${SIGNALS_DELIVERY_INTRO[locale]}</p><ul>${signalsInviteLinks
+        .map((link) => `<li><a href="${link}">${link}</a></li>`)
+        .join("")}</ul>`;
+      deliveryLineText = `${SIGNALS_DELIVERY_INTRO[locale]}\n${signalsInviteLinks.join("\n")}`;
     } else if (deliverable) {
       const fileNames = deliverable.files.map((f) => f.fileName).join(", ");
       deliveryLine = `<p>Adjunto encontrás el archivo (<code>${escapeHtml(

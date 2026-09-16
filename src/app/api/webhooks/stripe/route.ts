@@ -55,20 +55,6 @@ export async function POST(request: Request) {
         });
         break;
       }
-      case "invoice.paid": {
-        // Recurring signals renewal — keep Telegram access active.
-        const invoice = event.data.object as Stripe.Invoice;
-        const email = invoice.customer_email ?? undefined;
-        await fulfilPurchase({
-          provider: "stripe",
-          reference: invoice.id ?? "invoice",
-          kind: "signal",
-          amount: invoice.amount_paid ? invoice.amount_paid / 100 : undefined,
-          currency: invoice.currency ?? undefined,
-          buyer: email ? { name: "", email } : null,
-        });
-        break;
-      }
       default:
         break;
     }

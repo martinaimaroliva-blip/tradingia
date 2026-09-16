@@ -4,7 +4,7 @@ export const en = {
     tagline: "Trading bots, indicators & signals",
     defaultTitle: "SmartradeBot — Trading bots, indicators & signals",
     defaultDescription:
-      "Automated trading bots, premium indicators and a monthly signals membership. Buy in minutes, get instant access, no human intervention required.",
+      "Automated trading bots, premium indicators and one-time signals access. Buy in minutes, get instant access, no human intervention required.",
   },
   nav: {
     bots: "Bots",
@@ -29,6 +29,9 @@ export const en = {
     comingSoon: "Coming soon",
     customBadge: "Custom",
     bundleBadge: "Includes free indicator",
+    exnessOnlyBadge: "Exness referral only",
+    exnessOnlyHint:
+      "This promo price requires a verified Exness account opened through our link — there's no price without it.",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",
@@ -79,8 +82,8 @@ export const en = {
       signals: {
         title: "Signals",
         description:
-          "A monthly subscription to our private Telegram channel. Actionable calls with entry, stop-loss and take-profit, plus market context.",
-        cta: "See plans",
+          "One-time payment, direct access to the Telegram channel for the asset you pick. Actionable calls with entry, stop-loss and take-profit, plus market context.",
+        cta: "See signals",
       },
     },
     how: {
@@ -165,7 +168,7 @@ export const en = {
       items: [
         {
           q: "Do I need to pay a subscription for the bots?",
-          a: "No. Bots and indicators are one-time purchases. Only the signals membership is a monthly subscription.",
+          a: "No. Everything on the site is a one-time purchase — bots, indicators and signals.",
         },
         {
           q: "How do I receive the bot after paying?",
@@ -177,7 +180,7 @@ export const en = {
         },
         {
           q: "How are the signals delivered?",
-          a: "Through a private Telegram channel. After you subscribe you receive an invite; access is removed automatically if the subscription lapses.",
+          a: "Through a private Telegram channel. After you buy, you get the invite link by email — access stays active with no expiry, it's not a subscription.",
         },
         {
           q: "Can I pay with cryptocurrency?",
@@ -258,42 +261,32 @@ export const en = {
   },
   signals: {
     hero: {
-      title: "Signals membership",
+      title: "Signals",
       subtitle:
-        "A monthly subscription to our private signals channel. Every call includes entry, stop-loss, take-profit and the reasoning behind it.",
+        "One-time payment, direct access to the Telegram channel for the asset you pick. Every call includes entry, stop-loss, take-profit and the reasoning behind it.",
     },
-    includes: {
-      title: "What's included",
-      items: [
-        "Actionable trade calls with entry, SL and TP",
-        "Market context and daily bias notes",
-        "Trade management updates (move to break-even, partials, exits)",
-        "Private Telegram channel with the community",
-        "Cancel anytime — access ends when the period does",
-      ],
+    listNote:
+      "One-time purchase · Access to the chosen asset's Telegram channel, no expiry.",
+    empty: "New signals are being added. Check back soon.",
+    detail: {
+      overview: "Overview",
+      features: "What you get",
+      howItWorks: "How it works",
+      pricing: "Pricing",
+      manual: "Access",
+      specs: "Specifications",
+      basePriceLabel: "Standard price",
+      exnessPriceLabel: "With Exness referral",
+      exnessHint:
+        "Open an Exness account through our link to unlock this price.",
+      save: "Save {amount}",
+      buyCta: "Buy this signal",
+      contactCta: "Ask a question",
+      scheduleCta: "Schedule a call",
+      deliveryNote:
+        "After payment you receive the Telegram channel access link by email automatically.",
+      relatedTitle: "Other signals",
     },
-    telegram: {
-      title: "Delivered on a private Telegram channel",
-      description:
-        "After you subscribe you get an invite link to the closed channel. If a renewal fails, access is removed automatically until you resubscribe.",
-    },
-    plansTitle: "Choose your plan",
-    plansNote: "Prices in USD. Billed monthly. Cancel anytime.",
-    faq: [
-      {
-        q: "How many signals per week?",
-        a: "It depends on market conditions — quality over quantity. Typically several actionable setups per week across the covered instruments.",
-      },
-      {
-        q: "What markets do you cover?",
-        a: "Mainly gold (XAUUSD) and major FX pairs, with occasional index and crypto calls.",
-      },
-      {
-        q: "What happens if I cancel?",
-        a: "You keep access until the end of the paid period, then you are removed from the channel automatically.",
-      },
-    ],
-    cta: "Subscribe now",
   },
   exnessPage: {
     hero: {
@@ -565,7 +558,7 @@ export const en = {
   },
   footer: {
     tagline:
-      "Automated trading bots, professional indicators and a monthly signals membership.",
+      "Automated trading bots, professional indicators and one-time signals access.",
     productsTitle: "Products",
     companyTitle: "Company",
     legalTitle: "Legal",
