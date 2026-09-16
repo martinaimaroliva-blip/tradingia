@@ -334,7 +334,7 @@ export const en = {
     ],
     cta: "Open my Exness account",
     disclaimer:
-      "SmartradeBot is not affiliated with Exness beyond an introducing/referral relationship. We may earn a commission when you open an account through our link, at no additional cost to you. Availability of account types, VPS and swap-free status depends on your region and Exness's own terms. Trading leveraged products carries a high risk of losing money.",
+      "SmartradeBot is not affiliated with Exness beyond an introducing/referral relationship. Availability of account types, VPS and swap-free status depends on your region and Exness's own terms. Trading leveraged products carries a high risk of losing money.",
   },
   referrals: {
     hero: {

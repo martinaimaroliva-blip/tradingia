@@ -334,7 +334,7 @@ export const es: Dictionary = {
     ],
     cta: "Abrir mi cuenta de Exness",
     disclaimer:
-      "SmartradeBot no está afiliada a Exness más allá de una relación de introducción/referido. Podemos ganar una comisión cuando abres una cuenta a través de nuestro enlace, sin costo adicional para ti. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
+      "SmartradeBot no está afiliada a Exness más allá de una relación de introducción/referido. La disponibilidad de tipos de cuenta, VPS y estado sin swap depende de tu región y de los propios términos de Exness. Operar productos apalancados conlleva un alto riesgo de perder dinero.",
   },
   referrals: {
     hero: {
