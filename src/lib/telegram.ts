@@ -1,10 +1,11 @@
 import "server-only";
 import { optionalEnv } from "@/lib/env";
 
-/** Which env var(s) hold the chat id(s) a signal product grants access to.
- * The multi-asset pack reuses the same per-asset channels instead of a
- * separate combined one, plus its own EUR/USD channel. */
-const SIGNAL_CHANNEL_ENV_VARS: Record<string, string[]> = {
+/** Which env var(s) hold the chat id(s) a product grants access to, keyed
+ * by slug — works for any product kind, not just signals. The multi-asset
+ * signal pack reuses the per-asset channels instead of a separate combined
+ * one; ZIZA grants its own bot-owners follow-up group. */
+const PRODUCT_CHANNEL_ENV_VARS: Record<string, string[]> = {
   "signal-xauusd": ["TELEGRAM_CHANNEL_XAUUSD_ID"],
   "signal-btcusd": ["TELEGRAM_CHANNEL_BTCUSD_ID"],
   "signal-multi": [
@@ -12,6 +13,7 @@ const SIGNAL_CHANNEL_ENV_VARS: Record<string, string[]> = {
     "TELEGRAM_CHANNEL_BTCUSD_ID",
     "TELEGRAM_CHANNEL_EURUSD_ID",
   ],
+  ziza: ["TELEGRAM_CHANNEL_ZIZA_ID"],
 };
 
 /**
@@ -55,13 +57,14 @@ async function createChatInviteLink(chatId: string): Promise<string | null> {
 }
 
 /**
- * Creates one single-use invite link per Telegram channel a signal purchase
- * (kind: "signal") grants access to — one link for a single-asset pack,
- * three for the multi-asset pack. Skips (and logs) any channel whose env
- * var isn't set yet, rather than failing the whole purchase.
+ * Creates one single-use invite link per Telegram channel a purchased
+ * product (by slug) grants access to. Returns [] for a slug with no
+ * mapping — that's the normal case for most products, not an error. Skips
+ * (and logs) any individual channel whose env var isn't set yet, rather
+ * than failing the whole purchase.
  */
-export async function createSignalInviteLinks(slug: string): Promise<string[]> {
-  const envVars = SIGNAL_CHANNEL_ENV_VARS[slug];
+export async function createChannelInviteLinks(slug: string): Promise<string[]> {
+  const envVars = PRODUCT_CHANNEL_ENV_VARS[slug];
   if (!envVars) return [];
 
   const links: string[] = [];

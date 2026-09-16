@@ -41,6 +41,13 @@ export interface Product {
    * regardless of priceChoice. Used for Exness-only promo pricing.
    */
   requiresExnessVerification?: boolean;
+  /**
+   * Extra note shown in the post-payment delivery email, on top of the
+   * normal delivery content — e.g. "book your install call with an Expert"
+   * for a bot that needs hands-on setup. The booking link itself
+   * (NEXT_PUBLIC_MEET_URL) is appended automatically; don't include it here.
+   */
+  postPurchaseNote?: Localized;
 }
 
 export const bots: Product[] = [
@@ -124,72 +131,77 @@ export const bots: Product[] = [
     name: "ZIZA",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
-    timeframe: "M5",
-    platform: "MT4 / MT5",
+    timeframe: "Multi",
+    platform: "MT5",
     strategyTag: {
-      es: "Scalping de ruptura",
-      en: "Breakout scalping",
-      ar: "سكالبينج الاختراق",
+      es: "Método Wyckoff adaptativo",
+      en: "Adaptive Wyckoff method",
+      ar: "منهج وايكوف التكيّفي",
     },
     tagline: {
-      es: "Scalping intradía sobre oro en momentos de alta volatilidad.",
-      en: "Intraday gold scalping during high-volatility windows.",
-      ar: "سكالبينج ذهب يومي خلال نوافذ التقلب العالي.",
+      es: "IA de régimen de mercado + protección institucional para operar oro 100% automático.",
+      en: "Market-regime AI plus institutional-grade protection to trade gold fully automated.",
+      ar: "ذكاء اصطناعي لتحديد نظام السوق مع حماية بمعايير مؤسسية لتداول الذهب بشكل آلي بالكامل.",
     },
     description: {
-      es: "ZIZA opera exclusivamente XAU/USD en M5, buscando rupturas de rango durante las sesiones de Londres y Nueva York. Filtra las entradas con volatilidad (ATR) y un rango de sesión mínimo, y protege cada operación con stop fijo y gestión a break-even.",
-      en: "ZIZA trades XAU/USD only, on M5, hunting range breakouts during the London and New York sessions. It filters entries with volatility (ATR) and a minimum session range, and protects every trade with a fixed stop and break-even management.",
-      ar: "يتداول ZIZA زوج XAU/USD فقط على فريم M5، باحثاً عن اختراقات النطاق خلال جلستَي لندن ونيويورك. يُرشّح الدخول عبر التقلب (ATR) وحد أدنى لنطاق الجلسة، ويحمي كل صفقة بوقف ثابت وإدارة نقطة التعادل.",
+      es: "ZIZA es un Expert Advisor 100% automatizado, desarrollado específicamente para operar el activo más líquido y volátil del mercado: el Oro (XAU/USD), sobre la plataforma institucional MetaTrader 5 (MT5). No es un bot que opera a ciegas: integra un motor basado en el Método Wyckoff que escanea el mercado en tiempo real y detecta en qué régimen se encuentra el oro — tendencia alcista, tendencia bajista o rango lateral — y adapta distancias, lotaje y objetivos a ese escenario exacto. Incorpora varias capas de protección de grado institucional: un filtro de sobre-extensión que bloquea entradas cuando el precio se aleja irracionalmente de su media, un sistema de gestión de drawdown que reduce el riesgo y libera margen con cierres parciales cuando las operaciones van en contra, un mecanismo de cobertura de emergencia que congela la cuenta ante movimientos extremos (tipo cisne negro), y un filtro de noticias/geopolítico que pausa la operativa antes de anuncios de alto impacto. En backtest sobre 9 meses de datos históricos, con un depósito inicial de $10.000, generó un beneficio neto de $4.672,74 (factor de beneficio 1,75, 78,87% de operaciones rentables sobre 8.934 operaciones). Resultados pasados no garantizan resultados futuros — el trading con apalancamiento conlleva un alto riesgo de pérdida de capital.",
+      en: "ZIZA is a fully automated Expert Advisor, built specifically to trade the market's most liquid and volatile asset — gold (XAU/USD) — on the institutional MetaTrader 5 (MT5) platform. It doesn't trade blindly: it runs an engine based on the Wyckoff Method that scans the market in real time and detects which regime gold is in — uptrend, downtrend, or range — adapting its distances, lot size and targets to that exact scenario. It ships with several layers of institutional-grade protection: an over-extension filter that blocks entries when price stretches irrationally away from its mean, a drawdown-management system that dials down risk and frees up margin with precise partial closes when trades go against it, an emergency hedge mechanism that locks the account during extreme moves (black-swan events), and a news/geopolitical filter that pauses trading ahead of high-impact announcements. In a 9-month historical backtest, starting from a $10,000 deposit, it produced a net profit of $4,672.74 (profit factor 1.75, 78.87% winning trades across 8,934 trades). Past results don't guarantee future ones — leveraged trading carries a high risk of losing capital.",
+      ar: "ZIZA هو مستشار خبير (Expert Advisor) آلي بالكامل، مصمم خصيصاً لتداول أكثر الأصول سيولةً وتقلباً في السوق — الذهب (XAU/USD) — على منصة MetaTrader 5 (MT5) المؤسسية. إنه لا يتداول عشوائياً: يشغّل محركاً قائماً على منهج وايكوف يفحص السوق في الوقت الفعلي ويحدد النظام الذي يمر به الذهب — اتجاه صاعد، اتجاه هابط، أو نطاق عرضي — ويكيّف مسافاته وحجم صفقاته وأهدافه مع هذا السيناريو بدقة. يأتي بعدة طبقات من الحماية بمعايير مؤسسية: مرشّح تمدد مفرط يمنع الدخول عندما يبتعد السعر بشكل غير منطقي عن متوسطه، نظام لإدارة التراجع يخفّف المخاطرة ويحرّر الهامش بإغلاقات جزئية دقيقة عندما تسير الصفقات بعكس الاتجاه، آلية تحوّط طارئة تُجمّد الحساب عند تحركات استثنائية (أحداث البجعة السوداء)، وفلتر أخبار/جيوسياسي يوقف التداول قبل الإعلانات عالية التأثير. في اختبار رجعي على بيانات تاريخية لمدة 9 أشهر، وبإيداع ابتدائي 10,000 دولار، حقّق صافي ربح بلغ 4,672.74 دولاراً (عامل ربح 1.75، ونسبة 78.87% صفقات رابحة من إجمالي 8,934 صفقة). النتائج السابقة لا تضمن نتائج مستقبلية — يحمل التداول بالرافعة المالية مخاطر عالية لخسارة رأس المال.",
     },
     features: {
       es: [
-        "Par único: XAU/USD en M5",
-        "Sesiones configurables (Londres / Nueva York)",
-        "Filtro de volatilidad ATR y rango mínimo de sesión",
-        "Stop-loss fijo + paso automático a break-even",
-        "Límite de operaciones por día y por sesión",
-        "Preajustes conservador / estándar / agresivo",
+        "Detección automática de régimen: tendencia alcista, bajista o rango (Método Wyckoff)",
+        "Filtro de sobre-extensión: evita entradas cuando el precio se aleja irracionalmente de su media",
+        "Gestión de drawdown con cierres parciales para liberar margen",
+        "Cobertura de emergencia (Hedge Lock) ante movimientos extremos",
+        "Filtro de noticias y riesgo geopolítico de alto impacto",
+        "Backtest de 9 meses: factor de beneficio 1,75, 78,87% de operaciones rentables",
       ],
       en: [
-        "Single pair: XAU/USD on M5",
-        "Configurable sessions (London / New York)",
-        "ATR volatility filter and minimum session range",
-        "Fixed stop-loss + automatic move to break-even",
-        "Trades-per-day and per-session cap",
-        "Conservative / standard / aggressive presets",
+        "Automatic regime detection: uptrend, downtrend or range (Wyckoff Method)",
+        "Over-extension filter: avoids entries when price strays irrationally from its mean",
+        "Drawdown management with partial closes to free up margin",
+        "Emergency hedge lock for extreme market moves",
+        "High-impact news and geopolitical risk filter",
+        "9-month backtest: 1.75 profit factor, 78.87% winning trades",
       ],
       ar: [
-        "زوج واحد: XAU/USD على M5",
-        "جلسات قابلة للتهيئة (لندن / نيويورك)",
-        "مرشّح تقلب ATR وحد أدنى لنطاق الجلسة",
-        "وقف خسارة ثابت + نقل تلقائي لنقطة التعادل",
-        "حد لعدد الصفقات يومياً ولكل جلسة",
-        "إعدادات مسبقة: متحفظ / قياسي / عدواني",
+        "اكتشاف تلقائي لنظام السوق: اتجاه صاعد أو هابط أو نطاق (منهج وايكوف)",
+        "مرشّح التمدد المفرط: يتجنّب الدخول عندما يبتعد السعر بشكل غير منطقي عن متوسطه",
+        "إدارة التراجع بإغلاقات جزئية لتحرير الهامش",
+        "تحوّط طارئ (Hedge Lock) عند التحركات الاستثنائية",
+        "فلتر للأخبار والمخاطر الجيوسياسية عالية التأثير",
+        "اختبار رجعي لمدة 9 أشهر: عامل ربح 1.75، ونسبة 78.87% صفقات رابحة",
       ],
     },
     howItWorks: {
       es: [
-        "Al abrir la sesión, el bot mide el rango de apertura y calcula niveles de ruptura.",
-        "Si el precio rompe con volatilidad suficiente, entra a favor de la ruptura con stop fijo.",
-        "Al alcanzar el primer objetivo, mueve el stop a break-even y deja correr el resto.",
-        "Cierra todo antes del fin de sesión o al tocar el objetivo final.",
+        "El bot escanea el oro en tiempo real y determina el régimen actual: tendencia alcista, bajista o rango.",
+        "Adapta automáticamente distancias, lotaje y objetivos al régimen detectado — no usa una configuración fija.",
+        "Antes de cada entrada, filtra sobre-extensión de precio, noticias de alto impacto y riesgo geopolítico.",
+        "Si el mercado se mueve de forma extrema, activa la cobertura de emergencia para proteger el capital.",
       ],
       en: [
-        "At the session open the bot measures the opening range and computes breakout levels.",
-        "If price breaks with enough volatility, it enters in the breakout direction with a fixed stop.",
-        "On the first target it moves the stop to break-even and lets the rest run.",
-        "It closes everything before the session end or when the final target is hit.",
+        "The bot scans gold in real time and determines the current regime: uptrend, downtrend or range.",
+        "It automatically adapts distances, lot size and targets to the detected regime — no fixed configuration.",
+        "Before every entry, it filters out price over-extension, high-impact news and geopolitical risk.",
+        "If the market moves to extremes, it activates the emergency hedge to protect capital.",
       ],
       ar: [
-        "عند افتتاح الجلسة يقيس الروبوت نطاق الافتتاح ويحسب مستويات الاختراق.",
-        "إذا اخترق السعر بتقلب كافٍ، يدخل في اتجاه الاختراق بوقف ثابت.",
-        "عند الهدف الأول ينقل الوقف إلى نقطة التعادل ويترك الباقي يعمل.",
-        "يغلق كل شيء قبل نهاية الجلسة أو عند بلوغ الهدف النهائي.",
+        "يفحص البوت الذهب في الوقت الفعلي ويحدد النظام الحالي: اتجاه صاعد أو هابط أو نطاق.",
+        "يكيّف تلقائياً المسافات وحجم الصفقات والأهداف مع النظام المكتشف — دون إعدادات ثابتة.",
+        "قبل كل دخول، يُرشّح التمدد المفرط للسعر والأخبار عالية التأثير والمخاطر الجيوسياسية.",
+        "إذا تحرك السوق بشكل استثنائي، يُفعّل التحوّط الطارئ لحماية رأس المال.",
       ],
     },
     priceUSD: 4999,
     exnessPriceUSD: 2999,
     badge: "popular",
+    postPurchaseNote: {
+      es: "Después del pago, coordiná con nuestro Experto la instalación en tu cuenta — reservá tu turno con el link de abajo. También vas a quedar agregado al grupo de seguimiento de ZIZA (análisis diarios, ajustes de configuración y soporte). La licencia es de por vida para tu cuenta.",
+      en: "After payment, book a slot with our Expert to install it on your account — use the link below. You'll also be added to the ZIZA follow-up group (daily analysis, configuration tweaks and support). The license is lifetime, for your account.",
+      ar: "بعد الدفع، حدّد موعداً مع خبيرنا لتثبيته على حسابك — استخدم الرابط أدناه. ستتم إضافتك أيضاً إلى مجموعة متابعة ZIZA (تحليلات يومية، تعديلات على الإعدادات، ودعم). الترخيص مدى الحياة لحسابك.",
+    },
   },
   {
     slug: "paramedica",

@@ -194,6 +194,14 @@ emailed to the buyer; a product registered in `lib/deliverables/` gets its
 file(s) attached and localized install steps swapped in — see "Automated
 delivery" above.
 
+A product can also mix models: ZIZA still goes through the manual
+"compile it by hand" flow above (step 4, account number collection), but
+its `postPurchaseNote` (`lib/products.ts`) adds a note pointing the buyer to
+`NEXT_PUBLIC_MEET_URL` to book an install call with an Expert, and it grants
+a Telegram follow-up group (`TELEGRAM_CHANNEL_ZIZA_ID`) — both additive, on
+top of the normal bot delivery, not instead of it. The same booking link
+also powers the pre-sale "Schedule a call" button on every product page.
+
 Once there's a license-key system that can validate an account number at
 runtime, swap the "email a human" steps for a real API call and attach the
 actual file — the webhook plumbing already carries everything (product,
@@ -241,9 +249,10 @@ See `.env.example`. Everything is optional — features activate as keys are add
 - **Exness verification:** `EXNESS_VERIFY_SECRET` (set a real one before launch),
   `EXNESS_AFFILIATES_LOGIN`/`EXNESS_AFFILIATES_PASSWORD` for live partner-API
   checks (fallback: a manually obtained `EXNESS_API_KEY`)
-- **Telegram signals access:** `TELEGRAM_BOT_TOKEN`, plus one id per channel a
-  signal pack can grant — `TELEGRAM_CHANNEL_XAUUSD_ID`,
-  `TELEGRAM_CHANNEL_BTCUSD_ID`, `TELEGRAM_CHANNEL_EURUSD_ID`
+- **Telegram channel access:** `TELEGRAM_BOT_TOKEN`, plus one id per channel a
+  purchase can grant — `TELEGRAM_CHANNEL_XAUUSD_ID`,
+  `TELEGRAM_CHANNEL_BTCUSD_ID`, `TELEGRAM_CHANNEL_EURUSD_ID` (signal packs)
+  and `TELEGRAM_CHANNEL_ZIZA_ID` (ZIZA's owners follow-up group)
 - **Public links:** `NEXT_PUBLIC_EXNESS_REFERRAL_URL`, `NEXT_PUBLIC_MEET_URL`,
   `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`
 

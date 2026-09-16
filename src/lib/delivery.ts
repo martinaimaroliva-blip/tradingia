@@ -3,7 +3,8 @@ import { optionalEnv, siteUrl } from "@/lib/env";
 import { sendMail } from "@/lib/email";
 import { upsertLead } from "@/lib/systemeio";
 import { getDeliverable } from "@/lib/deliverables";
-import { createSignalInviteLinks } from "@/lib/telegram";
+import { createChannelInviteLinks } from "@/lib/telegram";
+import { getProduct } from "@/lib/products";
 import type { BuyerInfo } from "@/lib/orders";
 import type { Locale } from "@/i18n/config";
 
@@ -11,6 +12,16 @@ const SIGNALS_DELIVERY_INTRO: Record<Locale, string> = {
   es: "Acá tenés tu acceso (link de un solo uso por canal):",
   en: "Here's your access (one-time link per channel):",
   ar: "هذا وصولك (رابط لمرة واحدة لكل قناة):",
+};
+
+// Non-signal products (e.g. a bot) can also grant a Telegram channel — a
+// support/follow-up community rather than the product itself, so it's worded
+// differently and shown *alongside* the normal delivery content, not instead
+// of it.
+const FOLLOWUP_GROUP_INTRO: Record<Locale, string> = {
+  es: "Además, este es tu acceso al grupo de seguimiento (link de un solo uso):",
+  en: "You're also getting access to the follow-up group (one-time link):",
+  ar: "كما ستحصل على وصول إلى مجموعة المتابعة (رابط لمرة واحدة):",
 };
 
 export interface FulfilmentInput {
@@ -122,6 +133,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       input.buyer.email,
     )}`;
 
+    const product = input.slug ? getProduct(input.slug) : undefined;
     const deliverable = getDeliverable(input.slug);
     // Self-installed bots (deliverable set) run on the buyer's own account —
     // only bots we still compile by hand need their account number.
@@ -129,18 +141,26 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
       : "";
 
-    const signalsInviteLinks =
-      input.kind === "signal" && input.slug
-        ? await createSignalInviteLinks(input.slug)
-        : [];
+    const isSignal = input.kind === "signal";
+    const channelLinks = input.slug ? await createChannelInviteLinks(input.slug) : [];
 
+    // Signals have no file of their own — the channel link(s) ARE the whole
+    // delivery. Everything else keeps its normal delivery content, and a
+    // channel (if any, e.g. ZIZA's owners group) is shown as an addition.
     let deliveryLine: string;
     let deliveryLineText: string;
-    if (signalsInviteLinks.length > 0) {
-      deliveryLine = `<p>${SIGNALS_DELIVERY_INTRO[locale]}</p><ul>${signalsInviteLinks
-        .map((link) => `<li><a href="${link}">${link}</a></li>`)
-        .join("")}</ul>`;
-      deliveryLineText = `${SIGNALS_DELIVERY_INTRO[locale]}\n${signalsInviteLinks.join("\n")}`;
+    if (isSignal) {
+      if (channelLinks.length > 0) {
+        deliveryLine = `<p>${SIGNALS_DELIVERY_INTRO[locale]}</p><ul>${channelLinks
+          .map((link) => `<li><a href="${link}">${link}</a></li>`)
+          .join("")}</ul>`;
+        deliveryLineText = `${SIGNALS_DELIVERY_INTRO[locale]}\n${channelLinks.join("\n")}`;
+      } else {
+        deliveryLine =
+          "<p>Te vamos a enviar el link de acceso al canal de Telegram a este mismo correo en las próximas horas.</p>";
+        deliveryLineText =
+          "Te enviamos el link de acceso al canal de Telegram a este correo en las próximas horas.";
+      }
     } else if (deliverable) {
       const fileNames = deliverable.files.map((f) => f.fileName).join(", ");
       deliveryLine = `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
@@ -158,6 +178,26 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         "Te enviamos el archivo, la licencia y el manual a este correo en las próximas horas.";
     }
 
+    // Additive extras: a follow-up Telegram group for a non-signal product
+    // (e.g. ZIZA's owners channel), and/or a note pointing to the booking
+    // link (e.g. "book your install call with an Expert").
+    let extraLine = "";
+    let extraLineText = "";
+    if (!isSignal && channelLinks.length > 0) {
+      extraLine += `<p>${FOLLOWUP_GROUP_INTRO[locale]}</p><ul>${channelLinks
+        .map((link) => `<li><a href="${link}">${link}</a></li>`)
+        .join("")}</ul>`;
+      extraLineText += `${FOLLOWUP_GROUP_INTRO[locale]}\n${channelLinks.join("\n")}\n`;
+    }
+    const postPurchaseNote = product?.postPurchaseNote?.[locale];
+    if (postPurchaseNote) {
+      const meetUrl = optionalEnv("NEXT_PUBLIC_MEET_URL");
+      extraLine += `<p>${escapeHtml(postPurchaseNote)}${
+        meetUrl ? ` <a href="${meetUrl}">${meetUrl}</a>` : ""
+      }</p>`;
+      extraLineText += `${postPurchaseNote}${meetUrl ? ` ${meetUrl}` : ""}\n`;
+    }
+
     await sendMail({
       to: input.buyer.email,
       subject: `Recibimos tu pago — ${input.productName ?? "SmartradeBot"}`,
@@ -167,11 +207,12 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         )}</strong> por <strong>${escapeHtml(input.productName ?? "tu compra")}</strong>.</p>
         ${nextStepLine}
         ${deliveryLine}
+        ${extraLine}
         <p>Cualquier duda, respondé este mensaje.</p>
       `,
       text: `¡Gracias! Registramos tu pago de ${amountLabel} por ${
         input.productName ?? "tu compra"
-      }. ${isBot && !deliverable ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}`,
+      }. ${isBot && !deliverable ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}\n${extraLineText}`,
       attachments: deliverable?.files.map((f) => ({
         filename: f.fileName,
         content: f.code,
