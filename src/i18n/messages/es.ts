@@ -34,6 +34,9 @@ export const es: Dictionary = {
     exnessOnlyBadge: "Solo con referido de Exness",
     exnessOnlyHint:
       "Este precio promocional requiere una cuenta de Exness verificada abierta con nuestro enlace — no tiene versión sin él.",
+    depositBadge: "Se paga en 2 partes",
+    depositHint:
+      "Pagás {percent}% ahora como seña ({amount}) y el resto cuando el bot esté listo para entregarse. El armado toma entre 15 y 25 días según la complejidad.",
     backtestTitle: "Resultados de backtest",
     backtestDisclaimer:
       "Resultados históricos simulados — el rendimiento pasado no garantiza resultados futuros.",
@@ -232,7 +235,7 @@ export const es: Dictionary = {
         "Después del pago recibes el archivo del bot, la licencia y el manual de configuración por correo automáticamente.",
       customCta: "Contanos tu estrategia",
       customDeliveryNote:
-        "Coordinamos tu estrategia, la desarrollamos y te entregamos el bot con licencia y manual. Este producto no tiene precio con referido de Exness.",
+        "Después de la seña, completás el formulario de tu estrategia y coordinamos una reunión para revisarlo. Te entregamos el bot con licencia y manual entre 15 y 25 días después.",
       relatedTitle: "Otros bots",
     },
   },
@@ -513,6 +516,22 @@ export const es: Dictionary = {
       submit: "Enviar datos",
       sending: "Enviando…",
       success: "¡Listo! Ya tenemos todo para preparar tu bot.",
+      error: "No se pudo enviar. Inténtalo de nuevo o escribinos.",
+    },
+    strategyForm: {
+      title: "Contanos cómo operás",
+      subtitle:
+        "Con esto armamos tu bot. Después lo revisamos punto por punto en una reunión.",
+      asset: "Instrumento / activo",
+      timeframe: "Marco temporal (timeframe)",
+      entryRules: "Reglas de entrada",
+      exitRules: "Reglas de salida",
+      riskManagement: "Gestión de riesgo",
+      tools: "Indicadores o herramientas que usás",
+      notes: "Notas adicionales (opcional)",
+      submit: "Enviar detalles",
+      sending: "Enviando…",
+      success: "¡Listo! Te contactamos para coordinar la reunión de revisión.",
       error: "No se pudo enviar. Inténtalo de nuevo o escribinos.",
     },
     exness: {

@@ -5,6 +5,7 @@ import { upsertLead } from "@/lib/systemeio";
 import { getDeliverable } from "@/lib/deliverables";
 import { createChannelInviteLinks } from "@/lib/telegram";
 import { getProduct } from "@/lib/products";
+import { formatUSD } from "@/lib/utils";
 import type { BuyerInfo } from "@/lib/orders";
 import type { Locale } from "@/i18n/config";
 
@@ -129,17 +130,31 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         ? input.locale
         : "es"
     ) as Locale;
+    const product = input.slug ? getProduct(input.slug) : undefined;
+    // Made-to-order bots (custom bot) go through the strategy questionnaire
+    // instead of the regular MT4/5 account-number form — there's no ready
+    // account to compile to yet, we still need to scope the build first.
+    const isCustomBot = isBot && !!product?.depositPercent;
     const accountFormUrl = `${siteUrl()}/${locale}/checkout/success?kind=bot&email=${encodeURIComponent(
       input.buyer.email,
     )}`;
+    const strategyFormUrl = `${siteUrl()}/${locale}/checkout/success?kind=custom-bot&email=${encodeURIComponent(
+      input.buyer.email,
+    )}`;
 
-    const product = input.slug ? getProduct(input.slug) : undefined;
     const deliverable = getDeliverable(input.slug);
     // Self-installed bots (deliverable set) run on the buyer's own account —
     // only bots we still compile by hand need their account number.
-    const nextStepLine = isBot && !deliverable
-      ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
-      : "";
+    const nextStepLine = isCustomBot
+      ? `<p>Completá el formulario con los detalles de tu estrategia para que podamos armar tu bot: <a href="${strategyFormUrl}">${strategyFormUrl}</a></p>`
+      : isBot && !deliverable
+        ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
+        : "";
+
+    const depositLine =
+      isCustomBot && product && input.amount != null
+        ? `<p>Esto corresponde al ${product.depositPercent}% de seña (de un total de <strong>${formatUSD(product.priceUSD, locale)}</strong>). El ${100 - (product.depositPercent ?? 0)}% restante (<strong>${formatUSD(product.priceUSD - input.amount, locale)}</strong>) se paga cuando el bot esté listo para entregarse.</p>`
+        : "";
 
     const isSignal = input.kind === "signal";
     const channelLinks = input.slug ? await createChannelInviteLinks(input.slug) : [];
@@ -161,6 +176,11 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         deliveryLineText =
           "Te enviamos el link de acceso al canal de Telegram a este correo en las próximas horas.";
       }
+    } else if (isCustomBot) {
+      deliveryLine =
+        "<p>Con los datos de tu estrategia, nos ponemos a desarrollar tu bot. El armado toma entre 15 y 25 días según la complejidad — te avisamos por este correo en cuanto esté listo para entregarse.</p>";
+      deliveryLineText =
+        "Con los datos de tu estrategia, nos ponemos a desarrollar tu bot. El armado toma entre 15 y 25 días según la complejidad — te avisamos por este correo en cuanto esté listo para entregarse.";
     } else if (deliverable) {
       const fileNames = deliverable.files.map((f) => f.fileName).join(", ");
       deliveryLine = `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
@@ -206,13 +226,20 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
           amountLabel,
         )}</strong> por <strong>${escapeHtml(input.productName ?? "tu compra")}</strong>.</p>
         ${nextStepLine}
+        ${depositLine}
         ${deliveryLine}
         ${extraLine}
         <p>Cualquier duda, respondé este mensaje.</p>
       `,
       text: `¡Gracias! Registramos tu pago de ${amountLabel} por ${
         input.productName ?? "tu compra"
-      }. ${isBot && !deliverable ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}\n${extraLineText}`,
+      }. ${
+        isCustomBot
+          ? `Completá los detalles de tu estrategia acá: ${strategyFormUrl}. `
+          : isBot && !deliverable
+            ? `Completá tus datos de cuenta acá: ${accountFormUrl}. `
+            : ""
+      }${depositLine ? `${depositLine.replace(/<[^>]+>/g, "")}\n` : ""}${deliveryLineText}\n${extraLineText}`,
       attachments: deliverable?.files.map((f) => ({
         filename: f.fileName,
         content: f.code,

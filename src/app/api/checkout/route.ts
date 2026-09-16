@@ -92,17 +92,28 @@ export async function POST(request: Request) {
         ? product.exnessPriceUSD
         : product.priceUSD;
   }
+  // Made-to-order products (custom bot) only charge a deposit up front —
+  // the rest is collected manually once the finished bot is delivered.
+  if (product.depositPercent) {
+    amountUSD = Math.round((amountUSD * product.depositPercent) / 100);
+  }
   const productName = `SmartradeBot — ${product.name}`;
 
   const buyer: BuyerInfo = { name, email };
 
   const base = siteUrl();
-  // The success page shows the post-payment "account details" form for bots.
-  const successKindParam = kind === "bot" ? `&kind=bot` : "";
+  // The success page shows a post-payment form: the MT4/5 account-number
+  // form for regular bots, or the strategy questionnaire for the custom bot.
+  const successKind = product.depositPercent
+    ? "custom-bot"
+    : kind === "bot"
+      ? "bot"
+      : null;
+  const successKindParam = successKind ? `&kind=${successKind}` : "";
   // Stripe replaces the {CHECKOUT_SESSION_ID} template server-side.
   const stripeSuccessUrl = `${base}/${locale}/checkout/success?ref={CHECKOUT_SESSION_ID}${successKindParam}`;
   const successUrl = `${base}/${locale}/checkout/success?${new URLSearchParams(
-    kind === "bot" ? { kind: "bot", email } : { email },
+    successKind ? { kind: successKind, email } : { email },
   ).toString()}`;
   const cancelUrl = `${base}/${locale}/checkout/cancel`;
 

@@ -90,6 +90,9 @@ export function ProductCard({
         {product.requiresExnessVerification && (
           <p className="mt-1 text-xs text-accent">{t.common.exnessOnlyBadge}</p>
         )}
+        {product.depositPercent && (
+          <p className="mt-1 text-xs text-primary">{t.common.depositBadge}</p>
+        )}
       </div>
 
       <div className="mt-4 flex items-center gap-2">

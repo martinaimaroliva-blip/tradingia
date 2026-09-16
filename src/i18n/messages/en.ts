@@ -32,6 +32,9 @@ export const en = {
     exnessOnlyBadge: "Exness referral only",
     exnessOnlyHint:
       "This promo price requires a verified Exness account opened through our link — there's no price without it.",
+    depositBadge: "Paid in 2 parts",
+    depositHint:
+      "You pay {percent}% now as a deposit ({amount}) and the rest once the bot is ready to deliver. The build takes 15 to 25 days depending on complexity.",
     backtestTitle: "Backtest results",
     backtestDisclaimer:
       "Simulated historical results — past performance doesn't guarantee future results.",
@@ -231,7 +234,7 @@ export const en = {
         "After payment you receive the bot file, license and setup manual by email automatically.",
       customCta: "Tell us your strategy",
       customDeliveryNote:
-        "We work out your strategy, build it, and deliver the bot with a license and manual. Exness referral pricing doesn't apply to this product.",
+        "After the deposit, you fill out the strategy form and we set up a call to go through it. You get the bot with a license and manual 15 to 25 days later.",
       relatedTitle: "Other bots",
     },
   },
@@ -512,6 +515,22 @@ export const en = {
       submit: "Send details",
       sending: "Sending…",
       success: "Done! We have everything we need to prepare your bot.",
+      error: "Could not submit. Please try again or message us.",
+    },
+    strategyForm: {
+      title: "Tell us how you trade",
+      subtitle:
+        "We'll use this to build your bot, then go through it point by point on a call.",
+      asset: "Instrument / asset",
+      timeframe: "Timeframe",
+      entryRules: "Entry rules",
+      exitRules: "Exit rules",
+      riskManagement: "Risk management",
+      tools: "Indicators or tools you use",
+      notes: "Additional notes (optional)",
+      submit: "Send details",
+      sending: "Sending…",
+      success: "Done! We'll reach out to schedule the review call.",
       error: "Could not submit. Please try again or message us.",
     },
     exness: {

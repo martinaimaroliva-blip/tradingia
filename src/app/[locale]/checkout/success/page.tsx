@@ -5,6 +5,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import { AccountDetailsForm } from "@/components/commerce/account-details-form";
+import { StrategyDetailsForm } from "@/components/commerce/strategy-details-form";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export default async function CheckoutSuccessPage({
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
   const isBot = kind === "bot";
+  const isCustomBot = kind === "custom-bot";
 
   return (
     <div className="container-page flex min-h-[60vh] max-w-lg flex-col items-center py-20 text-center">
@@ -33,7 +35,11 @@ export default async function CheckoutSuccessPage({
         {t.checkout.success.subtitle}
       </p>
 
-      {isBot && <AccountDetailsForm defaultEmail={email} />}
+      {isCustomBot ? (
+        <StrategyDetailsForm defaultEmail={email} />
+      ) : (
+        isBot && <AccountDetailsForm defaultEmail={email} />
+      )}
 
       <Button asChild className="mt-7">
         <Link href={`/${locale}`}>{t.checkout.success.cta}</Link>

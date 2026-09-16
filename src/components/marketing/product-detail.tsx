@@ -199,7 +199,7 @@ export function ProductDetail({
               {detail.manual}
             </div>
             <p className="mt-1.5 text-sm text-muted-foreground">
-              {product.requiresConsultation
+              {product.requiresConsultation || product.depositPercent
                 ? t.bots.detail.customDeliveryNote
                 : detail.deliveryNote}
             </p>
@@ -209,7 +209,26 @@ export function ProductDetail({
         {/* Sticky buy card */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-xl border border-border bg-card p-6">
-            {product.requiresExnessVerification ? (
+            {product.depositPercent ? (
+              <div className="rounded-lg border border-primary/30 bg-primary/[0.06] p-4">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+                  <Sparkles className="size-3.5" />
+                  {t.common.depositBadge}
+                </div>
+                <div className="mt-1 text-3xl font-bold text-foreground">
+                  {formatUSD(product.priceUSD, locale)}
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                  {fmt(t.common.depositHint, {
+                    percent: product.depositPercent,
+                    amount: formatUSD(
+                      Math.round((product.priceUSD * product.depositPercent) / 100),
+                      locale,
+                    ),
+                  })}
+                </p>
+              </div>
+            ) : product.requiresExnessVerification ? (
               <div className="rounded-lg border border-accent/30 bg-accent/10 p-4">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-accent">
                   <Sparkles className="size-3.5" />
@@ -313,7 +332,8 @@ export function ProductDetail({
 
             {!product.requiresConsultation && (
               <p className="mt-4 text-center text-[11px] text-muted-foreground">
-                {t.common.securePayment} · {t.common.instantAccess}
+                {t.common.securePayment}
+                {!product.depositPercent && ` · ${t.common.instantAccess}`}
               </p>
             )}
           </div>

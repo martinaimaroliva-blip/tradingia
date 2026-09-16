@@ -58,6 +58,14 @@ export interface Product {
    * which explains the product's own logic, not the buying process.
    */
   purchaseProcess?: LocalizedList;
+  /**
+   * When set, checkout only charges this percentage of priceUSD/
+   * exnessPriceUSD up front (a deposit) — the rest is collected manually
+   * once the product is delivered. Used for made-to-order products like
+   * the custom bot, where the full price can't be known/charged before the
+   * work is scoped out.
+   */
+  depositPercent?: number;
 }
 
 export const bots: Product[] = [
@@ -496,7 +504,38 @@ export const bots: Product[] = [
     priceUSD: 3500,
     exnessPriceUSD: 3500,
     badge: "custom",
-    requiresConsultation: true,
+    depositPercent: 50,
+    purchaseProcess: {
+      es: [
+        "¿Tenés dudas? Reservá una llamada informativa antes de comprar (opcional).",
+        "Pagás el 50% del total como seña.",
+        "Completás un formulario con los detalles de tu estrategia: entradas, salidas y gestión de riesgo.",
+        "Coordinamos una reunión para revisar cada punto del formulario juntos.",
+        "Desarrollamos tu bot — el armado toma entre 15 y 25 días según la complejidad.",
+        "Te lo entregamos y pagás el 50% restante.",
+      ],
+      en: [
+        "Have questions? Book an informational call before buying (optional).",
+        "You pay 50% of the total as a deposit.",
+        "You fill out a form with your strategy's details: entries, exits and risk management.",
+        "We set up a call to go through every point on the form together.",
+        "We build your bot — this takes 15 to 25 days depending on complexity.",
+        "We deliver it and you pay the remaining 50%.",
+      ],
+      ar: [
+        "عندك أسئلة؟ حجز مكالمة تعريفية قبل الشراء (اختياري).",
+        "تدفع 50% من الإجمالي كدفعة أولى.",
+        "تعبّئ نموذجاً بتفاصيل استراتيجيتك: الدخول والخروج وإدارة المخاطر.",
+        "نحدّد موعداً لمراجعة كل نقطة في النموذج معك.",
+        "نطوّر روبوتك — يستغرق ذلك من 15 إلى 25 يوماً حسب التعقيد.",
+        "نسلّمه وتدفع نسبة الـ 50% المتبقية.",
+      ],
+    },
+    postPurchaseNote: {
+      es: "Completá el formulario con los detalles de tu estrategia — lo vemos juntos en una reunión. El desarrollo toma entre 15 y 25 días según la complejidad.",
+      en: "Fill out the form with your strategy's details — we'll go through it together on a call. Development takes 15 to 25 days depending on complexity.",
+      ar: "عبّئ النموذج بتفاصيل استراتيجيتك — سنراجعها معك في مكالمة. يستغرق التطوير من 15 إلى 25 يوماً حسب التعقيد.",
+    },
   },
 ];
 
