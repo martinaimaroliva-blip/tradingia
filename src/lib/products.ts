@@ -372,6 +372,76 @@ export const bots: Product[] = [
 
 export const indicators: Product[] = [
   {
+    slug: "xauusd-impulse-signal",
+    kind: "indicator",
+    name: "XAUUSD Manual Impulse Signal",
+    asset: "XAUUSD",
+    assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
+    timeframe: "M5",
+    platform: "Exness",
+    strategyTag: {
+      es: "Señal de impulso",
+      en: "Impulse signal",
+      ar: "إشارة زخم",
+    },
+    tagline: {
+      es: "Señales de impulso en oro, filtradas por horario y tendencia.",
+      en: "Gold impulse signals, filtered by schedule and trend.",
+      ar: "إشارات زخم على الذهب، مُصفّاة حسب التوقيت والاتجاه.",
+    },
+    description: {
+      es: "Es una herramienta visual diseñada para encontrar movimientos fuertes y poco frecuentes en el precio del oro. Analiza gráficos de 5 minutos y busca una combinación específica: una vela con impulso superior a lo normal y una tendencia confirmada por medias móviles. Cuando todas las condiciones coinciden, muestra una etiqueta verde para una posible compra o una etiqueta roja para una posible venta. También puede mostrar una prealerta amarilla mientras se está formando un posible movimiento — todavía no es una entrada confirmada, solo llama la atención. Para reducir señales de baja calidad, trabaja de lunes a viernes dentro de un horario determinado, evitando la franja asociada a noticias o mayor inestabilidad. En resumen: observa el mercado, filtra el ruido y avisa cuándo aparece una oportunidad — la decisión y la ejecución quedan en manos del trader.",
+      en: "A visual tool designed to spot strong, infrequent moves in the price of gold. It analyzes 5-minute charts looking for a specific combination: a candle with above-normal impulse plus a trend confirmed by moving averages. When every condition lines up, it shows a green label for a possible buy or a red label for a possible sell. It can also show a yellow pre-alert while a potential move is still forming — that's not a confirmed entry yet, just a heads-up. To cut down on low-quality signals, it only runs Monday to Friday within a set schedule, skipping the window usually tied to news releases and higher volatility. In short: it watches the market, filters out the noise, and flags when an opportunity appears — the decision and execution stay in the trader's hands.",
+      ar: "أداة بصرية مصممة لرصد التحركات القوية وغير المتكررة في سعر الذهب. يحلّل المؤشر الرسوم البيانية لفريم 5 دقائق ويبحث عن تركيبة محددة: شمعة بزخم أعلى من المعتاد مع اتجاه مؤكَّد بالمتوسطات المتحركة. عند توافق كل الشروط، يُظهر بطاقة خضراء لفرصة شراء محتملة أو بطاقة حمراء لفرصة بيع محتملة. يمكنه أيضاً إظهار تنبيه أصفر مسبق أثناء تشكّل حركة محتملة — وهذا ليس دخولاً مؤكداً بعد، بل لفت انتباه فقط. لتقليل الإشارات ضعيفة الجودة، يعمل المؤشر من الإثنين إلى الجمعة ضمن نطاق زمني محدد، ويتجنّب الفترة المرتبطة عادة بالأخبار وزيادة التقلب. باختصار: يراقب السوق، يُصفّي الضوضاء، وينبّهك عند ظهور فرصة — بينما يبقى القرار والتنفيذ بيد المتداول.",
+    },
+    features: {
+      es: [
+        "Etiqueta verde/roja cuando coinciden vela de impulso + tendencia confirmada",
+        "Prealerta amarilla mientras se forma el movimiento",
+        "Filtro de horario: solo de lunes a viernes",
+        "Evita la franja asociada a noticias y mayor inestabilidad",
+        "Diseñado específicamente para XAU/USD en M5",
+      ],
+      en: [
+        "Green/red label when an impulse candle lines up with a confirmed trend",
+        "Yellow pre-alert while the move is still forming",
+        "Schedule filter: Monday to Friday only",
+        "Skips the window tied to news and higher volatility",
+        "Built specifically for XAU/USD on M5",
+      ],
+      ar: [
+        "بطاقة خضراء/حمراء عند توافق شمعة الزخم مع اتجاه مؤكَّد",
+        "تنبيه أصفر مسبق أثناء تشكّل الحركة",
+        "فلتر توقيت: من الإثنين إلى الجمعة فقط",
+        "يتجنّب الفترة المرتبطة بالأخبار وزيادة التقلب",
+        "مصمم خصيصاً لزوج XAU/USD على فريم 5 دقائق",
+      ],
+    },
+    howItWorks: {
+      es: [
+        "Pegalo como script en Exness Terminal (versión web) y aplicalo a tu gráfico de XAU/USD en M5.",
+        "El indicador monitorea cada vela buscando impulso + tendencia confirmada.",
+        "Si empieza a formarse un posible movimiento, aparece una prealerta amarilla.",
+        "Cuando se confirma, muestra una etiqueta verde (compra) o roja (venta) — la entrada y gestión quedan en tus manos.",
+      ],
+      en: [
+        "Paste it as a script in Exness Terminal (web version) and apply it to your XAU/USD M5 chart.",
+        "The indicator watches every candle for impulse plus a confirmed trend.",
+        "A yellow pre-alert appears while a potential move is forming.",
+        "Once confirmed, it shows a green (buy) or red (sell) label — entry and execution stay yours.",
+      ],
+      ar: [
+        "ألصقه كسكربت في Exness Terminal (نسخة الويب) وطبّقه على رسمك البياني لزوج XAU/USD على فريم 5 دقائق.",
+        "يراقب المؤشر كل شمعة بحثاً عن زخم مع اتجاه مؤكَّد.",
+        "يظهر تنبيه أصفر مسبق أثناء تشكّل حركة محتملة.",
+        "عند التأكيد، يُظهر بطاقة خضراء (شراء) أو حمراء (بيع) — يبقى الدخول والتنفيذ بيدك.",
+      ],
+    },
+    priceUSD: 300,
+    exnessPriceUSD: 200,
+    hasAutoDelivery: true,
+  },
+  {
     slug: "momentum-map",
     kind: "indicator",
     name: "Momentum Map",
@@ -582,76 +652,6 @@ export const indicators: Product[] = [
     },
     priceUSD: 79,
     exnessPriceUSD: 59,
-  },
-  {
-    slug: "xauusd-impulse-signal",
-    kind: "indicator",
-    name: "XAUUSD Manual Impulse Signal",
-    asset: "XAUUSD",
-    assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
-    timeframe: "M5",
-    platform: "Exness",
-    strategyTag: {
-      es: "Señal de impulso",
-      en: "Impulse signal",
-      ar: "إشارة زخم",
-    },
-    tagline: {
-      es: "Señales de impulso en oro, filtradas por horario y tendencia.",
-      en: "Gold impulse signals, filtered by schedule and trend.",
-      ar: "إشارات زخم على الذهب، مُصفّاة حسب التوقيت والاتجاه.",
-    },
-    description: {
-      es: "Es una herramienta visual diseñada para encontrar movimientos fuertes y poco frecuentes en el precio del oro. Analiza gráficos de 5 minutos y busca una combinación específica: una vela con impulso superior a lo normal y una tendencia confirmada por medias móviles. Cuando todas las condiciones coinciden, muestra una etiqueta verde para una posible compra o una etiqueta roja para una posible venta. También puede mostrar una prealerta amarilla mientras se está formando un posible movimiento — todavía no es una entrada confirmada, solo llama la atención. Para reducir señales de baja calidad, trabaja de lunes a viernes dentro de un horario determinado, evitando la franja asociada a noticias o mayor inestabilidad. En resumen: observa el mercado, filtra el ruido y avisa cuándo aparece una oportunidad — la decisión y la ejecución quedan en manos del trader.",
-      en: "A visual tool designed to spot strong, infrequent moves in the price of gold. It analyzes 5-minute charts looking for a specific combination: a candle with above-normal impulse plus a trend confirmed by moving averages. When every condition lines up, it shows a green label for a possible buy or a red label for a possible sell. It can also show a yellow pre-alert while a potential move is still forming — that's not a confirmed entry yet, just a heads-up. To cut down on low-quality signals, it only runs Monday to Friday within a set schedule, skipping the window usually tied to news releases and higher volatility. In short: it watches the market, filters out the noise, and flags when an opportunity appears — the decision and execution stay in the trader's hands.",
-      ar: "أداة بصرية مصممة لرصد التحركات القوية وغير المتكررة في سعر الذهب. يحلّل المؤشر الرسوم البيانية لفريم 5 دقائق ويبحث عن تركيبة محددة: شمعة بزخم أعلى من المعتاد مع اتجاه مؤكَّد بالمتوسطات المتحركة. عند توافق كل الشروط، يُظهر بطاقة خضراء لفرصة شراء محتملة أو بطاقة حمراء لفرصة بيع محتملة. يمكنه أيضاً إظهار تنبيه أصفر مسبق أثناء تشكّل حركة محتملة — وهذا ليس دخولاً مؤكداً بعد، بل لفت انتباه فقط. لتقليل الإشارات ضعيفة الجودة، يعمل المؤشر من الإثنين إلى الجمعة ضمن نطاق زمني محدد، ويتجنّب الفترة المرتبطة عادة بالأخبار وزيادة التقلب. باختصار: يراقب السوق، يُصفّي الضوضاء، وينبّهك عند ظهور فرصة — بينما يبقى القرار والتنفيذ بيد المتداول.",
-    },
-    features: {
-      es: [
-        "Etiqueta verde/roja cuando coinciden vela de impulso + tendencia confirmada",
-        "Prealerta amarilla mientras se forma el movimiento",
-        "Filtro de horario: solo de lunes a viernes",
-        "Evita la franja asociada a noticias y mayor inestabilidad",
-        "Diseñado específicamente para XAU/USD en M5",
-      ],
-      en: [
-        "Green/red label when an impulse candle lines up with a confirmed trend",
-        "Yellow pre-alert while the move is still forming",
-        "Schedule filter: Monday to Friday only",
-        "Skips the window tied to news and higher volatility",
-        "Built specifically for XAU/USD on M5",
-      ],
-      ar: [
-        "بطاقة خضراء/حمراء عند توافق شمعة الزخم مع اتجاه مؤكَّد",
-        "تنبيه أصفر مسبق أثناء تشكّل الحركة",
-        "فلتر توقيت: من الإثنين إلى الجمعة فقط",
-        "يتجنّب الفترة المرتبطة بالأخبار وزيادة التقلب",
-        "مصمم خصيصاً لزوج XAU/USD على فريم 5 دقائق",
-      ],
-    },
-    howItWorks: {
-      es: [
-        "Pegalo como script en Exness Terminal (versión web) y aplicalo a tu gráfico de XAU/USD en M5.",
-        "El indicador monitorea cada vela buscando impulso + tendencia confirmada.",
-        "Si empieza a formarse un posible movimiento, aparece una prealerta amarilla.",
-        "Cuando se confirma, muestra una etiqueta verde (compra) o roja (venta) — la entrada y gestión quedan en tus manos.",
-      ],
-      en: [
-        "Paste it as a script in Exness Terminal (web version) and apply it to your XAU/USD M5 chart.",
-        "The indicator watches every candle for impulse plus a confirmed trend.",
-        "A yellow pre-alert appears while a potential move is forming.",
-        "Once confirmed, it shows a green (buy) or red (sell) label — entry and execution stay yours.",
-      ],
-      ar: [
-        "ألصقه كسكربت في Exness Terminal (نسخة الويب) وطبّقه على رسمك البياني لزوج XAU/USD على فريم 5 دقائق.",
-        "يراقب المؤشر كل شمعة بحثاً عن زخم مع اتجاه مؤكَّد.",
-        "يظهر تنبيه أصفر مسبق أثناء تشكّل حركة محتملة.",
-        "عند التأكيد، يُظهر بطاقة خضراء (شراء) أو حمراء (بيع) — يبقى الدخول والتنفيذ بيدك.",
-      ],
-    },
-    priceUSD: 300,
-    exnessPriceUSD: 200,
-    hasAutoDelivery: true,
   },
 ];
 
