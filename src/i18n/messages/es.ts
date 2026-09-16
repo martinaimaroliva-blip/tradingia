@@ -30,6 +30,7 @@ export const es: Dictionary = {
     mostPopular: "Más elegido",
     comingSoon: "Próximamente",
     customBadge: "Personalizado",
+    bundleBadge: "Incluye indicador gratis",
     allProducts: "Todos los productos",
     needHelp: "¿Tienes dudas?",
     contactUs: "Contáctanos",

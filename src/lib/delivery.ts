@@ -125,11 +125,13 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       input.buyer.email,
     )}`;
 
-    const nextStepLine = isBot
+    const deliverable = getDeliverable(input.slug);
+    // Self-installed bots (deliverable set) run on the buyer's own account —
+    // only bots we still compile by hand need their account number.
+    const nextStepLine = isBot && !deliverable
       ? `<p>Para poder compilarlo necesitamos el número de cuenta y el servidor de tu MT4/MT5. Completalos acá: <a href="${accountFormUrl}">${accountFormUrl}</a></p>`
       : "";
 
-    const deliverable = getDeliverable(input.slug);
     const signalsInviteLink =
       input.kind === "signal" ? await createSignalsInviteLink() : null;
 
@@ -139,14 +141,15 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       deliveryLine = SIGNALS_DELIVERY_LINE[locale](signalsInviteLink);
       deliveryLineText = `Tu acceso al canal VIP (link de un solo uso): ${signalsInviteLink}`;
     } else if (deliverable) {
+      const fileNames = deliverable.files.map((f) => f.fileName).join(", ");
       deliveryLine = `<p>Adjunto encontrás el archivo (<code>${escapeHtml(
-        deliverable.fileName,
+        fileNames,
       )}</code>). Para instalarlo:</p><ol>${deliverable
         .instructions(locale)
         .split("\n")
         .map((step) => `<li>${escapeHtml(step)}</li>`)
         .join("")}</ol>`;
-      deliveryLineText = `Adjunto: ${deliverable.fileName}. Para instalarlo:\n${deliverable.instructions(locale)}`;
+      deliveryLineText = `Adjunto: ${fileNames}. Para instalarlo:\n${deliverable.instructions(locale)}`;
     } else {
       deliveryLine =
         "<p>Te vamos a enviar el archivo, la licencia y el manual a este mismo correo en las próximas horas.</p>";
@@ -167,10 +170,11 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       `,
       text: `¡Gracias! Registramos tu pago de ${amountLabel} por ${
         input.productName ?? "tu compra"
-      }. ${isBot ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}`,
-      attachments: deliverable
-        ? [{ filename: deliverable.fileName, content: deliverable.code }]
-        : undefined,
+      }. ${isBot && !deliverable ? `Completá tus datos de cuenta acá: ${accountFormUrl}. ` : ""}${deliveryLineText}`,
+      attachments: deliverable?.files.map((f) => ({
+        filename: f.fileName,
+        content: f.code,
+      })),
     });
   }
 }

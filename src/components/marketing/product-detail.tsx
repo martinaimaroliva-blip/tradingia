@@ -72,6 +72,9 @@ export function ProductDetail({
             {product.badge === "custom" && (
               <Badge variant="primary">{t.common.customBadge}</Badge>
             )}
+            {product.badge === "bundle" && (
+              <Badge variant="accent">{t.common.bundleBadge}</Badge>
+            )}
           </div>
           <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">
             {product.name}

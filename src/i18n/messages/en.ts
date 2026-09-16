@@ -28,6 +28,7 @@ export const en = {
     mostPopular: "Most popular",
     comingSoon: "Coming soon",
     customBadge: "Custom",
+    bundleBadge: "Includes free indicator",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",

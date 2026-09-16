@@ -30,6 +30,7 @@ export const ar: Dictionary = {
     mostPopular: "الأكثر اختياراً",
     comingSoon: "قريباً",
     customBadge: "مخصّص",
+    bundleBadge: "يشمل مؤشراً مجانياً",
     allProducts: "كل المنتجات",
     needHelp: "لديك أسئلة؟",
     contactUs: "تواصل معنا",

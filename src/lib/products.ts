@@ -23,7 +23,7 @@ export interface Product {
   priceUSD: number;
   /** Discounted price when the customer opens an Exness account via our referral. */
   exnessPriceUSD: number;
-  badge?: "popular" | "new" | "custom";
+  badge?: "popular" | "new" | "custom" | "bundle";
   /** True for bespoke products (e.g. the custom bot) that need a conversation
    * before delivery — the buy flow routes to contact instead of checkout. */
   requiresConsultation?: boolean;
@@ -48,6 +48,80 @@ export interface SignalPlan {
 }
 
 export const bots: Product[] = [
+  {
+    slug: "xauusd-impulse-scalper-bot",
+    kind: "bot",
+    name: "XAUUSD Impulse Scalper",
+    asset: "XAUUSD",
+    assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
+    timeframe: "M5",
+    platform: "MT5",
+    strategyTag: {
+      es: "Scalping de impulso",
+      en: "Impulse scalping",
+      ar: "سكالبينج الزخم",
+    },
+    tagline: {
+      es: "La versión automática del Impulse Signal: opera sola, con stop, objetivo y gestión de riesgo integrados.",
+      en: "The automated version of the Impulse Signal: trades on its own, with built-in stop, target and risk management.",
+      ar: "النسخة الآلية من Impulse Signal: تتداول بمفردها، مع وقف خسارة وهدف وإدارة مخاطر مدمجة.",
+    },
+    description: {
+      es: "Es la versión completamente automática de nuestra señal de impulso en oro: el mismo criterio del indicador visual (vela con impulso fuera de lo normal + tendencia confirmada por EMA 20/50 en M5) pero acá el bot abre, gestiona y cierra las operaciones por vos. Calcula el tamaño de la posición según un riesgo fijo por operación, pone stop y objetivo automáticos, y cierra la posición si no se resuelve dentro de una cantidad determinada de velas. Trae límites de pérdida diaria, semanal y de drawdown de cuenta que detienen el bot solo si se tocan, además de un filtro de spread, una ventana horaria fija y un filtro opcional de noticias/volatilidad para evitar condiciones de mercado erráticas. Podés elegir que replique exactamente la misma señal que ves en el indicador manual, o activar los filtros extra de protección para operar de forma más conservadora.",
+      en: "This is the fully automated version of our gold impulse signal: same criteria as the visual indicator (an above-normal impulse candle plus a trend confirmed by the M5 EMA 20/50) — except here the bot opens, manages and closes the trades for you. It sizes each position from a fixed risk-per-trade percentage, sets automatic stop-loss and take-profit, and time-exits a trade if it hasn't resolved within a set number of candles. It ships with daily, weekly and account-drawdown loss limits that halt the bot if they're hit, plus a spread filter, a fixed trading window, and an optional news/volatility filter to sit out erratic conditions. You can have it mirror the exact same signal shown on the manual indicator, or turn on the extra protection filters for a more conservative run.",
+      ar: "هذه هي النسخة الآلية الكاملة من إشارة الزخم على الذهب: نفس معيار المؤشر المرئي (شمعة بزخم أعلى من المعتاد مع اتجاه مؤكَّد بمتوسطين متحركين 20/50 على فريم 5 دقائق) — لكن هنا يفتح البوت الصفقات ويديرها ويغلقها عنك. يحدد حجم كل صفقة بنسبة مخاطرة ثابتة، ويضبط وقف الخسارة وأخذ الربح تلقائياً، ويغلق الصفقة بالوقت إذا لم تُحسم ضمن عدد محدد من الشموع. يأتي بحدود خسارة يومية وأسبوعية وحد أقصى لتراجع الحساب توقف البوت عند بلوغها، إضافةً إلى فلتر فروق السعر، ونطاق تداول ثابت، وفلتر اختياري للأخبار/التقلب لتجاوز الظروف غير المستقرة. يمكنك جعله يطابق تماماً إشارة المؤشر اليدوي، أو تفعيل فلاتر الحماية الإضافية لتشغيل أكثر تحفظاً.",
+    },
+    features: {
+      es: [
+        "Mismo criterio de señal que el indicador visual (impulso + tendencia EMA 20/50)",
+        "Tamaño de posición automático según % de riesgo fijo por operación",
+        "Stop loss y take profit automáticos (1.5R por defecto)",
+        "Límites de pérdida diaria, semanal y drawdown de cuenta con freno automático",
+        "Filtro de spread, horario fijo y filtro opcional de noticias/volatilidad",
+        "Incluye gratis el indicador visual XAUUSD Manual Impulse Signal",
+      ],
+      en: [
+        "Same signal criteria as the visual indicator (impulse + EMA 20/50 trend)",
+        "Automatic position sizing from a fixed risk % per trade",
+        "Automatic stop-loss and take-profit (1.5R by default)",
+        "Daily, weekly and account-drawdown loss limits with an automatic brake",
+        "Spread filter, fixed trading window, and an optional news/volatility filter",
+        "Includes the XAUUSD Manual Impulse Signal visual indicator for free",
+      ],
+      ar: [
+        "نفس معيار إشارة المؤشر المرئي (زخم + اتجاه EMA 20/50)",
+        "تحديد حجم الصفقة تلقائياً بنسبة مخاطرة ثابتة لكل صفقة",
+        "وقف خسارة وأخذ ربح تلقائيان (1.5R افتراضياً)",
+        "حدود خسارة يومية وأسبوعية وتراجع حساب مع كبح تلقائي",
+        "فلتر فروق سعر، نطاق تداول ثابت، وفلتر اختياري للأخبار/التقلب",
+        "يشمل مؤشر XAUUSD Manual Impulse Signal المرئي مجاناً",
+      ],
+    },
+    howItWorks: {
+      es: [
+        "Instalalo en MT5 con la configuración recomendada que te mandamos (archivo .set).",
+        "El bot analiza cada vela de M5 buscando el mismo impulso + tendencia que el indicador.",
+        "Cuando confirma la señal, abre la operación con stop y objetivo ya calculados.",
+        "Vos controlás si opera en automático o solo te avisa — activás o desactivás \"Algo Trading\" cuando quieras.",
+      ],
+      en: [
+        "Install it on MT5 with the recommended configuration we send you (.set file).",
+        "The bot analyzes every M5 candle looking for the same impulse + trend as the indicator.",
+        "Once the signal confirms, it opens the trade with stop-loss and target already calculated.",
+        "You control whether it trades automatically or just alerts you — toggle \"Algo Trading\" whenever you want.",
+      ],
+      ar: [
+        "ثبّته على MT5 بالضبط الموصى به الذي نرسله لك (ملف .set).",
+        "يحلّل البوت كل شمعة على فريم 5 دقائق بحثاً عن نفس الزخم والاتجاه الذي يبحث عنه المؤشر.",
+        "عند تأكيد الإشارة، يفتح الصفقة بوقف خسارة وهدف محسوبين مسبقاً.",
+        "أنت من يتحكم إن كان يتداول تلقائياً أو فقط يُنبّهك — فعّل أو عطّل \"Algo Trading\" وقتما تشاء.",
+      ],
+    },
+    priceUSD: 1499,
+    exnessPriceUSD: 999,
+    badge: "bundle",
+    hasAutoDelivery: true,
+  },
   {
     slug: "ziza",
     kind: "bot",

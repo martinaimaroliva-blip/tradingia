@@ -34,6 +34,9 @@ export function ProductCard({
         {product.badge === "custom" && (
           <Badge variant="primary">{t.common.customBadge}</Badge>
         )}
+        {product.badge === "bundle" && (
+          <Badge variant="accent">{t.common.bundleBadge}</Badge>
+        )}
       </div>
 
       <Link href={href} className="mt-4 block">
