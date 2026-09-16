@@ -102,6 +102,26 @@ export function ProductDetail({
             </p>
           </section>
 
+          {product.purchaseProcess && (
+            <section className="rounded-xl border border-primary/30 bg-primary/[0.04] p-5">
+              <h2 className="text-lg font-semibold">
+                {t.common.purchaseProcessTitle}
+              </h2>
+              <ol className="mt-4 space-y-3">
+                {product.purchaseProcess[locale].map((step, i) => (
+                  <li key={i} className="flex gap-3 text-sm">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-md bg-secondary text-xs font-semibold text-primary">
+                      {i + 1}
+                    </span>
+                    <span className="pt-0.5 leading-relaxed text-foreground/90">
+                      {step}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           {product.backtestImages && product.backtestImages.length > 0 && (
             <section>
               <h2 className="text-lg font-semibold">{t.common.backtestTitle}</h2>

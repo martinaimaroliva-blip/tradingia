@@ -51,6 +51,13 @@ export interface Product {
   /** Real backtest screenshots (equity curve, Strategy Tester report, …),
    * shown in a dedicated section on the product page when present. */
   backtestImages?: { src: string; alt: Localized }[];
+  /**
+   * Steps shown on the product page, before purchase, explaining what
+   * happens after checkout — e.g. "buy -> book an install call -> the
+   * Expert activates it on your account". Distinct from `howItWorks`,
+   * which explains the product's own logic, not the buying process.
+   */
+  purchaseProcess?: LocalizedList;
 }
 
 export const bots: Product[] = [
@@ -223,6 +230,26 @@ export const bots: Product[] = [
         },
       },
     ],
+    purchaseProcess: {
+      es: [
+        "Comprás SIZA — pago único, con o sin precio de referido Exness.",
+        "Coordinás una reunión de instalación con nuestro Experto (agendás con el link que te llega por mail).",
+        "En la reunión, el Experto activa SIZA en tu cuenta de MT5 — la licencia es de por vida para esa cuenta.",
+        "Quedás agregado al grupo de seguimiento de SIZA: análisis diarios, ajustes de configuración y soporte.",
+      ],
+      en: [
+        "You buy SIZA — one-time payment, with or without the Exness referral price.",
+        "You book an install call with our Expert (schedule it using the link we email you).",
+        "On the call, the Expert activates SIZA on your MT5 account — the license is lifetime for that account.",
+        "You're added to the SIZA follow-up group: daily analysis, configuration tweaks and support.",
+      ],
+      ar: [
+        "تشتري SIZA — دفعة واحدة، بسعر إحالة Exness أو بدونه.",
+        "تحدّد موعد تثبيت مع خبيرنا (عبر الرابط الذي يصلك بالبريد).",
+        "في الموعد، يفعّل الخبير SIZA على حسابك في MT5 — الترخيص مدى الحياة لهذا الحساب.",
+        "تتم إضافتك إلى مجموعة متابعة SIZA: تحليلات يومية، تعديلات على الإعدادات، ودعم.",
+      ],
+    },
   },
   {
     slug: "paramedica",

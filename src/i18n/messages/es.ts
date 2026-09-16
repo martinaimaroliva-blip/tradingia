@@ -37,6 +37,7 @@ export const es: Dictionary = {
     backtestTitle: "Resultados de backtest",
     backtestDisclaimer:
       "Resultados históricos simulados — el rendimiento pasado no garantiza resultados futuros.",
+    purchaseProcessTitle: "Cómo es el proceso de compra",
     allProducts: "Todos los productos",
     needHelp: "¿Tienes dudas?",
     contactUs: "Contáctanos",

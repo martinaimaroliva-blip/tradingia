@@ -35,6 +35,7 @@ export const en = {
     backtestTitle: "Backtest results",
     backtestDisclaimer:
       "Simulated historical results — past performance doesn't guarantee future results.",
+    purchaseProcessTitle: "How the purchase process works",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",
