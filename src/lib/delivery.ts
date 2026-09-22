@@ -6,6 +6,7 @@ import { getDeliverable } from "@/lib/deliverables";
 import { createChannelInviteLinks } from "@/lib/telegram";
 import { getProduct } from "@/lib/products";
 import { formatUSD } from "@/lib/utils";
+import { verifyPartnerRef, PRODUCT_REFERRAL_PERCENT } from "@/lib/referrals";
 import type { BuyerInfo } from "@/lib/orders";
 import type { Locale } from "@/i18n/config";
 
@@ -37,6 +38,9 @@ export interface FulfilmentInput {
   currency?: string;
   locale?: string;
   buyer?: BuyerInfo | null;
+  /** Signed partner code from lib/referrals.ts, when the buyer arrived via
+   * a partner's link — verified here before it's trusted for anything. */
+  partnerRef?: string;
 }
 
 /**
@@ -79,6 +83,15 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         ? "Precio estándar"
         : "—";
 
+  // Partner attribution — a real product sale (not Exness's own trading
+  // commission, which Exness pays the partner directly). Only ever shown to
+  // us internally: the buyer never sees who referred them or what it's worth.
+  const partner = verifyPartnerRef(input.partnerRef);
+  const commissionUSD =
+    partner && input.amount != null
+      ? Math.round(((input.amount * PRODUCT_REFERRAL_PERCENT) / 100) * 100) / 100
+      : null;
+
   if (notifyTo) {
     const rows: [string, string][] = [
       ["Producto", input.productName ?? input.slug ?? "—"],
@@ -96,6 +109,14 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       ["Referencia", input.reference],
       ["Comprador", input.buyer?.name ?? "—"],
       ["Email", input.buyer?.email ?? "—"],
+      ...(partner && commissionUSD != null
+        ? ([
+            [
+              "Comisión de partner",
+              `${PRODUCT_REFERRAL_PERCENT}% = ${commissionUSD} ${(input.currency ?? "USD").toUpperCase()} para ${partner.name} <${partner.email}>`,
+            ],
+          ] as [string, string][])
+        : []),
     ];
     await sendMail({
       to: notifyTo,

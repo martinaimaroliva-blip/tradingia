@@ -162,3 +162,102 @@ export async function checkExnessAccount(
     return { configured: true, error: "request_failed" };
   }
 }
+
+export interface CreateReferralAgentResult {
+  configured: boolean;
+  success?: boolean;
+  /** Exness's id for the created agent link — needed to set its commission
+   * agreement right after. Field name isn't documented in Exness's schema
+   * (response body has no typed schema there), so this is read permissively
+   * from whichever common key the API actually returns. */
+  agentLinkId?: string;
+  /** The full raw response, so a human can inspect it (e.g. to find the
+   * agent's own Exness referral link, whose field name we don't know yet). */
+  raw?: unknown;
+  error?: string;
+}
+
+/**
+ * Creates a referral agent (sub-affiliate) under our partner account —
+ * POST /api/v1/referral-agent-links/, documented at
+ * https://my.exnessaffiliates.com/api/schema/#!/referral-agent-links/referral-agent-links_create
+ * Body is `{ alias, email }`, both required; `alias` should be unique-ish
+ * per agent since there's no database on our side to pre-check for dupes.
+ */
+export async function createReferralAgent(
+  email: string,
+  alias: string,
+): Promise<CreateReferralAgentResult> {
+  const token = await getExnessToken();
+  if (!token) return { configured: false };
+
+  try {
+    const res = await fetch(`${EXNESS_API_BASE}/api/v1/referral-agent-links/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`,
+      },
+      body: JSON.stringify({ alias, email }),
+    });
+
+    if (!res.ok) {
+      const body = await res.text();
+      console.error("[exness] create referral agent failed", res.status, body);
+      return { configured: true, success: false, error: `http_${res.status}` };
+    }
+
+    const data = (await res.json()) as Record<string, unknown>;
+    const agentLinkId =
+      (data.id as string | number | undefined) ??
+      (data.agent_link_id as string | number | undefined) ??
+      (data.link_id as string | number | undefined);
+    return {
+      configured: true,
+      success: true,
+      agentLinkId: agentLinkId != null ? String(agentLinkId) : undefined,
+      raw: data,
+    };
+  } catch (err) {
+    console.error("[exness] create referral agent request error", err);
+    return { configured: true, success: false, error: "request_failed" };
+  }
+}
+
+/**
+ * Sets the commission share (%) an agent gets from their referred clients'
+ * trading activity — POST /api/v1/referral-agent-links/{id}/agreements/,
+ * documented at
+ * https://my.exnessaffiliates.com/api/schema/#!/referral-agent-links/referral-agent-links_agreements_create
+ */
+export async function setReferralAgentCommission(
+  agentLinkId: string,
+  sharePercent: number,
+): Promise<{ success: boolean; error?: string }> {
+  const token = await getExnessToken();
+  if (!token) return { success: false, error: "not_configured" };
+
+  try {
+    const res = await fetch(
+      `${EXNESS_API_BASE}/api/v1/referral-agent-links/${encodeURIComponent(agentLinkId)}/agreements/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${token}`,
+        },
+        body: JSON.stringify({ share_perc: sharePercent }),
+      },
+    );
+
+    if (!res.ok) {
+      const body = await res.text();
+      console.error("[exness] set referral agent commission failed", res.status, body);
+      return { success: false, error: `http_${res.status}` };
+    }
+    return { success: true };
+  } catch (err) {
+    console.error("[exness] set commission request error", err);
+    return { success: false, error: "request_failed" };
+  }
+}

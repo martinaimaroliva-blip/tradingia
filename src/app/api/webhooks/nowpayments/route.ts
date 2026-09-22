@@ -53,9 +53,9 @@ export async function POST(request: Request) {
 
   if (body.payment_status === "finished" || body.payment_status === "confirmed") {
     const [kind, slug] = (body.order_id ?? "").split("_");
-    const { label, data: buyer } = decodeOrderDescription<BuyerInfo>(
-      body.order_description,
-    );
+    const { label, data: buyer } = decodeOrderDescription<
+      BuyerInfo & { partnerRef?: string }
+    >(body.order_description);
     await fulfilPurchase({
       provider: "nowpayments",
       reference: String(body.payment_id ?? body.order_id ?? "unknown"),
@@ -65,6 +65,7 @@ export async function POST(request: Request) {
       amount: body.price_amount,
       currency: body.price_currency,
       buyer,
+      partnerRef: buyer?.partnerRef,
     });
   }
 

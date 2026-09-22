@@ -14,6 +14,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { LeadCaptureModal } from "@/components/lead/lead-capture-modal";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
+import { PartnerRefCapture } from "@/components/referrals/partner-ref-capture";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -93,6 +94,7 @@ export default async function LocaleLayout({
           <SiteFooter />
           <LeadCaptureModal />
           <WhatsAppButton />
+          <PartnerRefCapture />
         </I18nProvider>
       </body>
     </html>

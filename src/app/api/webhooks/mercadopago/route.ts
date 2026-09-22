@@ -93,7 +93,7 @@ export async function POST(request: Request) {
     if (payment.status === "approved") {
       const [kind, slug] = (payment.external_reference ?? "").split("_");
       const { data: buyer } = decodeOrderDescription<
-        BuyerInfo & { productName?: string }
+        BuyerInfo & { productName?: string; partnerRef?: string }
       >(payment.external_reference);
 
       await fulfilPurchase({
@@ -109,6 +109,7 @@ export async function POST(request: Request) {
           : payment.payer?.email
             ? { name: "", email: payment.payer.email }
             : null,
+        partnerRef: buyer?.partnerRef,
       });
     }
   } catch (err) {

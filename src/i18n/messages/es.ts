@@ -345,17 +345,17 @@ export const es: Dictionary = {
   },
   referrals: {
     hero: {
-      badge: "Programa de referidos",
+      badge: "Programa de partners",
       title: "Compartí y ganá",
       titleHighlight: "con cada persona que sumes",
       subtitle:
-        "Abrí tu cuenta de Exness con nuestro link y quedás dentro de nuestra red. Más adelante vas a poder compartir tu propio link y ganar con cada persona que sumes.",
+        "Abrí tu cuenta de Exness con nuestro link, activá tu perfil de partner con ese mismo email y listo: tenés tu propio link para compartir y ganar con cada persona que sumes.",
       ctaPrimary: "Abrir mi cuenta de Exness",
-      ctaSecondary: "Quiero ser partner",
+      ctaSecondary: "Activar mi cuenta de partner",
     },
     how: {
       title: "Cómo funciona",
-      subtitle: "Así identificamos que alguien llegó por vos.",
+      subtitle: "Tres pasos, sin esperas.",
       steps: [
         {
           title: "Abrís tu cuenta con nuestro link",
@@ -363,14 +363,14 @@ export const es: Dictionary = {
             "Nuestro link de Exness ya tiene nuestro código de partner incorporado. Cualquier cuenta que se abra con él queda asociada a nuestra red automáticamente, sin ningún paso extra.",
         },
         {
-          title: "Nos contás que querés sumarte como partner",
+          title: "Activás tu perfil de partner",
           description:
-            "Completá el formulario de esta página. Revisamos tu caso y te contamos los próximos pasos.",
+            "Ingresás el mismo email que usaste en Exness. Verificamos al instante que tu cuenta esté asociada a nuestro link y te damos de alta como agente referido.",
         },
         {
           title: "Compartís tu propio link",
           description:
-            "Estamos construyendo, con la API de Partners de Exness, un link único para cada partner. Así identificamos exactamente quién trajo a quién dentro de la red y repartimos las comisiones en consecuencia.",
+            "Te lo mandamos por correo apenas te activás. Cada persona que abra su cuenta de Exness con ese link, o compre un producto, queda identificada como tuya.",
         },
       ],
     },
@@ -379,39 +379,51 @@ export const es: Dictionary = {
       subtitle: "Dos fuentes de ingresos, no solo una.",
       items: [
         {
-          title: "Comisión por producto",
+          title: "10% de comisión por producto",
           description:
-            "Una parte de cada bot, indicador o señal que compren las personas que sumaste a la red.",
+            "De cada bot, indicador o señal que compren las personas que sumaste, directo de parte nuestra.",
         },
         {
-          title: "Comisión por spread",
+          title: "20% de comisión por trading",
           description:
-            "Una parte de lo que Exness nos paga por la actividad de trading de tus referidos: un ingreso recurrente mientras sigan operando, no solo por la venta inicial.",
+            "Exness te paga directamente una parte de lo que genera la actividad de trading de tus referidos: un ingreso recurrente mientras sigan operando, no solo por la venta inicial.",
         },
       ],
     },
     form: {
-      title: "Quiero ser partner",
-      subtitle: "Dejanos tus datos y te contactamos con los próximos pasos.",
+      title: "Activá tu cuenta de partner",
+      subtitle:
+        "Ingresá el email con el que abriste tu cuenta de Exness. Si está asociada a nuestro link, te activamos al instante.",
       submit: "Enviar",
       sending: "Enviando…",
       success: "¡Listo! Te vamos a contactar a la brevedad.",
       error: "No se pudo enviar. Inténtalo de nuevo.",
+    },
+    activate: {
+      emailLabel: "Email de tu cuenta de Exness",
+      emailHint: "Tiene que ser el mismo con el que abriste la cuenta con nuestro link.",
+      submit: "Activar mi cuenta de partner",
+      sending: "Verificando…",
+      success:
+        "¡Listo! Ya sos partner de SmartradeBot. Te enviamos tu link también por correo.",
+      notAffiliated:
+        "No encontramos una cuenta de Exness abierta con nuestro link para ese email. Abrí tu cuenta primero y probá de nuevo.",
+      error: "No se pudo activar tu cuenta. Inténtalo de nuevo o escribinos.",
     },
     faq: {
       title: "Preguntas frecuentes",
       items: [
         {
           q: "¿Necesito ser trader para participar?",
-          a: "No. Cualquiera puede compartir el link y sumar personas a la red.",
+          a: "No. Cualquiera puede compartir su link y sumar personas a la red.",
         },
         {
           q: "¿Cuándo tengo mi propio link?",
-          a: "Estamos construyendo la integración con la API de Partners de Exness. Mientras tanto usás el link general y nosotros llevamos el registro de quién trajiste.",
+          a: "Al instante: activás tu cuenta de partner con el email que usaste en Exness y te lo generamos ahí mismo.",
         },
         {
           q: "¿Cómo y cuándo cobro?",
-          a: "Se coordina directamente con vos una vez que estés sumado como partner.",
+          a: "El 20% de comisión por trading te lo paga Exness directamente, según sus propios plazos. El 10% de comisión por producto te lo pagamos nosotros cada vez que se genera una venta con tu link.",
         },
       ],
     },

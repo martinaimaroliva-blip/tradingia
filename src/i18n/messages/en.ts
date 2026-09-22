@@ -345,17 +345,17 @@ export const en = {
   },
   referrals: {
     hero: {
-      badge: "Referral program",
+      badge: "Partner program",
       title: "Share and earn",
       titleHighlight: "with every person you bring in",
       subtitle:
-        "Open your Exness account through our link and you're in our network. Down the line you'll be able to share your own link and earn from every person you bring in.",
+        "Open your Exness account through our link, activate your partner profile with that same email, and you're set — your own link to share and earn from every person you bring in.",
       ctaPrimary: "Open my Exness account",
-      ctaSecondary: "I want to become a partner",
+      ctaSecondary: "Activate my partner account",
     },
     how: {
       title: "How it works",
-      subtitle: "This is how we identify that someone came through you.",
+      subtitle: "Three steps, no waiting around.",
       steps: [
         {
           title: "You open your account with our link",
@@ -363,14 +363,14 @@ export const en = {
             "Our Exness link already carries our partner code. Any account opened through it gets tied to our network automatically — no extra step needed.",
         },
         {
-          title: "You tell us you want to become a partner",
+          title: "You activate your partner profile",
           description:
-            "Fill in the form on this page. We review your case and walk you through the next steps.",
+            "Enter the same email you used with Exness. We verify instantly that your account is tied to our link and set you up as a referral agent.",
         },
         {
           title: "You share your own link",
           description:
-            "We're building, with the Exness Partners API, a unique link for each partner. That's how we'll identify exactly who brought whom into the network and split commissions accordingly.",
+            "We email it to you as soon as you activate. Anyone who opens an Exness account through it, or buys a product, gets tracked as yours.",
         },
       ],
     },
@@ -379,39 +379,50 @@ export const en = {
       subtitle: "Two income streams, not just one.",
       items: [
         {
-          title: "Product commission",
+          title: "10% product commission",
           description:
-            "A share of every bot, indicator or signal purchased by the people you bring into the network.",
+            "On every bot, indicator or signal purchased by the people you bring in, paid directly by us.",
         },
         {
-          title: "Spread commission",
+          title: "20% trading commission",
           description:
-            "A share of what Exness pays us for your referrals' trading activity — a recurring income while they keep trading, not just a one-time sale.",
+            "Exness pays you directly a share of your referrals' trading activity — a recurring income while they keep trading, not just a one-time sale.",
         },
       ],
     },
     form: {
-      title: "I want to become a partner",
-      subtitle: "Leave your details and we'll reach out with the next steps.",
+      title: "Activate your partner account",
+      subtitle:
+        "Enter the email you used to open your Exness account. If it's tied to our link, we'll activate you instantly.",
       submit: "Send",
       sending: "Sending…",
       success: "Done! We'll be in touch shortly.",
       error: "Could not submit. Please try again.",
+    },
+    activate: {
+      emailLabel: "Your Exness account email",
+      emailHint: "Must be the same one you used to open the account through our link.",
+      submit: "Activate my partner account",
+      sending: "Verifying…",
+      success: "Done! You're now a SmartradeBot partner. We also sent your link by email.",
+      notAffiliated:
+        "We couldn't find an Exness account opened through our link with that email. Open your account first and try again.",
+      error: "Couldn't activate your account. Please try again or message us.",
     },
     faq: {
       title: "Frequently asked questions",
       items: [
         {
           q: "Do I need to be a trader to take part?",
-          a: "No. Anyone can share the link and bring people into the network.",
+          a: "No. Anyone can share their link and bring people into the network.",
         },
         {
           q: "When do I get my own link?",
-          a: "We're building the integration with the Exness Partners API. In the meantime you use the general link and we keep track of who you brought in.",
+          a: "Instantly — activate your partner account with the email you used on Exness and we generate it right there.",
         },
         {
           q: "How and when do I get paid?",
-          a: "That's coordinated directly with you once you're set up as a partner.",
+          a: "The 20% trading commission is paid directly by Exness on their own schedule. The 10% product commission is paid by us every time a sale is made through your link.",
         },
       ],
     },

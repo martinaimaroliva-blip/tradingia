@@ -226,6 +226,7 @@ export function BuyDialog({
     setLoading(true);
     setError(null);
     try {
+      const partnerRef = getCookie("sb_partner_ref");
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -243,6 +244,7 @@ export function BuyDialog({
             : priceChoice === "exness" && isVerified
               ? { exnessEmail: verifiedExnessEmail, exnessToken: verifiedExnessToken }
               : {}),
+          ...(partnerRef ? { partnerRef } : {}),
         }),
       });
       const data = (await res.json()) as { url?: string; error?: string };
@@ -745,4 +747,13 @@ export function BuyDialog({
       </DialogContent>
     </Dialog>
   );
+}
+
+/** Reads a cookie set by PartnerRefCapture — no js-cookie dependency needed
+ * for one simple read. */
+function getCookie(name: string): string | null {
+  const match = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(`${name}=`));
+  return match ? decodeURIComponent(match.slice(name.length + 1)) : null;
 }

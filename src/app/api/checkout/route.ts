@@ -11,6 +11,7 @@ import {
 } from "@/lib/payments";
 import { encodeOrderDescription, type BuyerInfo } from "@/lib/orders";
 import { verifyExnessToken } from "@/lib/exness";
+import { verifyPartnerRef } from "@/lib/referrals";
 
 export const runtime = "nodejs";
 
@@ -28,6 +29,10 @@ const schema = z.object({
   // verified (see lib/exness.ts + /api/exness/verify-request).
   exnessEmail: z.string().trim().email().max(190).optional(),
   exnessToken: z.string().trim().max(64).optional(),
+  // Set from the `sb_partner_ref` cookie when the buyer arrived via a
+  // partner's link — see lib/referrals.ts. Verified below; dropped silently
+  // if invalid, never blocks checkout.
+  partnerRef: z.string().trim().max(500).optional(),
 });
 
 export async function POST(request: Request) {
@@ -58,6 +63,11 @@ export async function POST(request: Request) {
     parsed.data.locale && isLocale(parsed.data.locale)
       ? parsed.data.locale
       : "es";
+  // Only forward a partnerRef that actually verifies — a tampered/garbage
+  // value is just dropped rather than failing the purchase.
+  const partnerRef = verifyPartnerRef(parsed.data.partnerRef)
+    ? parsed.data.partnerRef
+    : undefined;
 
   // Resolve the item + amount for the chosen price tier. Every product kind
   // (bots, indicators, signals) is a one-time payment — signals used to be
@@ -126,7 +136,15 @@ export async function POST(request: Request) {
       successUrl: stripeSuccessUrl,
       cancelUrl,
       customerEmail: email,
-      metadata: { slug, kind, locale, productName, buyerName: name, priceChoice },
+      metadata: {
+        slug,
+        kind,
+        locale,
+        productName,
+        buyerName: name,
+        priceChoice,
+        ...(partnerRef ? { partnerRef } : {}),
+      },
     });
     if ("error" in result) {
       return NextResponse.json(
@@ -145,7 +163,7 @@ export async function POST(request: Request) {
       // pack buyer/product details into it the same way as the crypto flow.
       externalReference: encodeOrderDescription(
         `${kind}_${slug}_${Date.now()}`,
-        { ...buyer, productName },
+        { ...buyer, productName, partnerRef },
       ),
       successUrl,
       cancelUrl,
@@ -165,7 +183,7 @@ export async function POST(request: Request) {
   const result = await createCryptoInvoice({
     amountUSD,
     orderId: `${kind}_${slug}_${Date.now()}`,
-    description: encodeOrderDescription(productName, buyer),
+    description: encodeOrderDescription(productName, { ...buyer, partnerRef }),
     successUrl,
     cancelUrl,
     payCurrency: cryptoNetwork ? USDT_NETWORKS[cryptoNetwork] : undefined,

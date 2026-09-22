@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Section, SectionHeading } from "@/components/marketing/section";
 import { Faq } from "@/components/marketing/faq";
-import { ReferralForm } from "@/components/referrals/referral-form";
+import { ActivateForm } from "@/components/referrals/activate-form";
 import { DEFAULT_EXNESS_REFERRAL_URL } from "@/lib/exness-link";
 
 const howIcons = [Link2, MessageSquareText, Share2];
@@ -141,7 +141,7 @@ export default async function ReferralsPage({
             </div>
           </div>
           <div>
-            <ReferralForm />
+            <ActivateForm />
           </div>
         </div>
       </Section>

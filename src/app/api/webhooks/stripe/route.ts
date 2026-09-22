@@ -52,6 +52,7 @@ export async function POST(request: Request) {
           amount: session.amount_total ? session.amount_total / 100 : undefined,
           currency: session.currency ?? undefined,
           buyer,
+          partnerRef: session.metadata?.partnerRef,
         });
         break;
       }
