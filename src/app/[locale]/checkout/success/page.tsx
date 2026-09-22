@@ -21,7 +21,7 @@ export default async function CheckoutSuccessPage({
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
   const isBot = kind === "bot";
-  const isCustomBot = kind === "custom-bot";
+  const isMadeToOrder = kind === "custom";
 
   return (
     <div className="container-page flex min-h-[60vh] max-w-lg flex-col items-center py-20 text-center">
@@ -35,7 +35,7 @@ export default async function CheckoutSuccessPage({
         {t.checkout.success.subtitle}
       </p>
 
-      {isCustomBot ? (
+      {isMadeToOrder ? (
         <StrategyDetailsForm defaultEmail={email} />
       ) : (
         isBot && <AccountDetailsForm defaultEmail={email} />

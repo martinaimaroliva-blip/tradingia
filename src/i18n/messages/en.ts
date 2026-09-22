@@ -34,7 +34,7 @@ export const en = {
       "This promo price requires a verified Exness account opened through our link — there's no price without it.",
     depositBadge: "Paid in 2 parts",
     depositHint:
-      "You pay {percent}% now as a deposit ({amount}) and the rest once the bot is ready to deliver. The build takes 15 to 25 days depending on complexity.",
+      "You pay {percent}% now as a deposit ({amount}) and the rest once the {item} is ready to deliver. The build takes 15 to 25 days depending on complexity.",
     backtestTitle: "Backtest results",
     backtestDisclaimer:
       "Simulated historical results — past performance doesn't guarantee future results.",
@@ -263,6 +263,9 @@ export const en = {
       scheduleCta: "Schedule a call",
       deliveryNote:
         "After payment you receive the indicator file and the manual by email automatically.",
+      customCta: "Tell us your strategy",
+      customDeliveryNote:
+        "After the deposit, you fill out the strategy form and we set up a call to go through it. You get the indicator with a license and manual 15 to 25 days later.",
       relatedTitle: "Other indicators",
     },
   },
@@ -292,6 +295,9 @@ export const en = {
       scheduleCta: "Schedule a call",
       deliveryNote:
         "After payment you receive the Telegram channel access link by email automatically.",
+      customCta: "Tell us your strategy",
+      customDeliveryNote:
+        "After the deposit, you fill out the strategy form and we set up a call to go through it.",
       relatedTitle: "Other signals",
     },
   },

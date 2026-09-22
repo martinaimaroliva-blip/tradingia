@@ -36,7 +36,7 @@ export const es: Dictionary = {
       "Este precio promocional requiere una cuenta de Exness verificada abierta con nuestro enlace — no tiene versión sin él.",
     depositBadge: "Se paga en 2 partes",
     depositHint:
-      "Pagás {percent}% ahora como seña ({amount}) y el resto cuando el bot esté listo para entregarse. El armado toma entre 15 y 25 días según la complejidad.",
+      "Pagás {percent}% ahora como seña ({amount}) y el resto cuando el {item} esté listo para entregarse. El armado toma entre 15 y 25 días según la complejidad.",
     backtestTitle: "Resultados de backtest",
     backtestDisclaimer:
       "Resultados históricos simulados — el rendimiento pasado no garantiza resultados futuros.",
@@ -263,6 +263,9 @@ export const es: Dictionary = {
       scheduleCta: "Agendar una llamada",
       deliveryNote:
         "Después del pago recibes el archivo del indicador y el manual por correo automáticamente.",
+      customCta: "Contanos tu estrategia",
+      customDeliveryNote:
+        "Después de la seña, completás el formulario de tu estrategia y coordinamos una reunión para revisarlo. Te entregamos el indicador con licencia y manual entre 15 y 25 días después.",
       relatedTitle: "Otros indicadores",
     },
   },
@@ -292,6 +295,9 @@ export const es: Dictionary = {
       scheduleCta: "Agendar una llamada",
       deliveryNote:
         "Después del pago recibís el link de acceso al canal de Telegram por correo automáticamente.",
+      customCta: "Contanos tu estrategia",
+      customDeliveryNote:
+        "Después de la seña, completás el formulario de tu estrategia y coordinamos una reunión para revisarlo.",
       relatedTitle: "Otras señales",
     },
   },

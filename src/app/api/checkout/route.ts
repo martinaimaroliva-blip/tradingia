@@ -92,8 +92,8 @@ export async function POST(request: Request) {
         ? product.exnessPriceUSD
         : product.priceUSD;
   }
-  // Made-to-order products (custom bot) only charge a deposit up front —
-  // the rest is collected manually once the finished bot is delivered.
+  // Made-to-order products (custom bot, custom indicator) only charge a
+  // deposit up front — the rest is collected manually once delivered.
   if (product.depositPercent) {
     amountUSD = Math.round((amountUSD * product.depositPercent) / 100);
   }
@@ -103,9 +103,10 @@ export async function POST(request: Request) {
 
   const base = siteUrl();
   // The success page shows a post-payment form: the MT4/5 account-number
-  // form for regular bots, or the strategy questionnaire for the custom bot.
+  // form for regular bots, or the strategy questionnaire for made-to-order
+  // products (any kind — bot or indicator).
   const successKind = product.depositPercent
-    ? "custom-bot"
+    ? "custom"
     : kind === "bot"
       ? "bot"
       : null;

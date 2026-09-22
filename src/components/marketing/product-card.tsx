@@ -101,7 +101,7 @@ export function ProductCard({
             href={`/${locale}/contact?topic=${base.slice(1)}`}
             className="inline-flex h-9 flex-1 items-center justify-center rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            {t.bots.detail.customCta}
+            {detail.customCta}
           </Link>
         ) : (
           <BuyDialog
