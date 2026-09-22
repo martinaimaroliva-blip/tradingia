@@ -41,7 +41,7 @@ export default async function HomePage({
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
         <div className="pointer-events-none absolute left-1/2 top-[-10%] -z-10 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" aria-hidden />
-        <div className="container-page relative py-20 sm:py-28">
+        <div className="container-page relative py-14 sm:py-28">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <Badge variant="primary" className="mb-5">
               <span className="size-1.5 rounded-full bg-primary" />
@@ -57,7 +57,7 @@ export default async function HomePage({
           </div>
 
           {/* Advantages */}
-          <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 border-y border-border/70 py-9 sm:grid-cols-4 sm:gap-y-0 sm:divide-x sm:divide-border/70 sm:py-0">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 border-y border-border/70 pb-16 pt-9 sm:mt-14 sm:grid-cols-4 sm:gap-y-0 sm:divide-x sm:divide-border/70 sm:py-0">
             {t.home.stats.map((s, i) => {
               const Icon = advantageIcons[i];
               return (
