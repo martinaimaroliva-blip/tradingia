@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { getDictionary } from "@/i18n/dictionaries";
 import {
@@ -15,6 +16,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { LeadCaptureModal } from "@/components/lead/lead-capture-modal";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { PartnerRefCapture } from "@/components/referrals/partner-ref-capture";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -95,7 +97,9 @@ export default async function LocaleLayout({
           <LeadCaptureModal />
           <WhatsAppButton />
           <PartnerRefCapture />
+          <GoogleAnalytics />
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
