@@ -66,6 +66,14 @@ export interface Product {
    * work is scoped out.
    */
   depositPercent?: number;
+  /**
+   * Slugs of other products (any kind) to show as "Comprado junto con" on
+   * this product's page — curated by hand, unlike the generic "related"
+   * list which is just same-kind products. Lets a bot page cross-sell a
+   * signal on the same asset, an indicator cross-sell the bot that
+   * automates it, etc.
+   */
+  crossSell?: string[];
 }
 
 export const bots: Product[] = [
@@ -142,6 +150,7 @@ export const bots: Product[] = [
     exnessPriceUSD: 999,
     badge: "bundle",
     hasAutoDelivery: true,
+    crossSell: ["signal-xauusd"],
   },
   {
     slug: "siza",
@@ -258,6 +267,7 @@ export const bots: Product[] = [
         "تتم إضافتك إلى مجموعة متابعة SIZA: تحليلات يومية، تعديلات على الإعدادات، ودعم.",
       ],
     },
+    crossSell: ["signal-xauusd", "xauusd-impulse-signal"],
   },
   {
     slug: "paramedica",
@@ -380,6 +390,7 @@ export const bots: Product[] = [
     priceUSD: 1999,
     exnessPriceUSD: 1599,
     badge: "new",
+    crossSell: ["signal-btcusd"],
   },
   {
     slug: "eur-bot",
@@ -433,6 +444,7 @@ export const bots: Product[] = [
     priceUSD: 1999,
     exnessPriceUSD: 1599,
     badge: "new",
+    crossSell: ["signal-multi"],
   },
   {
     slug: "custom-bot",
@@ -609,6 +621,7 @@ export const indicators: Product[] = [
     priceUSD: 300,
     exnessPriceUSD: 200,
     hasAutoDelivery: true,
+    crossSell: ["xauusd-impulse-scalper-bot", "signal-xauusd"],
   },
   {
     slug: "custom-indicator",
@@ -781,6 +794,7 @@ export const signals: Product[] = [
     },
     priceUSD: 150,
     exnessPriceUSD: 99,
+    crossSell: ["siza", "xauusd-impulse-scalper-bot"],
   },
   {
     slug: "signal-btcusd",
@@ -851,6 +865,7 @@ export const signals: Product[] = [
     },
     priceUSD: 150,
     exnessPriceUSD: 99,
+    crossSell: ["btc-bot"],
   },
   {
     slug: "signal-multi",
@@ -925,6 +940,7 @@ export const signals: Product[] = [
     priceUSD: 200,
     exnessPriceUSD: 200,
     requiresExnessVerification: true,
+    crossSell: ["btc-bot", "eur-bot"],
   },
 ];
 

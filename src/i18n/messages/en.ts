@@ -39,6 +39,7 @@ export const en = {
     backtestDisclaimer:
       "Simulated historical results — past performance doesn't guarantee future results.",
     purchaseProcessTitle: "How the purchase process works",
+    crossSellTitle: "Frequently bought together",
     allProducts: "All products",
     needHelp: "Have questions?",
     contactUs: "Contact us",

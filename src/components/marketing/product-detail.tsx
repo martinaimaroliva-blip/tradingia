@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
-import { getProductsByKind, type Product } from "@/lib/products";
+import { getProduct, getProductsByKind, type Product } from "@/lib/products";
 import { formatUSD, cn } from "@/lib/utils";
 import { fmt } from "@/i18n/dictionaries";
 import { Badge } from "@/components/ui/badge";
@@ -47,6 +47,10 @@ export function ProductDetail({
   const related = getProductsByKind(product.kind)
     .filter((p) => p.slug !== product.slug)
     .slice(0, 3);
+
+  const crossSell = (product.crossSell ?? [])
+    .map((slug) => getProduct(slug))
+    .filter((p): p is Product => Boolean(p));
 
   const specs: { label: string; value: string }[] = [
     { label: t.common.worksOn, value: product.assetLabel[locale] },
@@ -352,6 +356,19 @@ export function ProductDetail({
           </div>
         </aside>
       </div>
+
+      {crossSell.length > 0 && (
+        <div className="border-t border-border bg-card/30">
+          <div className="container-page py-14">
+            <h2 className="text-lg font-semibold">{t.common.crossSellTitle}</h2>
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {crossSell.map((p) => (
+                <ProductCard key={p.slug} product={p} locale={locale} t={t} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {related.length > 0 && (
         <div className="border-t border-border">
