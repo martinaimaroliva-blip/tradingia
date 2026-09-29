@@ -590,10 +590,11 @@ export const en = {
       sending: "Sending…",
       submitError: "Could not submit. Please try again.",
 
-      pendingTitle: "Done! We're verifying your account",
+      pendingTitle: "We don't see your account as affiliated yet",
       pendingBody:
-        "As soon as we confirm your account is under our link, we'll email you the link to finish your purchase at the Exness price.",
-      pendingCta: "Got it",
+        "Exness sometimes takes a few minutes to reflect a newly opened account. Try \"Check again\" shortly — if it's still not showing up, our team also got notified and will reach out once they confirm it by hand.",
+      pendingRetryCta: "Check again",
+      pendingCta: "Close",
       verifiedBanner: "We verified your Exness account — you can now pay the Exness price.",
     },
   },

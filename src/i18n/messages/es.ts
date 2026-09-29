@@ -592,10 +592,11 @@ export const es: Dictionary = {
       sending: "Enviando…",
       submitError: "No se pudo enviar. Intentá de nuevo.",
 
-      pendingTitle: "¡Listo! Estamos verificando tu cuenta",
+      pendingTitle: "Todavía no vemos tu cuenta afiliada",
       pendingBody:
-        "En cuanto confirmemos que tu cuenta quedó bajo nuestro link, te mandamos un correo con el link para completar la compra al precio con Exness.",
-      pendingCta: "Entendido",
+        "A veces Exness tarda unos minutos en reflejar una cuenta recién abierta. Probá \"Revisar de nuevo\" en un rato — si sigue sin aparecer, nuestro equipo también recibió el aviso y te va a escribir apenas lo confirme a mano.",
+      pendingRetryCta: "Revisar de nuevo",
+      pendingCta: "Cerrar",
       verifiedBanner: "Verificamos tu cuenta de Exness — ya podés pagar al precio con Exness.",
     },
   },

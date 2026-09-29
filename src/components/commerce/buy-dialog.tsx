@@ -622,7 +622,16 @@ export function BuyDialog({
               <DialogTitle>{t.checkout.exness.pendingTitle}</DialogTitle>
               <DialogDescription>{t.checkout.exness.pendingBody}</DialogDescription>
             </DialogHeader>
-            <Button onClick={() => setOpen(false)} className="w-full">
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button onClick={submitExnessEmail} disabled={loading} className="w-full">
+              {loading && <Loader2 className="size-4 animate-spin" />}
+              {loading ? t.checkout.exness.sending : t.checkout.exness.pendingRetryCta}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setOpen(false)}
+              className="w-full"
+            >
               {t.checkout.exness.pendingCta}
             </Button>
           </>
