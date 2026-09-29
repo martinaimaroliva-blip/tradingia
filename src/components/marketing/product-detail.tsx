@@ -138,8 +138,8 @@ export function ProductDetail({
                     <Image
                       src={img.src}
                       alt={img.alt[locale]}
-                      width={1280}
-                      height={600}
+                      width={img.width ?? 1280}
+                      height={img.height ?? 600}
                       className="h-auto w-full"
                     />
                   </div>

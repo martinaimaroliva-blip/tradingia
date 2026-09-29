@@ -48,9 +48,19 @@ export interface Product {
    * (NEXT_PUBLIC_MEET_URL) is appended automatically; don't include it here.
    */
   postPurchaseNote?: Localized;
-  /** Real backtest screenshots (equity curve, Strategy Tester report, …),
-   * shown in a dedicated section on the product page when present. */
-  backtestImages?: { src: string; alt: Localized }[];
+  /**
+   * Real backtest screenshots (equity curve, Strategy Tester report, …),
+   * shown in a dedicated section on the product page when present. `width`/
+   * `height` are the source file's real pixel dimensions — next/image needs
+   * them to reserve the right aspect ratio; get them wrong (or omit them
+   * for a non-1280x600 image) and the image renders stretched/cropped.
+   */
+  backtestImages?: {
+    src: string;
+    alt: Localized;
+    width?: number;
+    height?: number;
+  }[];
   /**
    * Steps shown on the product page, before purchase, explaining what
    * happens after checkout — e.g. "buy -> book an install call -> the
@@ -414,6 +424,8 @@ export const bots: Product[] = [
     backtestImages: [
       {
         src: "/products/btc-pulse/backtest-equity.jpg",
+        width: 2050,
+        height: 500,
         alt: {
           es: "Curva de balance del backtest de BTC Pulse, de $1.000 a $2.870 en 21 meses",
           en: "BTC Pulse's backtest balance curve, from $1,000 to $2,870 over 21 months",
@@ -422,6 +434,8 @@ export const bots: Product[] = [
       },
       {
         src: "/products/btc-pulse/backtest-report.jpg",
+        width: 1190,
+        height: 1105,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de BTC Pulse",
           en: "MT5 Strategy Tester report with BTC Pulse's full backtest metrics",
@@ -507,6 +521,8 @@ export const bots: Product[] = [
     backtestImages: [
       {
         src: "/products/magnum/backtest-equity.jpg",
+        width: 2050,
+        height: 500,
         alt: {
           es: "Curva de balance del backtest de Magnum (perfil moderado), de $10.000 a $30.239 en 21 meses",
           en: "Magnum's backtest balance curve (moderate profile), from $10,000 to $30,239 over 21 months",
@@ -515,6 +531,8 @@ export const bots: Product[] = [
       },
       {
         src: "/products/magnum/backtest-report.jpg",
+        width: 1190,
+        height: 1105,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de Magnum",
           en: "MT5 Strategy Tester report with Magnum's full backtest metrics",
@@ -596,6 +614,8 @@ export const bots: Product[] = [
     backtestImages: [
       {
         src: "/products/sniper-ea/backtest-equity.jpg",
+        width: 2050,
+        height: 500,
         alt: {
           es: "Curva de balance del backtest de Sniper EA, de $1.000 a $2.177 en 21 meses",
           en: "Sniper EA's backtest balance curve, from $1,000 to $2,177 over 21 months",
@@ -604,6 +624,8 @@ export const bots: Product[] = [
       },
       {
         src: "/products/sniper-ea/backtest-report.jpg",
+        width: 1190,
+        height: 1105,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de Sniper EA",
           en: "MT5 Strategy Tester report with Sniper EA's full backtest metrics",
