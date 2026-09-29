@@ -74,6 +74,20 @@ export interface ExnessAffiliationResult {
   error?: string;
 }
 
+type ExnessTokenResult =
+  | { ok: true; token: string }
+  | {
+      ok: false;
+      /** "unset" = no credentials at all were provided (the legitimate
+       * "not configured yet" case). "auth_failed" = credentials were
+       * provided but Exness's own /api/auth/ rejected or errored on them —
+       * a real problem worth surfacing distinctly, not silently treated
+       * the same as "not configured". */
+      reason: "unset" | "auth_failed";
+      status?: number;
+      detail?: string;
+    };
+
 /**
  * Gets a JWT for the Exness Partner API.
  *
@@ -82,7 +96,7 @@ export interface ExnessAffiliationResult {
  * re-authenticate on every call. EXNESS_API_KEY is kept as a fallback for a
  * manually pasted token, for quick testing without the partner password.
  */
-async function getExnessToken(): Promise<string | null> {
+async function getExnessToken(): Promise<ExnessTokenResult> {
   const login = optionalEnv("EXNESS_AFFILIATES_LOGIN");
   const password = optionalEnv("EXNESS_AFFILIATES_PASSWORD");
   if (login && password) {
@@ -92,18 +106,28 @@ async function getExnessToken(): Promise<string | null> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login, password }),
       });
+      const body = await res.text();
       if (!res.ok) {
-        console.error("[exness] auth failed", res.status, await res.text());
-        return null;
+        console.error("[exness] auth failed", res.status, body);
+        return { ok: false, reason: "auth_failed", status: res.status, detail: body };
       }
-      const data = (await res.json()) as { token?: string };
-      return data.token ?? null;
+      const data = JSON.parse(body) as { token?: string };
+      if (!data.token) {
+        return { ok: false, reason: "auth_failed", status: res.status, detail: body };
+      }
+      return { ok: true, token: data.token };
     } catch (err) {
       console.error("[exness] auth request error", err);
-      return null;
+      return {
+        ok: false,
+        reason: "auth_failed",
+        detail: err instanceof Error ? err.message : String(err),
+      };
     }
   }
-  return optionalEnv("EXNESS_API_KEY") ?? null;
+  const apiKey = optionalEnv("EXNESS_API_KEY");
+  if (apiKey) return { ok: true, token: apiKey };
+  return { ok: false, reason: "unset" };
 }
 
 /**
@@ -121,8 +145,17 @@ async function getExnessToken(): Promise<string | null> {
 export async function checkExnessAccount(
   email: string,
 ): Promise<ExnessAffiliationResult> {
-  const token = await getExnessToken();
-  if (!token) return { configured: false };
+  const tokenResult = await getExnessToken();
+  if (!tokenResult.ok) {
+    if (tokenResult.reason === "unset") return { configured: false };
+    console.error(
+      "[exness] credentials are set but auth failed",
+      tokenResult.status,
+      tokenResult.detail,
+    );
+    return { configured: true, error: "auth_failed" };
+  }
+  const token = tokenResult.token;
 
   try {
     const res = await fetch(`${EXNESS_API_BASE}/api/partner/affiliation/`, {
@@ -188,8 +221,12 @@ export async function createReferralAgent(
   email: string,
   alias: string,
 ): Promise<CreateReferralAgentResult> {
-  const token = await getExnessToken();
-  if (!token) return { configured: false };
+  const tokenResult = await getExnessToken();
+  if (!tokenResult.ok) {
+    if (tokenResult.reason === "unset") return { configured: false };
+    return { configured: true, success: false, error: "auth_failed" };
+  }
+  const token = tokenResult.token;
 
   try {
     const res = await fetch(`${EXNESS_API_BASE}/api/v1/referral-agent-links/`, {
@@ -234,8 +271,11 @@ export async function setReferralAgentCommission(
   agentLinkId: string,
   sharePercent: number,
 ): Promise<{ success: boolean; error?: string }> {
-  const token = await getExnessToken();
-  if (!token) return { success: false, error: "not_configured" };
+  const tokenResult = await getExnessToken();
+  if (!tokenResult.ok) {
+    return { success: false, error: tokenResult.reason === "unset" ? "not_configured" : "auth_failed" };
+  }
+  const token = tokenResult.token;
 
   try {
     const res = await fetch(

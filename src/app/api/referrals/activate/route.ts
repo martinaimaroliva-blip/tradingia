@@ -63,6 +63,15 @@ export async function POST(request: Request) {
   if (!affiliation.configured) {
     return NextResponse.json({ error: "exness_not_configured" }, { status: 501 });
   }
+  if (affiliation.error) {
+    // Credentials are set but Exness rejected/errored on them — surfaced
+    // distinctly from "not configured" so it doesn't get misread as the
+    // buyer's email simply not being affiliated.
+    return NextResponse.json(
+      { error: `exness_${affiliation.error}` },
+      { status: 502 },
+    );
+  }
   if (!affiliation.linked) {
     return NextResponse.json({ error: "not_affiliated" }, { status: 403 });
   }
