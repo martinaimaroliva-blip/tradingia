@@ -2,10 +2,16 @@ import "server-only";
 import type { Locale } from "@/i18n/config";
 import * as xauusdImpulseSignal from "./xauusd-impulse-signal";
 import * as xauusdImpulseScalperBot from "./xauusd-impulse-scalper-bot";
+import * as btcPulse from "./btc-pulse";
+import * as magnum from "./magnum";
+import * as sniperEa from "./sniper-ea";
 
 export interface DeliverableFile {
   fileName: string;
   code: string;
+  /** "base64" for a compiled binary (.ex5) attached as-is; omitted (plain
+   * utf-8 text) for source files like .mq5/.set. */
+  encoding?: "base64";
 }
 
 export interface Deliverable {
@@ -41,6 +47,24 @@ const registry: Record<string, Deliverable> = {
         xauusdImpulseScalperBot.BONUS_NOTE[locale],
         xauusdImpulseSignal.INSTALL_INSTRUCTIONS[locale],
       ].join("\n"),
+  },
+  "btc-pulse": {
+    files: [
+      { fileName: btcPulse.FILE_NAME, code: btcPulse.CODE_BASE64, encoding: "base64" },
+    ],
+    instructions: (locale) => btcPulse.INSTALL_INSTRUCTIONS[locale],
+  },
+  magnum: {
+    files: [
+      { fileName: magnum.FILE_NAME, code: magnum.CODE_BASE64, encoding: "base64" },
+    ],
+    instructions: (locale) => magnum.INSTALL_INSTRUCTIONS[locale],
+  },
+  "sniper-ea": {
+    files: [
+      { fileName: sniperEa.FILE_NAME, code: sniperEa.CODE_BASE64, encoding: "base64" },
+    ],
+    instructions: (locale) => sniperEa.INSTALL_INSTRUCTIONS[locale],
   },
 };
 

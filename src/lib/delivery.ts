@@ -264,6 +264,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       attachments: deliverable?.files.map((f) => ({
         filename: f.fileName,
         content: f.code,
+        encoding: f.encoding,
       })),
     });
   }

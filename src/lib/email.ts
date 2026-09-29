@@ -26,7 +26,12 @@ export interface SendMailInput {
   html: string;
   text?: string;
   replyTo?: string;
-  attachments?: { filename: string; content: string }[];
+  attachments?: {
+    filename: string;
+    content: string;
+    /** "base64" for a compiled binary attachment; omitted for plain text. */
+    encoding?: "base64";
+  }[];
 }
 
 /**
