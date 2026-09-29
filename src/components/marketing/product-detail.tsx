@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowLeft,
   CalendarClock,
@@ -17,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BuyDialog } from "@/components/commerce/buy-dialog";
 import { ProductCard } from "@/components/marketing/product-card";
+import { ZoomableBacktestImage } from "@/components/marketing/zoomable-backtest-image";
 
 export function ProductDetail({
   product,
@@ -129,20 +129,16 @@ export function ProductDetail({
           {product.backtestImages && product.backtestImages.length > 0 && (
             <section>
               <h2 className="text-lg font-semibold">{t.common.backtestTitle}</h2>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="mt-4 grid gap-4">
                 {product.backtestImages.map((img, i) => (
-                  <div
+                  <ZoomableBacktestImage
                     key={i}
-                    className="overflow-hidden rounded-xl border border-border bg-card"
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt[locale]}
-                      width={img.width ?? 1280}
-                      height={img.height ?? 600}
-                      className="h-auto w-full"
-                    />
-                  </div>
+                    src={img.src}
+                    alt={img.alt[locale]}
+                    width={img.width ?? 1280}
+                    height={img.height ?? 600}
+                    zoomLabel={t.common.backtestZoom}
+                  />
                 ))}
               </div>
               <p className="mt-3 text-xs text-muted-foreground">

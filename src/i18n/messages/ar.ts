@@ -40,6 +40,7 @@ export const ar: Dictionary = {
     backtestTitle: "نتائج الاختبار الرجعي",
     backtestDisclaimer:
       "نتائج تاريخية محاكاة — الأداء السابق لا يضمن نتائج مستقبلية.",
+    backtestZoom: "تكبير",
     purchaseProcessTitle: "كيف تسير عملية الشراء",
     crossSellTitle: "يُشترى غالباً مع",
     allProducts: "كل المنتجات",
