@@ -382,7 +382,7 @@ export const bots: Product[] = [
         "Panel visual en el gráfico con el estado del bot en tiempo real",
         "Gestión de riesgo configurable desde un solo parámetro de entrada",
         "Backtest real: +186% en 21 meses (ene 2025 – sep 2026), con 5,1% de drawdown máximo",
-        "Incluye manual en PDF con cada parámetro explicado y los resultados completos del backtest",
+        "Incluye manual en PDF con cada parámetro explicado, más el reporte completo del Strategy Tester",
       ],
       en: [
         "Fully automated — no need to watch the chart",
@@ -390,7 +390,7 @@ export const bots: Product[] = [
         "On-chart panel showing the bot's live status",
         "Configurable risk management from a single input parameter",
         "Real backtest: +186% over 21 months (Jan 2025 – Sep 2026), with a 5.1% max drawdown",
-        "Includes a PDF manual with every parameter explained and the full backtest results",
+        "Includes a PDF manual with every parameter explained, plus the full Strategy Tester report",
       ],
       ar: [
         "آلي بالكامل — لا حاجة لمراقبة الرسم البياني",
@@ -398,7 +398,7 @@ export const bots: Product[] = [
         "لوحة مرئية على الرسم البياني تعرض حالة البوت لحظياً",
         "إدارة مخاطر قابلة للضبط من معامل إدخال واحد",
         "باكتيست حقيقي: +186% خلال 21 شهراً (يناير 2025 - سبتمبر 2026)، بحد أقصى للتراجع 5.1%",
-        "يشمل دليلاً بصيغة PDF يشرح كل معامل ويعرض نتائج الباكتيست كاملة",
+        "يشمل دليلاً بصيغة PDF يشرح كل معامل، إضافة إلى تقرير Strategy Tester كاملاً",
       ],
     },
     howItWorks: {
@@ -438,7 +438,7 @@ export const bots: Product[] = [
       {
         src: "/products/btc-pulse/backtest-report.jpg",
         width: 1190,
-        height: 1105,
+        height: 1684,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de BTC Pulse",
           en: "MT5 Strategy Tester report with BTC Pulse's full backtest metrics",
@@ -482,7 +482,7 @@ export const bots: Product[] = [
         "Gestión de riesgo automática por operación, sin promediar pérdidas",
         "Panel visual en el gráfico con el estado del bot",
         "Backtest real (perfil moderado): +202% en 21 meses, con 4,6% de drawdown máximo",
-        "Incluye manual en PDF con cada parámetro explicado y los resultados completos de los 3 perfiles",
+        "Incluye manual en PDF con cada parámetro explicado, más el reporte completo del Strategy Tester",
       ],
       en: [
         "Trades gold (XAU/USD) and Bitcoin (BTC/USD) at the same time, from a single chart",
@@ -490,7 +490,7 @@ export const bots: Product[] = [
         "Automatic per-trade risk management, no averaging down",
         "On-chart panel showing the bot's status",
         "Real backtest (moderate profile): +202% over 21 months, with a 4.6% max drawdown",
-        "Includes a PDF manual with every parameter explained and the full results for all 3 profiles",
+        "Includes a PDF manual with every parameter explained, plus the full Strategy Tester report",
       ],
       ar: [
         "يتداول الذهب (XAU/USD) والبيتكوين (BTC/USD) في آن واحد، من رسم بياني واحد",
@@ -498,7 +498,7 @@ export const bots: Product[] = [
         "إدارة مخاطر تلقائية لكل صفقة، دون تجميع الخسائر",
         "لوحة مرئية على الرسم البياني تعرض حالة البوت",
         "باكتيست حقيقي (المستوى المتوسط): +202% خلال 21 شهراً، بحد أقصى للتراجع 4.6%",
-        "يشمل دليلاً بصيغة PDF يشرح كل معامل ويعرض النتائج الكاملة للمستويات الثلاثة",
+        "يشمل دليلاً بصيغة PDF يشرح كل معامل، إضافة إلى تقرير Strategy Tester كاملاً",
       ],
     },
     howItWorks: {
@@ -538,7 +538,7 @@ export const bots: Product[] = [
       {
         src: "/products/magnum/backtest-report.jpg",
         width: 1190,
-        height: 1105,
+        height: 1684,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de Magnum",
           en: "MT5 Strategy Tester report with Magnum's full backtest metrics",
@@ -578,7 +578,7 @@ export const bots: Product[] = [
         "Factor de beneficio de 4,81 — cada dólar de pérdida contra casi $5 de ganancia",
         "Riesgo por operación ajustable desde un solo parámetro (probado en 3% y 5%)",
         "Panel visual en el gráfico con el estado del bot",
-        "Incluye manual en PDF con el parámetro explicado y los resultados completos de ambos niveles de riesgo",
+        "Incluye manual en PDF con el parámetro explicado, más el reporte completo del Strategy Tester",
       ],
       en: [
         "Trades both long and short on XAU/USD",
@@ -586,7 +586,7 @@ export const bots: Product[] = [
         "4.81 profit factor — almost $5 won for every $1 lost",
         "Adjustable risk per trade from a single parameter (tested at 3% and 5%)",
         "On-chart panel showing the bot's status",
-        "Includes a PDF manual with the parameter explained and the full results for both risk levels",
+        "Includes a PDF manual with the parameter explained, plus the full Strategy Tester report",
       ],
       ar: [
         "يتداول شراءً وبيعاً على XAU/USD",
@@ -594,7 +594,7 @@ export const bots: Product[] = [
         "عامل ربح 4.81 — نحو 5 دولارات ربح لكل دولار خسارة",
         "مخاطرة قابلة للضبط لكل صفقة من معامل واحد (اختُبرت عند 3% و5%)",
         "لوحة مرئية على الرسم البياني تعرض حالة البوت",
-        "يشمل دليلاً بصيغة PDF يشرح المعامل ويعرض النتائج الكاملة لمستويي المخاطرة",
+        "يشمل دليلاً بصيغة PDF يشرح المعامل، إضافة إلى تقرير Strategy Tester كاملاً",
       ],
     },
     howItWorks: {
@@ -634,7 +634,7 @@ export const bots: Product[] = [
       {
         src: "/products/sniper-ea/backtest-report.jpg",
         width: 1190,
-        height: 1105,
+        height: 1684,
         alt: {
           es: "Reporte del Strategy Tester de MT5 con las métricas completas del backtest de Sniper EA",
           en: "MT5 Strategy Tester report with Sniper EA's full backtest metrics",

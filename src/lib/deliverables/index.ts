@@ -56,6 +56,11 @@ const registry: Record<string, Deliverable> = {
         code: btcPulse.MANUAL_BASE64,
         encoding: "base64",
       },
+      {
+        fileName: btcPulse.REPORT_FILE_NAME,
+        code: btcPulse.REPORT_BASE64,
+        encoding: "base64",
+      },
     ],
     instructions: (locale) => btcPulse.INSTALL_INSTRUCTIONS[locale],
   },
@@ -67,6 +72,11 @@ const registry: Record<string, Deliverable> = {
         code: magnum.MANUAL_BASE64,
         encoding: "base64",
       },
+      {
+        fileName: magnum.REPORT_FILE_NAME,
+        code: magnum.REPORT_BASE64,
+        encoding: "base64",
+      },
     ],
     instructions: (locale) => magnum.INSTALL_INSTRUCTIONS[locale],
   },
@@ -76,6 +86,11 @@ const registry: Record<string, Deliverable> = {
       {
         fileName: sniperEa.MANUAL_FILE_NAME,
         code: sniperEa.MANUAL_BASE64,
+        encoding: "base64",
+      },
+      {
+        fileName: sniperEa.REPORT_FILE_NAME,
+        code: sniperEa.REPORT_BASE64,
         encoding: "base64",
       },
     ],
