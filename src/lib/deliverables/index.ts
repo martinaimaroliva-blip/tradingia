@@ -51,18 +51,33 @@ const registry: Record<string, Deliverable> = {
   "btc-pulse": {
     files: [
       { fileName: btcPulse.FILE_NAME, code: btcPulse.CODE_BASE64, encoding: "base64" },
+      {
+        fileName: btcPulse.MANUAL_FILE_NAME,
+        code: btcPulse.MANUAL_BASE64,
+        encoding: "base64",
+      },
     ],
     instructions: (locale) => btcPulse.INSTALL_INSTRUCTIONS[locale],
   },
   magnum: {
     files: [
       { fileName: magnum.FILE_NAME, code: magnum.CODE_BASE64, encoding: "base64" },
+      {
+        fileName: magnum.MANUAL_FILE_NAME,
+        code: magnum.MANUAL_BASE64,
+        encoding: "base64",
+      },
     ],
     instructions: (locale) => magnum.INSTALL_INSTRUCTIONS[locale],
   },
   "sniper-ea": {
     files: [
       { fileName: sniperEa.FILE_NAME, code: sniperEa.CODE_BASE64, encoding: "base64" },
+      {
+        fileName: sniperEa.MANUAL_FILE_NAME,
+        code: sniperEa.MANUAL_BASE64,
+        encoding: "base64",
+      },
     ],
     instructions: (locale) => sniperEa.INSTALL_INSTRUCTIONS[locale],
   },
