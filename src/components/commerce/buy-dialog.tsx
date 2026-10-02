@@ -207,7 +207,7 @@ export function BuyDialog({
           locale,
         }),
       });
-      if (!res.ok) throw new Error("failed");
+      if (!res.ok) throw new Error(`http_${res.status}`);
       const data = (await res.json()) as { verified?: boolean; token?: string };
       if (data.verified && data.token) {
         setLiveVerified({ email: exnessAccountEmail, token: data.token });
@@ -215,8 +215,9 @@ export function BuyDialog({
       } else {
         setStep("exness-pending");
       }
-    } catch {
-      setError(t.checkout.exness.submitError);
+    } catch (err) {
+      const code = err instanceof Error ? err.message : "network";
+      setError(`${t.checkout.exness.submitError} (${code})`);
     } finally {
       setLoading(false);
     }

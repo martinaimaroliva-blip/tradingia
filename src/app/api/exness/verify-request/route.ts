@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { z } from "zod";
 import { isLocale } from "@/i18n/config";
 import { getProduct } from "@/lib/products";
@@ -12,6 +12,7 @@ import {
 } from "@/lib/exness";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 const schema = z.object({
   slug: z.string().trim().min(1).max(60),
@@ -64,45 +65,49 @@ export async function POST(request: Request) {
       ? "Cambio de partner en cuenta existente (revisar en 72hs)"
       : "Cuenta nueva (recién creada o a crear)";
 
-  if (notifyTo) {
-    const statusLine = verified
-      ? `<p style="color:#16a34a"><strong>✓ Verificado automáticamente por la API de Exness.</strong> El cliente ya pasó directo al pago — esto es solo para tu registro.</p>`
-      : auto.configured
-        ? `<p><strong>La API de Exness todavía no muestra esta cuenta como afiliada</strong> (camino: ${escapeHtml(pathLabel)}). Revisá tu panel de partner y, cuando confirmes, reenviale este link al cliente para que complete la compra al precio con Exness:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`
-        : `<p>La verificación automática por API todavía no está conectada (falta EXNESS_API_KEY). Revisá tu panel de partner de Exness a mano y, cuando confirmes, reenviale este link al cliente:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`;
+  // Notifications (internal mail, CRM) run after the response so a slow
+  // Zoho/systeme.io call can never delay or fail the customer's verification.
+  after(async () => {
+    if (notifyTo) {
+      const statusLine = verified
+        ? `<p style="color:#16a34a"><strong>✓ Verificado automáticamente por la API de Exness.</strong> El cliente ya pasó directo al pago — esto es solo para tu registro.</p>`
+        : auto.configured
+          ? `<p><strong>La API de Exness todavía no muestra esta cuenta como afiliada</strong> (camino: ${escapeHtml(pathLabel)}). Revisá tu panel de partner y, cuando confirmes, reenviale este link al cliente para que complete la compra al precio con Exness:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`
+          : `<p>La verificación automática por API todavía no está conectada (falta EXNESS_API_KEY). Revisá tu panel de partner de Exness a mano y, cuando confirmes, reenviale este link al cliente:</p><p><a href="${resumeLink}">${resumeLink}</a></p>`;
 
-    await sendMail({
-      to: notifyTo,
-      subject: `${verified ? "✓ Verificado" : "Verificar"} cuenta de Exness — ${product.name}`,
-      html: `
-        <h2>Pedido de verificación de Exness</h2>
-        <p><strong>Producto:</strong> ${escapeHtml(product.name)}</p>
-        <p><strong>Cliente:</strong> ${escapeHtml(name)} — ${escapeHtml(contactEmail)}</p>
-        <p><strong>Email de la cuenta de Exness:</strong> ${escapeHtml(exnessEmail)}</p>
-        <p><strong>Camino elegido:</strong> ${escapeHtml(pathLabel)}</p>
-        ${statusLine}
-      `,
-      text: `Producto: ${product.name}\nCliente: ${name} <${contactEmail}>\nEmail Exness: ${exnessEmail}\nCamino: ${pathLabel}\nVerificado automáticamente: ${verified ? "sí" : "no"}\n\nLink de retomo:\n${resumeLink}`,
-    });
-  } else {
-    console.info(
-      "[exness] ORDER_NOTIFICATION_EMAIL not set — verification request logged only",
-      { slug, exnessEmail, path, verified },
-    );
-  }
+      await sendMail({
+        to: notifyTo,
+        subject: `${verified ? "✓ Verificado" : "Verificar"} cuenta de Exness — ${product.name}`,
+        html: `
+          <h2>Pedido de verificación de Exness</h2>
+          <p><strong>Producto:</strong> ${escapeHtml(product.name)}</p>
+          <p><strong>Cliente:</strong> ${escapeHtml(name)} — ${escapeHtml(contactEmail)}</p>
+          <p><strong>Email de la cuenta de Exness:</strong> ${escapeHtml(exnessEmail)}</p>
+          <p><strong>Camino elegido:</strong> ${escapeHtml(pathLabel)}</p>
+          ${statusLine}
+        `,
+        text: `Producto: ${product.name}\nCliente: ${name} <${contactEmail}>\nEmail Exness: ${exnessEmail}\nCamino: ${pathLabel}\nVerificado automáticamente: ${verified ? "sí" : "no"}\n\nLink de retomo:\n${resumeLink}`,
+      });
+    } else {
+      console.info(
+        "[exness] ORDER_NOTIFICATION_EMAIL not set — verification request logged only",
+        { slug, exnessEmail, path, verified },
+      );
+    }
 
-  if (verified) {
-    // Buyer is one step from paying — tag them in the funnel separately from
-    // a plain lead so a "close the sale" automation can target just this group.
-    await upsertLead({
-      email: contactEmail,
-      name,
-      locale,
-      source: "exness_verified",
-      path: `${kind}/${slug}`,
-      tagId: optionalEnv("SYSTEMEIO_TAG_ID_EXNESS_VERIFIED"),
-    });
-  }
+    if (verified) {
+      // Buyer is one step from paying — tag them in the funnel separately from
+      // a plain lead so a "close the sale" automation can target just this group.
+      await upsertLead({
+        email: contactEmail,
+        name,
+        locale,
+        source: "exness_verified",
+        path: `${kind}/${slug}`,
+        tagId: optionalEnv("SYSTEMEIO_TAG_ID_EXNESS_VERIFIED"),
+      });
+    }
+  });
 
   return NextResponse.json({
     ok: true,
