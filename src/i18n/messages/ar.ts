@@ -541,6 +541,7 @@ export const ar: Dictionary = {
       processing: "جارٍ التحويل…",
       error: "تعذّر بدء الدفع. حاول مرة أخرى.",
       missingFields: "أكمل جميع الحقول للمتابعة.",
+      invalidEmail: "تحقق من البريد الإلكتروني: يجب أن يكون عنواناً كاملاً مثل name@gmail.com.",
     },
     accountForm: {
       title: "آخر البيانات لتفعيل روبوتك",
@@ -575,6 +576,9 @@ export const ar: Dictionary = {
       noAccount: "ليس لدي حساب في Exness",
 
       optionsTitle: "كيف تفضّل المتابعة؟",
+      linkedOption: "لدي حساب عبر رابطكم بالفعل — تحقق",
+      linkedOptionHint:
+        "إذا فتحت حساب Exness عبر رابطنا (سابقاً أو لعملية شراء أخرى)، نتحقق منه فوراً.",
       switchOption: "تغيير الشريك (Partner) في حسابي الحالي",
       switchOptionHint: "قد يستغرق التأكيد حتى 72 ساعة.",
       newOption: "إنشاء حساب جديد ببريد إلكتروني آخر",

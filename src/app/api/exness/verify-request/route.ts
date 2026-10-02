@@ -20,7 +20,7 @@ const schema = z.object({
   name: z.string().trim().min(1).max(120),
   contactEmail: z.string().trim().email().max(190),
   exnessEmail: z.string().trim().email().max(190),
-  path: z.enum(["switch", "new"]),
+  path: z.enum(["switch", "new", "linked"]),
   locale: z.string().trim().max(5).optional(),
 });
 
@@ -63,7 +63,9 @@ export async function POST(request: Request) {
   const pathLabel =
     path === "switch"
       ? "Cambio de partner en cuenta existente (revisar en 72hs)"
-      : "Cuenta nueva (recién creada o a crear)";
+      : path === "linked"
+        ? "Cuenta ya abierta con nuestro link (verificación directa)"
+        : "Cuenta nueva (recién creada o a crear)";
 
   // Notifications (internal mail, CRM) run after the response so a slow
   // Zoho/systeme.io call can never delay or fail the customer's verification.

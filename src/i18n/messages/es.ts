@@ -547,6 +547,7 @@ export const es: Dictionary = {
       processing: "Redirigiendo…",
       error: "No se pudo iniciar el checkout. Inténtalo de nuevo.",
       missingFields: "Completá todos los campos para continuar.",
+      invalidEmail: "Revisá el correo: tiene que ser una dirección completa, como nombre@gmail.com.",
     },
     accountForm: {
       title: "Últimos datos para activar tu bot",
@@ -581,6 +582,9 @@ export const es: Dictionary = {
       noAccount: "No tengo cuenta en Exness",
 
       optionsTitle: "¿Cómo preferís continuar?",
+      linkedOption: "Ya tengo mi cuenta con tu link — verificar",
+      linkedOptionHint:
+        "Si ya abriste tu cuenta de Exness con nuestro link (antes o para otra compra), la verificamos al instante.",
       switchOption: "Cambiar de partner en mi cuenta actual",
       switchOptionHint: "Puede demorar hasta 72 horas en confirmarse.",
       newOption: "Crear una cuenta nueva con otro correo",

@@ -545,6 +545,7 @@ export const en = {
       processing: "Redirecting…",
       error: "Could not start checkout. Please try again.",
       missingFields: "Fill in every field to continue.",
+      invalidEmail: "Check the email: it must be a full address, like name@gmail.com.",
     },
     accountForm: {
       title: "Last details to activate your bot",
@@ -579,6 +580,9 @@ export const en = {
       noAccount: "I don't have an Exness account",
 
       optionsTitle: "How would you like to continue?",
+      linkedOption: "I already have my account through your link — verify",
+      linkedOptionHint:
+        "If you already opened your Exness account with our link (earlier, or for another purchase), we verify it instantly.",
       switchOption: "Switch partner on my current account",
       switchOptionHint: "Can take up to 72 hours to confirm.",
       newOption: "Create a new account with another email",

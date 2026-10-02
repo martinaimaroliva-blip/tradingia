@@ -51,6 +51,9 @@ type Step =
 const EXNESS_REFERRAL_URL =
   process.env.NEXT_PUBLIC_EXNESS_REFERRAL_URL || DEFAULT_EXNESS_REFERRAL_URL;
 
+// Mirrors what the API accepts: browsers allow "a@b", the server needs a real domain.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 export function BuyDialog({
   slug,
   kind,
@@ -96,7 +99,7 @@ export function BuyDialog({
   const [open, setOpen] = React.useState(false);
   const [step, setStep] = React.useState<Step>(initialStep);
   const [priceChoice, setPriceChoice] = React.useState<PriceChoice>(initialPriceChoice);
-  const [exnessPath, setExnessPath] = React.useState<"switch" | "new">("new");
+  const [exnessPath, setExnessPath] = React.useState<"switch" | "new" | "linked">("new");
   const [method, setMethod] = React.useState<Method>("crypto");
   const [network, setNetwork] = React.useState<UsdtNetwork>("TRC20");
   const [loading, setLoading] = React.useState(false);
@@ -146,6 +149,10 @@ export function BuyDialog({
       setError(t.checkout.dialog.missingFields);
       return;
     }
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      setError(t.checkout.dialog.invalidEmail);
+      return;
+    }
     setError(null);
     // Someone who turned down the Exness price is exactly who we want to
     // keep nurturing if they don't finish the purchase.
@@ -187,8 +194,8 @@ export function BuyDialog({
   }
 
   async function submitExnessEmail() {
-    if (exnessAccountEmail.trim() === "") {
-      setError(t.checkout.exness.submitError);
+    if (!EMAIL_PATTERN.test(exnessAccountEmail.trim())) {
+      setError(t.checkout.dialog.invalidEmail);
       return;
     }
     setLoading(true);
@@ -297,7 +304,13 @@ export function BuyDialog({
         setStep(isVerified ? "details" : priceChoice === "exness" ? "exness-email" : "details");
         return;
       case "exness-email":
-        setStep(exnessPath === "switch" ? "exness-switch" : "exness-new");
+        setStep(
+          exnessPath === "switch"
+            ? "exness-switch"
+            : exnessPath === "linked"
+              ? "exness-options"
+              : "exness-new",
+        );
         return;
       case "exness-switch":
       case "exness-new":
@@ -502,6 +515,21 @@ export function BuyDialog({
               <button
                 type="button"
                 onClick={() => {
+                  setExnessPath("linked");
+                  setStep("exness-email");
+                }}
+                className="rounded-lg border border-primary/50 bg-primary/[0.06] p-4 text-start transition-colors hover:bg-primary/10"
+              >
+                <span className="text-sm font-medium text-primary">
+                  {t.checkout.exness.linkedOption}
+                </span>
+                <span className="mt-1 block text-xs text-muted-foreground">
+                  {t.checkout.exness.linkedOptionHint}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
                   setExnessPath("switch");
                   setStep("exness-switch");
                 }}
@@ -520,9 +548,9 @@ export function BuyDialog({
                   setExnessPath("new");
                   setStep("exness-new");
                 }}
-                className="rounded-lg border border-primary/50 bg-primary/[0.06] p-4 text-start transition-colors hover:bg-primary/10"
+                className="rounded-lg border border-border p-4 text-start transition-colors hover:border-primary/40 hover:bg-secondary/40"
               >
-                <span className="text-sm font-medium text-primary">
+                <span className="text-sm font-medium">
                   {t.checkout.exness.newOption}
                 </span>
                 <span className="mt-1 block text-xs text-muted-foreground">
