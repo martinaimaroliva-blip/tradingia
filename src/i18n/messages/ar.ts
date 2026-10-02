@@ -474,6 +474,11 @@ export const ar: Dictionary = {
     directTitle: "تواصل معنا مباشرةً",
     whatsappCta: "راسلنا على واتساب",
     emailCta: "أرسل بريداً إلكترونياً",
+    gmailCta: "افتح في Gmail",
+    emailLabel: "البريد الإلكتروني",
+    phoneLabel: "واتساب",
+    copy: "نسخ",
+    copied: "تم النسخ",
   },
   lead: {
     title: "قبل أن تغادر — احصل على الدليل التمهيدي",

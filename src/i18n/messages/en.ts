@@ -478,6 +478,11 @@ export const en = {
     directTitle: "Reach us directly",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
+    gmailCta: "Open in Gmail",
+    emailLabel: "Email",
+    phoneLabel: "WhatsApp",
+    copy: "Copy",
+    copied: "Copied",
   },
   lead: {
     title: "Before you go — get the starter guide",

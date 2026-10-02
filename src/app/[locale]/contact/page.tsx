@@ -5,6 +5,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact/contact-form";
+import { CopyableContact } from "@/components/contact/copyable-contact";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export async function generateMetadata({
@@ -32,6 +33,12 @@ export default async function ContactPage({
 
   const meetUrl = process.env.NEXT_PUBLIC_MEET_URL || whatsappUrl();
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@example.com";
+  const phoneDigits = whatsappUrl().match(/wa\.me\/(\d+)/)?.[1];
+  const phone = !phoneDigits
+    ? null
+    : phoneDigits.startsWith("549") && phoneDigits.length === 13
+      ? `+54 9 ${phoneDigits.slice(3, 6)} ${phoneDigits.slice(6, 9)} ${phoneDigits.slice(9)}`
+      : `+${phoneDigits}`;
 
   return (
     <>
@@ -82,6 +89,16 @@ export default async function ContactPage({
           <div className="rounded-xl border border-border bg-card p-6">
             <h2 className="text-sm font-semibold">{t.contact.directTitle}</h2>
             <div className="mt-3 space-y-2">
+              <CopyableContact
+                label={t.contact.emailLabel}
+                value={email}
+                href={`mailto:${email}`}
+              />
+              {phone && (
+                <CopyableContact label={t.contact.phoneLabel} value={phone} />
+              )}
+            </div>
+            <div className="mt-3 space-y-2">
               <a
                 href={whatsappUrl()}
                 target="_blank"
@@ -97,6 +114,15 @@ export default async function ContactPage({
               >
                 <Mail className="size-4 text-primary" />
                 {t.contact.emailCta}
+              </a>
+              <a
+                href={`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm transition-colors hover:bg-secondary/60"
+              >
+                <Mail className="size-4 text-primary" />
+                {t.contact.gmailCta}
               </a>
             </div>
           </div>

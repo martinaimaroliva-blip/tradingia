@@ -479,6 +479,11 @@ export const es: Dictionary = {
     directTitle: "Contáctanos directo",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un correo",
+    gmailCta: "Abrir en Gmail",
+    emailLabel: "Correo",
+    phoneLabel: "WhatsApp",
+    copy: "Copiar",
+    copied: "Copiado",
   },
   lead: {
     title: "Antes de irte: llévate la guía inicial",
