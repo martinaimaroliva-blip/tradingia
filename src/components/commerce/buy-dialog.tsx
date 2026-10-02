@@ -248,10 +248,13 @@ export function BuyDialog({
         }),
       });
       const data = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error ?? "checkout failed");
+      if (!res.ok || !data.url) {
+        throw new Error(data.error ?? `http_${res.status}`);
+      }
       window.location.href = data.url;
-    } catch {
-      setError(t.checkout.dialog.error);
+    } catch (err) {
+      const code = err instanceof Error ? err.message : "network";
+      setError(`${t.checkout.dialog.error} (${code})`);
       setLoading(false);
     }
   }
