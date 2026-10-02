@@ -479,6 +479,8 @@ export const en = {
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
     gmailCta: "Open in Gmail",
+    emailFallback:
+      "Your browser has no mail app set up. We copied the address — paste it into your email:",
     emailLabel: "Email",
     phoneLabel: "WhatsApp",
     copy: "Copy",

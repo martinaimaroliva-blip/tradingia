@@ -480,6 +480,8 @@ export const es: Dictionary = {
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un correo",
     gmailCta: "Abrir en Gmail",
+    emailFallback:
+      "Tu navegador no tiene un programa de correo configurado. Copiamos la dirección, pegala en tu correo:",
     emailLabel: "Correo",
     phoneLabel: "WhatsApp",
     copy: "Copiar",

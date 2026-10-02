@@ -6,6 +6,7 @@ import { isLocale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact/contact-form";
 import { CopyableContact } from "@/components/contact/copyable-contact";
+import { MailtoButton } from "@/components/contact/mailto-button";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export async function generateMetadata({
@@ -108,13 +109,7 @@ export default async function ContactPage({
                 <MessageCircle className="size-4 text-primary" />
                 {t.contact.whatsappCta}
               </a>
-              <a
-                href={`mailto:${email}`}
-                className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm transition-colors hover:bg-secondary/60"
-              >
-                <Mail className="size-4 text-primary" />
-                {t.contact.emailCta}
-              </a>
+              <MailtoButton email={email} />
               <a
                 href={`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}`}
                 target="_blank"

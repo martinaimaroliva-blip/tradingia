@@ -475,6 +475,8 @@ export const ar: Dictionary = {
     whatsappCta: "راسلنا على واتساب",
     emailCta: "أرسل بريداً إلكترونياً",
     gmailCta: "افتح في Gmail",
+    emailFallback:
+      "متصفحك لا يحتوي على تطبيق بريد مُعدّ. نسخنا العنوان — الصقه في بريدك:",
     emailLabel: "البريد الإلكتروني",
     phoneLabel: "واتساب",
     copy: "نسخ",
