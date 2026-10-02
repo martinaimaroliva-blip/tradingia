@@ -110,6 +110,11 @@ export interface Product {
     suits: Localized;
     highlights: LocalizedList;
   };
+  /**
+   * Real number of paid sales, set by hand from the order emails. Only
+   * shown when set and above zero — never estimate or round it up.
+   */
+  salesCount?: number;
   /** Current version shown on the product page, e.g. "1.0". */
   version?: string;
   /** ISO date (YYYY-MM-DD) of the last real content/logic update, shown next to `version`. */

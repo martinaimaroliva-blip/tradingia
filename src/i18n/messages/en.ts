@@ -70,6 +70,7 @@ export const en = {
     riskConservative: "Conservative",
     riskModerate: "Moderate",
     riskAggressive: "Aggressive",
+    salesLabel: "Sales",
     languageLabel: "Language",
     securePayment: "Secure payment",
     instantAccess: "Instant access",

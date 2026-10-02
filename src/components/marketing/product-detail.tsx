@@ -60,6 +60,12 @@ export function ProductDetail({
     { label: t.common.strategy, value: product.strategyTag[locale] },
     { label: t.common.platform, value: product.platform },
   ];
+  if (product.salesCount && product.salesCount > 0) {
+    specs.push({
+      label: t.common.salesLabel,
+      value: new Intl.NumberFormat(locale).format(product.salesCount),
+    });
+  }
   if (product.version && product.lastUpdated) {
     const updatedLabel = new Intl.DateTimeFormat(locale, {
       year: "numeric",

@@ -72,6 +72,7 @@ export const es: Dictionary = {
     riskConservative: "Conservador",
     riskModerate: "Moderado",
     riskAggressive: "Agresivo",
+    salesLabel: "Ventas",
     languageLabel: "Idioma",
     securePayment: "Pago seguro",
     instantAccess: "Acceso inmediato",

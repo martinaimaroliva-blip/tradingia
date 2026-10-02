@@ -72,6 +72,7 @@ export const ar: Dictionary = {
     riskConservative: "محافظ",
     riskModerate: "متوسط",
     riskAggressive: "عدواني",
+    salesLabel: "المبيعات",
     languageLabel: "اللغة",
     securePayment: "دفع آمن",
     instantAccess: "وصول فوري",

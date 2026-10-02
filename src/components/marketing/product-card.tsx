@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Clock, Layers } from "lucide-react";
+import { ArrowRight, Clock, Layers, ShoppingBag } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 import type { Product } from "@/lib/products";
@@ -72,6 +72,12 @@ export function ProductCard({
           <Clock className="size-3.5" />
           {product.timeframe} · {product.platform}
         </span>
+        {product.salesCount && product.salesCount > 0 ? (
+          <span className="inline-flex items-center gap-1.5">
+            <ShoppingBag className="size-3.5" />
+            {t.common.salesLabel}: {new Intl.NumberFormat(locale).format(product.salesCount)}
+          </span>
+        ) : null}
       </div>
 
       <div className="mt-5 border-t border-border pt-4">
