@@ -718,8 +718,8 @@ export const bots: Product[] = [
         "تستلمها مع الترخيص والدليل جاهزة للعمل على حسابك.",
       ],
     },
-    priceUSD: 3500,
-    exnessPriceUSD: 3500,
+    priceUSD: 1999,
+    exnessPriceUSD: 1999,
     badge: "custom",
     depositPercent: 50,
     purchaseProcess: {
