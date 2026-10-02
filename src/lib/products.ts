@@ -84,6 +84,13 @@ export interface Product {
    * automates it, etc.
    */
   crossSell?: string[];
+  /**
+   * True while the product isn't actually sellable yet (e.g. delivery
+   * depends on integrations we haven't turned on). The buy flow is
+   * replaced with an email interest-registration form instead of real
+   * checkout — shown alongside the "new" badge ("Próximamente").
+   */
+  comingSoon?: boolean;
 }
 
 export const bots: Product[] = [
@@ -993,6 +1000,8 @@ export const signals: Product[] = [
     priceUSD: 150,
     exnessPriceUSD: 99,
     crossSell: ["siza", "xauusd-impulse-scalper-bot"],
+    badge: "new",
+    comingSoon: true,
   },
   {
     slug: "signal-btcusd",
@@ -1064,6 +1073,8 @@ export const signals: Product[] = [
     priceUSD: 150,
     exnessPriceUSD: 99,
     crossSell: ["btc-pulse"],
+    badge: "new",
+    comingSoon: true,
   },
   {
     slug: "signal-multi",
@@ -1139,6 +1150,8 @@ export const signals: Product[] = [
     exnessPriceUSD: 200,
     requiresExnessVerification: true,
     crossSell: ["magnum", "btc-pulse"],
+    badge: "new",
+    comingSoon: true,
   },
 ];
 

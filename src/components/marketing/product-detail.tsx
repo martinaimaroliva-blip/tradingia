@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { BuyDialog } from "@/components/commerce/buy-dialog";
 import { ProductCard } from "@/components/marketing/product-card";
 import { ZoomableBacktestImage } from "@/components/marketing/zoomable-backtest-image";
+import { InterestForm } from "@/components/marketing/interest-form";
 
 export function ProductDetail({
   product,
@@ -199,9 +200,11 @@ export function ProductDetail({
               {detail.manual}
             </div>
             <p className="mt-1.5 text-sm text-muted-foreground">
-              {product.requiresConsultation || product.depositPercent
-                ? detail.customDeliveryNote
-                : detail.deliveryNote}
+              {product.comingSoon
+                ? t.common.comingSoonNote
+                : product.requiresConsultation || product.depositPercent
+                  ? detail.customDeliveryNote
+                  : detail.deliveryNote}
             </p>
           </section>
         </div>
@@ -303,7 +306,12 @@ export function ProductDetail({
             )}
 
             <div className="mt-5 space-y-2.5">
-              {product.requiresConsultation ? (
+              {product.comingSoon ? (
+                <InterestForm
+                  slug={product.slug}
+                  topic={isBot ? "bots" : isSignal ? "signals" : "indicators"}
+                />
+              ) : product.requiresConsultation ? (
                 <Button asChild size="lg" className="w-full">
                   <Link
                     href={lp(
@@ -343,7 +351,7 @@ export function ProductDetail({
               </Button>
             </div>
 
-            {!product.requiresConsultation && (
+            {!product.requiresConsultation && !product.comingSoon && (
               <p className="mt-4 text-center text-[11px] text-muted-foreground">
                 {t.common.securePayment}
                 {!product.depositPercent && ` · ${t.common.instantAccess}`}

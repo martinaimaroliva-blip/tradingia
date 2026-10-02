@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CalendarClock, Mail, MessageCircle, Send } from "lucide-react";
+import { CalendarClock, Mail, MessageCircle } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,6 @@ export default async function ContactPage({
   const t = await getDictionary(locale);
 
   const meetUrl = process.env.NEXT_PUBLIC_MEET_URL || whatsappUrl();
-  const telegramUrl = process.env.NEXT_PUBLIC_TELEGRAM_URL || "#";
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@example.com";
 
   return (
@@ -91,15 +90,6 @@ export default async function ContactPage({
               >
                 <MessageCircle className="size-4 text-primary" />
                 {t.contact.whatsappCta}
-              </a>
-              <a
-                href={telegramUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm transition-colors hover:bg-secondary/60"
-              >
-                <Send className="size-4 text-primary" />
-                {t.contact.telegramCta}
               </a>
               <a
                 href={`mailto:${email}`}

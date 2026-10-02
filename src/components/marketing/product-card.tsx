@@ -96,7 +96,14 @@ export function ProductCard({
       </div>
 
       <div className="mt-4 flex items-center gap-2">
-        {product.requiresConsultation ? (
+        {product.comingSoon ? (
+          <Link
+            href={href}
+            className="inline-flex h-9 flex-1 items-center justify-center rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            {t.common.comingSoonCardCta}
+          </Link>
+        ) : product.requiresConsultation ? (
           <Link
             href={`/${locale}/contact?topic=${base.slice(1)}`}
             className="inline-flex h-9 flex-1 items-center justify-center rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
