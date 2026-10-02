@@ -4,6 +4,8 @@ import "server-only";
 export interface BuyerInfo {
   name: string;
   email: string;
+  /** International format, e.g. "+54 3413373443". */
+  phone?: string;
 }
 
 /** Which price tier they were shown/chose — bots & indicators only. */

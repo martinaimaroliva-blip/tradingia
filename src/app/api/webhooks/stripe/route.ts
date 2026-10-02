@@ -39,7 +39,11 @@ export async function POST(request: Request) {
         const email =
           session.customer_details?.email ?? session.customer_email ?? undefined;
         const buyer: BuyerInfo | null = email
-          ? { name: session.metadata?.buyerName ?? "", email }
+          ? {
+              name: session.metadata?.buyerName ?? "",
+              email,
+              phone: session.metadata?.buyerPhone || undefined,
+            }
           : null;
         await fulfilPurchase({
           provider: "stripe",

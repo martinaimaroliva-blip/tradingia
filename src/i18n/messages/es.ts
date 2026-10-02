@@ -548,6 +548,8 @@ export const es: Dictionary = {
       error: "No se pudo iniciar el checkout. Inténtalo de nuevo.",
       missingFields: "Completá todos los campos para continuar.",
       invalidEmail: "Revisá el correo: tiene que ser una dirección completa, como nombre@gmail.com.",
+      invalidPhone: "Revisá el teléfono: elegí tu país y escribí solo el número, sin el código.",
+      phonePlaceholder: "Tu número, sin el código de país",
     },
     accountForm: {
       title: "Últimos datos para activar tu bot",

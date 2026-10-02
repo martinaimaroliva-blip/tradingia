@@ -109,6 +109,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
       ["Referencia", input.reference],
       ["Comprador", input.buyer?.name ?? "—"],
       ["Email", input.buyer?.email ?? "—"],
+      ["Teléfono", input.buyer?.phone ?? "—"],
       ...(partner && commissionUSD != null
         ? ([
             [
@@ -139,6 +140,7 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
     await upsertLead({
       email: input.buyer.email,
       name: input.buyer.name,
+      phone: input.buyer.phone,
       locale: input.locale,
       source: "purchased",
       path: [input.kind, input.slug].filter(Boolean).join("/") || undefined,

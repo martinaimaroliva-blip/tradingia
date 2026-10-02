@@ -23,6 +23,12 @@ import { useI18n } from "@/components/providers/i18n-provider";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PhoneInput } from "@/components/commerce/phone-input";
+import {
+  DEFAULT_PHONE_COUNTRY,
+  formatPhone,
+  isValidPhone,
+} from "@/lib/phone";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -108,6 +114,10 @@ export function BuyDialog({
 
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState(verifiedExnessEmail ?? "");
+  const [phoneIso, setPhoneIso] = React.useState(
+    DEFAULT_PHONE_COUNTRY[locale] ?? "AR",
+  );
+  const [phoneNumber, setPhoneNumber] = React.useState("");
   const [exnessAccountEmail, setExnessAccountEmail] = React.useState(
     verifiedExnessEmail ?? "",
   );
@@ -153,6 +163,10 @@ export function BuyDialog({
       setError(t.checkout.dialog.invalidEmail);
       return;
     }
+    if (!isValidPhone(phoneIso, phoneNumber)) {
+      setError(t.checkout.dialog.invalidPhone);
+      return;
+    }
     setError(null);
     // Someone who turned down the Exness price is exactly who we want to
     // keep nurturing if they don't finish the purchase.
@@ -163,6 +177,7 @@ export function BuyDialog({
         body: JSON.stringify({
           name,
           email,
+          phone: formatPhone(phoneIso, phoneNumber),
           locale,
           source: "checkout_no_exness",
           topic: kind,
@@ -245,6 +260,7 @@ export function BuyDialog({
           locale,
           name,
           email,
+          phone: formatPhone(phoneIso, phoneNumber),
           priceChoice,
           ...(method === "crypto" ? { cryptoNetwork: network } : {}),
           ...(priceChoice === "exness" && liveVerified
@@ -472,6 +488,18 @@ export function BuyDialog({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
+                />
+              </div>
+              <div className="grid gap-1.5 sm:col-span-2">
+                <Label htmlFor="buy-phone">{t.contact.form.phone}</Label>
+                <PhoneInput
+                  id="buy-phone"
+                  locale={locale}
+                  iso={phoneIso}
+                  number={phoneNumber}
+                  onIsoChange={setPhoneIso}
+                  onNumberChange={setPhoneNumber}
+                  placeholder={t.checkout.dialog.phonePlaceholder}
                 />
               </div>
             </div>

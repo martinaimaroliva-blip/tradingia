@@ -546,6 +546,8 @@ export const en = {
       error: "Could not start checkout. Please try again.",
       missingFields: "Fill in every field to continue.",
       invalidEmail: "Check the email: it must be a full address, like name@gmail.com.",
+      invalidPhone: "Check the phone: pick your country and type only the number, without the country code.",
+      phonePlaceholder: "Your number, without the country code",
     },
     accountForm: {
       title: "Last details to activate your bot",

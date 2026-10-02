@@ -542,6 +542,8 @@ export const ar: Dictionary = {
       error: "تعذّر بدء الدفع. حاول مرة أخرى.",
       missingFields: "أكمل جميع الحقول للمتابعة.",
       invalidEmail: "تحقق من البريد الإلكتروني: يجب أن يكون عنواناً كاملاً مثل name@gmail.com.",
+      invalidPhone: "تحقق من الهاتف: اختر بلدك واكتب الرقم فقط دون رمز الدولة.",
+      phonePlaceholder: "رقمك، دون رمز الدولة"
     },
     accountForm: {
       title: "آخر البيانات لتفعيل روبوتك",

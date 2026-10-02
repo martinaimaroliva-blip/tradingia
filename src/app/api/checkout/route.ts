@@ -22,6 +22,13 @@ const schema = z.object({
   locale: z.string().trim().max(5).optional(),
   name: z.string().trim().min(1).max(120),
   email: z.string().trim().email().max(190),
+  // International format, e.g. "+54 3413373443" — built by the dialog's
+  // country-code picker.
+  phone: z
+    .string()
+    .trim()
+    .regex(/^\+\d{1,4} \d{3,14}$/)
+    .max(30),
   // Bots & indicators only — ignored for signals (flat monthly price).
   priceChoice: z.enum(["standard", "exness"]).default("standard"),
   cryptoNetwork: z.enum(["TRC20", "BEP20"]).optional(),
@@ -54,6 +61,7 @@ export async function POST(request: Request) {
     method,
     name,
     email,
+    phone,
     priceChoice,
     cryptoNetwork,
     exnessEmail,
@@ -109,7 +117,7 @@ export async function POST(request: Request) {
   }
   const productName = `SmartradeBot — ${product.name}`;
 
-  const buyer: BuyerInfo = { name, email };
+  const buyer: BuyerInfo = { name, email, phone };
 
   const base = siteUrl();
   // The success page shows a post-payment form: the MT4/5 account-number
@@ -142,6 +150,7 @@ export async function POST(request: Request) {
         locale,
         productName,
         buyerName: name,
+        buyerPhone: phone,
         priceChoice,
         ...(partnerRef ? { partnerRef } : {}),
       },
