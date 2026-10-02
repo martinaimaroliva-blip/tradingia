@@ -97,7 +97,7 @@ export function BuyDialog({
   const [step, setStep] = React.useState<Step>(initialStep);
   const [priceChoice, setPriceChoice] = React.useState<PriceChoice>(initialPriceChoice);
   const [exnessPath, setExnessPath] = React.useState<"switch" | "new">("new");
-  const [method, setMethod] = React.useState<Method>("card");
+  const [method, setMethod] = React.useState<Method>("crypto");
   const [network, setNetwork] = React.useState<UsdtNetwork>("TRC20");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -119,7 +119,7 @@ export function BuyDialog({
     setStep(initialStep);
     setPriceChoice(initialPriceChoice);
     setExnessPath("new");
-    setMethod("card");
+    setMethod("crypto");
     setNetwork("TRC20");
     setError(null);
     setLoading(false);
@@ -256,27 +256,31 @@ export function BuyDialog({
     }
   }
 
+  // Card and Mercado Pago aren't connected yet — crypto is the only live
+  // method for now. Kept in this list (shown disabled, like dLocal below)
+  // so the options aren't a surprise once they do come online.
   const methodOptions: { id: Method; icon: React.ReactNode; title: string; hint: string }[] =
     [
-      {
-        id: "card",
-        icon: <CreditCard className="size-5" />,
-        title: t.checkout.dialog.card,
-        hint: t.checkout.dialog.cardHint,
-      },
       {
         id: "crypto",
         icon: <Bitcoin className="size-5" />,
         title: t.checkout.dialog.crypto,
         hint: t.checkout.dialog.cryptoHint,
       },
-      {
-        id: "mercadopago",
-        icon: <Wallet className="size-5" />,
-        title: t.checkout.dialog.mercadopago,
-        hint: t.checkout.dialog.mercadopagoHint,
-      },
     ];
+
+  const disabledMethods: { icon: React.ReactNode; title: string; hint: string }[] = [
+    {
+      icon: <CreditCard className="size-5" />,
+      title: t.checkout.dialog.card,
+      hint: t.checkout.dialog.cardHint,
+    },
+    {
+      icon: <Wallet className="size-5" />,
+      title: t.checkout.dialog.mercadopago,
+      hint: t.checkout.dialog.mercadopagoHint,
+    },
+  ];
 
   const saving =
     priceUSD != null && exnessPriceUSD != null ? priceUSD - exnessPriceUSD : 0;
@@ -688,6 +692,27 @@ export function BuyDialog({
                     )}
                   />
                 </button>
+              ))}
+
+              {disabledMethods.map((opt) => (
+                <div
+                  key={opt.title}
+                  aria-disabled
+                  className="flex cursor-not-allowed items-center gap-3 rounded-lg border border-dashed border-border p-3.5 text-start opacity-60"
+                >
+                  <span className="grid size-10 shrink-0 place-items-center rounded-md bg-secondary text-muted-foreground">
+                    {opt.icon}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-medium">{opt.title}</span>
+                    <span className="block text-xs text-muted-foreground">
+                      {opt.hint}
+                    </span>
+                  </span>
+                  <Badge variant="outline" className="ms-auto shrink-0">
+                    {t.common.comingSoon}
+                  </Badge>
+                </div>
               ))}
 
               <div
