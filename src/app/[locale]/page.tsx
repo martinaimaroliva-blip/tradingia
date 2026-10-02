@@ -156,29 +156,6 @@ export default async function HomePage({
         </div>
       </Section>
 
-      {/* Testimonials */}
-      <Section className="border-y border-border bg-card/30">
-        <SectionHeading
-          title={t.home.testimonials.title}
-          subtitle={t.home.testimonials.subtitle}
-        />
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {t.home.testimonials.items.map((item, i) => (
-            <figure key={i} className="flex flex-col rounded-xl border border-border bg-card p-6">
-              <blockquote className="flex-1 text-sm leading-relaxed text-foreground/90">
-                &ldquo;{item.quote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-5 border-t border-border pt-4 text-sm">
-                <span className="font-medium">{item.name}</span>
-                <span className="block text-xs text-muted-foreground">
-                  {item.role}
-                </span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </Section>
-
       {/* FAQ */}
       <Section>
         <SectionHeading title={t.home.faq.title} subtitle={t.home.faq.subtitle} />

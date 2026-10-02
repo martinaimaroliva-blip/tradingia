@@ -66,6 +66,12 @@ export const es: Dictionary = {
     platform: "Plataforma",
     version: "Versión",
     versionValue: "{version} · Actualizado el {date}",
+    profileTitle: "Perfil del bot",
+    riskLabel: "Nivel de riesgo",
+    suitsLabel: "Ideal para",
+    riskConservative: "Conservador",
+    riskModerate: "Moderado",
+    riskAggressive: "Agresivo",
     languageLabel: "Idioma",
     securePayment: "Pago seguro",
     instantAccess: "Acceso inmediato",
@@ -162,30 +168,6 @@ export const es: Dictionary = {
       cta: "Ver la oferta de Exness",
       disclaimer:
         "Podemos recibir una comisión si abres una cuenta a través de nuestro enlace, sin costo adicional para ti. Operar conlleva riesgo.",
-    },
-    testimonials: {
-      title: "Lo que dicen los miembros",
-      subtitle: "Comentarios de traders que usan los bots y la sala de señales.",
-      items: [
-        {
-          quote:
-            "La instalación me llevó diez minutos con el manual. El bot corre en mi VPS desde entonces sin que tenga que estar encima.",
-          name: "Andrés M.",
-          role: "Usuario del bot de oro",
-        },
-        {
-          quote:
-            "Las señales vienen con un nivel de invalidación claro, que es lo que realmente necesitaba. Sin ruido, solo la operación.",
-          name: "Sara K.",
-          role: "Miembro de señales",
-        },
-        {
-          quote:
-            "Pagar con cripto y recibir el archivo de licencia al instante fue impecable. El soporte respondió mi duda rápido.",
-          name: "Lucas R.",
-          role: "Cliente de indicadores",
-        },
-      ],
     },
     faq: {
       title: "Preguntas frecuentes",

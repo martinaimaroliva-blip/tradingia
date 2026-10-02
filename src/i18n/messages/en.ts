@@ -64,6 +64,12 @@ export const en = {
     platform: "Platform",
     version: "Version",
     versionValue: "{version} · Updated on {date}",
+    profileTitle: "Bot profile",
+    riskLabel: "Risk level",
+    suitsLabel: "Best for",
+    riskConservative: "Conservative",
+    riskModerate: "Moderate",
+    riskAggressive: "Aggressive",
     languageLabel: "Language",
     securePayment: "Secure payment",
     instantAccess: "Instant access",
@@ -160,30 +166,6 @@ export const en = {
       cta: "See the Exness offer",
       disclaimer:
         "We may receive a commission if you open an account through our link, at no extra cost to you. Trading involves risk.",
-    },
-    testimonials: {
-      title: "What members say",
-      subtitle: "Feedback from traders using the bots and the signals room.",
-      items: [
-        {
-          quote:
-            "Setup took ten minutes with the manual. The bot has been running on my VPS ever since with no babysitting.",
-          name: "Andrés M.",
-          role: "Gold bot user",
-        },
-        {
-          quote:
-            "The signals come with a clear invalidation level, which is what I actually needed. No noise, just the trade.",
-          name: "Sara K.",
-          role: "Signals member",
-        },
-        {
-          quote:
-            "Buying with crypto and getting the license file straight away was seamless. Support answered my one question fast.",
-          name: "Lucas R.",
-          role: "Indicators customer",
-        },
-      ],
     },
     faq: {
       title: "Frequently asked questions",

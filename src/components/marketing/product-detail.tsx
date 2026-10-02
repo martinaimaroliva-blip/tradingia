@@ -18,6 +18,7 @@ import { BuyDialog } from "@/components/commerce/buy-dialog";
 import { ProductCard } from "@/components/marketing/product-card";
 import { ZoomableBacktestImage } from "@/components/marketing/zoomable-backtest-image";
 import { InterestForm } from "@/components/marketing/interest-form";
+import { RiskBadges } from "@/components/marketing/risk-badges";
 
 export function ProductDetail({
   product,
@@ -117,6 +118,39 @@ export function ProductDetail({
               {product.description[locale]}
             </p>
           </section>
+
+          {product.profile && (
+            <section className="rounded-xl border border-border bg-card/40 p-5">
+              <h2 className="text-lg font-semibold">{t.common.profileTitle}</h2>
+              {product.profile.risk.length > 0 && (
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <span className="text-sm text-muted-foreground">
+                    {t.common.riskLabel}
+                  </span>
+                  <RiskBadges levels={product.profile.risk} t={t} />
+                </div>
+              )}
+              <p className="mt-4 text-sm leading-relaxed">
+                <span className="font-medium">{t.common.suitsLabel}: </span>
+                <span className="text-foreground/90">
+                  {product.profile.suits[locale]}
+                </span>
+              </p>
+              <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                {product.profile.highlights[locale].map((h, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm">
+                    <Check className="mt-0.5 size-4 shrink-0 text-accent" />
+                    <span className="text-foreground/90">{h}</span>
+                  </li>
+                ))}
+              </ul>
+              {product.profile.risk.length > 0 && (
+                <p className="mt-4 text-xs text-muted-foreground">
+                  {t.common.backtestDisclaimer}
+                </p>
+              )}
+            </section>
+          )}
 
           {product.purchaseProcess && (
             <section className="rounded-xl border border-primary/30 bg-primary/[0.04] p-5">

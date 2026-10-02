@@ -5,6 +5,8 @@ export type LocalizedList = Record<Locale, string[]>;
 
 export type ProductKind = "bot" | "indicator" | "signal";
 
+export type RiskLevel = "conservative" | "moderate" | "aggressive";
+
 export interface Product {
   slug: string;
   kind: ProductKind;
@@ -97,6 +99,17 @@ export interface Product {
    * checkout — shown alongside the "new" badge ("Próximamente").
    */
   comingSoon?: boolean;
+  /**
+   * Who the product suits and how risky it is, shown as a "profile" block
+   * on the product page and badges on the card. Every figure in
+   * `highlights` must come from a real backtest/report — never estimated.
+   * Leave `risk` empty when there's no report to base a level on.
+   */
+  profile?: {
+    risk: RiskLevel[];
+    suits: Localized;
+    highlights: LocalizedList;
+  };
   /** Current version shown on the product page, e.g. "1.0". */
   version?: string;
   /** ISO date (YYYY-MM-DD) of the last real content/logic update, shown next to `version`. */
@@ -109,6 +122,31 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-23",
+    profile: {
+      risk: [],
+      suits: {
+        es: 'Scalpers de oro en M5 que quieren automatizar el criterio del indicador manual, con límites de pérdida que frenan el bot solo.',
+        en: "Gold scalpers on M5 who want to automate the manual indicator's criteria, with loss limits that halt the bot on their own.",
+        ar: 'متداولو سكالبينج الذهب على فريم 5 دقائق الذين يريدون أتمتة معيار المؤشر اليدوي، مع حدود خسارة توقف البوت تلقائياً.',
+      },
+      highlights: {
+        es: [
+          'Stop loss y take profit automáticos (1,5R por defecto)',
+          'Límites de pérdida diaria, semanal y de drawdown con freno automático',
+          'Filtro de spread, horario fijo y filtro opcional de noticias',
+        ],
+        en: [
+          'Automatic stop-loss and take-profit (1.5R by default)',
+          'Daily, weekly and drawdown loss limits with an automatic brake',
+          'Spread filter, fixed trading window and an optional news filter',
+        ],
+        ar: [
+          'وقف خسارة وأخذ ربح تلقائيان (1.5R افتراضياً)',
+          'حدود خسارة يومية وأسبوعية وللتراجع مع كبح تلقائي',
+          'فلتر فروق السعر ونطاق تداول ثابت وفلتر اختياري للأخبار',
+        ],
+      },
+    },
     name: "XAUUSD Impulse Scalper",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -186,6 +224,34 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-23",
+    profile: {
+      risk: ["moderate"],
+      suits: {
+        es: 'Scalpers, traders intradía y otros estilos: detecta si el mercado está en tendencia o en rango y se adapta, en lugar de operar siempre igual.',
+        en: 'Scalpers, intraday traders and other styles: it detects whether the market is trending or ranging and adapts, instead of always trading the same way.',
+        ar: 'السكالبرز والمتداولون اليوميون وأساليب أخرى: يكتشف ما إذا كان السوق في اتجاه أو نطاق ويتكيف، بدلاً من التداول بنفس الطريقة دائماً.',
+      },
+      highlights: {
+        es: [
+          '+46,7% en 9 meses sobre $10.000 (backtest real)',
+          '78,9% de operaciones ganadoras y factor de beneficio de 1,75',
+          'Caída máxima desde un pico: 9,8% del capital',
+          '4.467 operaciones en 9 meses: alta frecuencia, con protección ante movimientos extremos',
+        ],
+        en: [
+          '+46.7% in 9 months on $10,000 (real backtest)',
+          '78.9% winning trades and a profit factor of 1.75',
+          'Maximum drop from a peak: 9.8% of capital',
+          '4,467 trades in 9 months: high frequency, with protection against extreme moves',
+        ],
+        ar: [
+          '+46.7% خلال 9 أشهر على 10,000$ (باكتيست حقيقي)',
+          '78.9% صفقات رابحة ومعامل ربح 1.75',
+          'أقصى تراجع من القمة: 9.8% من رأس المال',
+          '4,467 صفقة خلال 9 أشهر: تردد عالٍ مع حماية من التحركات الحادة',
+        ],
+      },
+    },
     name: "SIZA",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -305,6 +371,31 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-11",
+    profile: {
+      risk: [],
+      suits: {
+        es: 'Traders con una cuenta atrapada en hedge o con una racha de pérdidas, que necesitan una salida ordenada y no un cierre de golpe.',
+        en: 'Traders with an account stuck in a hedge or on a losing streak who need an orderly way out rather than a sudden close.',
+        ar: 'المتداولون الذين لديهم حساب عالق في تحوّط أو في سلسلة خسائر ويحتاجون إلى مخرج منظم وليس إغلاقاً مفاجئاً.',
+      },
+      highlights: {
+        es: [
+          'Analiza la exposición abierta antes de tomar cualquier acción',
+          'Cierre progresivo, no de golpe, para no forzar la pérdida',
+          'Límites de riesgo configurables durante todo el proceso',
+        ],
+        en: [
+          'Analyzes the open exposure before taking any action',
+          "Progressive close, not all at once, so the loss isn't forced",
+          'Configurable risk limits throughout the process',
+        ],
+        ar: [
+          'يحلل التعرض المفتوح قبل اتخاذ أي إجراء',
+          'إغلاق تدريجي وليس دفعة واحدة حتى لا تُفرض الخسارة',
+          'حدود مخاطرة قابلة للضبط طوال العملية',
+        ],
+      },
+    },
     name: "Paramédica",
     asset: "MULTI",
     assetLabel: {
@@ -380,6 +471,34 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-29",
+    profile: {
+      risk: ["moderate"],
+      suits: {
+        es: 'Traders de Bitcoin que prefieren pocas operaciones rápidas y selectivas (unos 14 minutos en promedio), solo a favor del impulso alcista.',
+        en: 'Bitcoin traders who prefer a few fast, selective trades (about 14 minutes on average), only with the bullish impulse.',
+        ar: 'متداولو بيتكوين الذين يفضلون عدداً قليلاً من الصفقات السريعة والانتقائية (حوالي 14 دقيقة في المتوسط)، فقط مع الزخم الصاعد.',
+      },
+      highlights: {
+        es: [
+          '+186% en 21 meses: de $1.000 a $2.870 (backtest real)',
+          '71% de operaciones ganadoras y factor de beneficio de 2,87',
+          'Caída máxima desde un pico: 5,8% del capital',
+          '100 operaciones en 21 meses, sin promediar pérdidas',
+        ],
+        en: [
+          '+186% in 21 months: from $1,000 to $2,870 (real backtest)',
+          '71% winning trades and a profit factor of 2.87',
+          'Maximum drop from a peak: 5.8% of capital',
+          '100 trades in 21 months, never averaging down losses',
+        ],
+        ar: [
+          '+186% خلال 21 شهراً: من 1,000$ إلى 2,870$ (باكتيست حقيقي)',
+          '71% صفقات رابحة ومعامل ربح 2.87',
+          'أقصى تراجع من القمة: 5.8% من رأس المال',
+          '100 صفقة خلال 21 شهراً، دون تعويض الخسائر بالمضاعفة',
+        ],
+      },
+    },
     name: "BTC Pulse",
     asset: "BTCUSD",
     assetLabel: { es: "Bitcoin (BTC/USD)", en: "Bitcoin (BTC/USD)", ar: "بيتكوين (BTC/USD)" },
@@ -406,7 +525,7 @@ export const bots: Product[] = [
         "Solo opera a favor del impulso alcista confirmado, sin promediar pérdidas",
         "Panel visual en el gráfico con el estado del bot en tiempo real",
         "Gestión de riesgo configurable desde un solo parámetro de entrada",
-        "Backtest real: +186% en 21 meses (ene 2025 – sep 2026), con 5,1% de drawdown máximo",
+        "Backtest real: +186% en 21 meses (ene 2025 – sep 2026), con 5,8% de caída máxima desde un pico",
         "Incluye manual en PDF con cada parámetro explicado, más el reporte completo del Strategy Tester",
       ],
       en: [
@@ -414,7 +533,7 @@ export const bots: Product[] = [
         "Only trades confirmed bullish impulse, never averages down",
         "On-chart panel showing the bot's live status",
         "Configurable risk management from a single input parameter",
-        "Real backtest: +186% over 21 months (Jan 2025 – Sep 2026), with a 5.1% max drawdown",
+        "Real backtest: +186% over 21 months (Jan 2025 – Sep 2026), with a 5.8% max drop from a peak",
         "Includes a PDF manual with every parameter explained, plus the full Strategy Tester report",
       ],
       ar: [
@@ -422,7 +541,7 @@ export const bots: Product[] = [
         "يتداول فقط مع زخم صاعد مؤكَّد، ولا يجمّع الصفقات الخاسرة",
         "لوحة مرئية على الرسم البياني تعرض حالة البوت لحظياً",
         "إدارة مخاطر قابلة للضبط من معامل إدخال واحد",
-        "باكتيست حقيقي: +186% خلال 21 شهراً (يناير 2025 - سبتمبر 2026)، بحد أقصى للتراجع 5.1%",
+        "باكتيست حقيقي: +186% خلال 21 شهراً (يناير 2025 - سبتمبر 2026)، بحد أقصى للتراجع من القمة 5.8%",
         "يشمل دليلاً بصيغة PDF يشرح كل معامل، إضافة إلى تقرير Strategy Tester كاملاً",
       ],
     },
@@ -479,6 +598,34 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-29",
+    profile: {
+      risk: ["conservative", "moderate", "aggressive"],
+      suits: {
+        es: 'Traders que quieren elegir su nivel de riesgo y operar oro y Bitcoin a la vez: scalping e intradía, con operaciones de unos 22 minutos.',
+        en: 'Traders who want to choose their own risk level and trade gold and Bitcoin at once: scalping and intraday, with trades of about 22 minutes.',
+        ar: 'المتداولون الذين يريدون اختيار مستوى مخاطرتهم والتداول على الذهب وبيتكوين معاً: سكالبينج وتداول يومي بصفقات مدتها حوالي 22 دقيقة.',
+      },
+      highlights: {
+        es: [
+          'Conservador (1% por operación): +75% en 21 meses, caída máxima 3,0%',
+          'Moderado (2%): +202%, caída máxima 5,8%',
+          'Agresivo (5%): +1.449%, caída máxima 14,0%',
+          '~407 operaciones, 54% ganadoras y factor de beneficio entre 2,7 y 3,1 en los tres perfiles',
+        ],
+        en: [
+          'Conservative (1% per trade): +75% in 21 months, max drop 3.0%',
+          'Moderate (2%): +202%, max drop 5.8%',
+          'Aggressive (5%): +1,449%, max drop 14.0%',
+          '~407 trades, 54% winners and a profit factor between 2.7 and 3.1 across all three profiles',
+        ],
+        ar: [
+          'محافظ (1% لكل صفقة): +75% خلال 21 شهراً، أقصى تراجع 3.0%',
+          'متوسط (2%): +202%، أقصى تراجع 5.8%',
+          'عدواني (5%): +1,449%، أقصى تراجع 14.0%',
+          '~407 صفقة، 54% رابحة ومعامل ربح بين 2.7 و3.1 في المستويات الثلاثة',
+        ],
+      },
+    },
     name: "Magnum",
     asset: "MULTI",
     assetLabel: {
@@ -509,7 +656,7 @@ export const bots: Product[] = [
         "3 perfiles de riesgo probados en backtest: conservador, moderado y agresivo",
         "Gestión de riesgo automática por operación, sin promediar pérdidas",
         "Panel visual en el gráfico con el estado del bot",
-        "Backtest real (perfil moderado): +202% en 21 meses, con 4,6% de drawdown máximo",
+        "Backtest real (perfil moderado): +202% en 21 meses, con 5,8% de caída máxima desde un pico",
         "Incluye manual en PDF con cada parámetro explicado, más el reporte completo del Strategy Tester",
       ],
       en: [
@@ -517,7 +664,7 @@ export const bots: Product[] = [
         "3 risk profiles tested in the backtest: conservative, moderate and aggressive",
         "Automatic per-trade risk management, no averaging down",
         "On-chart panel showing the bot's status",
-        "Real backtest (moderate profile): +202% over 21 months, with a 4.6% max drawdown",
+        "Real backtest (moderate profile): +202% over 21 months, with a 5.8% max drop from a peak",
         "Includes a PDF manual with every parameter explained, plus the full Strategy Tester report",
       ],
       ar: [
@@ -525,7 +672,7 @@ export const bots: Product[] = [
         "3 مستويات مخاطرة مُختبرة في الباكتيست: متحفظ، متوسط، وعالي المخاطرة",
         "إدارة مخاطر تلقائية لكل صفقة، دون تجميع الخسائر",
         "لوحة مرئية على الرسم البياني تعرض حالة البوت",
-        "باكتيست حقيقي (المستوى المتوسط): +202% خلال 21 شهراً، بحد أقصى للتراجع 4.6%",
+        "باكتيست حقيقي (المستوى المتوسط): +202% خلال 21 شهراً، بحد أقصى للتراجع من القمة 5.8%",
         "يشمل دليلاً بصيغة PDF يشرح كل معامل، إضافة إلى تقرير Strategy Tester كاملاً",
       ],
     },
@@ -582,6 +729,34 @@ export const bots: Product[] = [
     kind: "bot",
     version: "1.0",
     lastUpdated: "2026-09-29",
+    profile: {
+      risk: ["moderate", "aggressive"],
+      suits: {
+        es: 'Scalpers de oro que prefieren precisión: pocas entradas, largos y cortos, con una tasa de acierto muy alta (unos 16 minutos por operación).',
+        en: 'Gold scalpers who prefer precision: few entries, longs and shorts, with a very high hit rate (about 16 minutes per trade).',
+        ar: 'سكالبرز الذهب الذين يفضلون الدقة: عدد قليل من الدخولات، شراء وبيع، بنسبة نجاح عالية جداً (حوالي 16 دقيقة لكل صفقة).',
+      },
+      highlights: {
+        es: [
+          'Moderado (3% por operación): +118% en 21 meses, caída máxima 4,9%',
+          'Agresivo (5%): +328%, caída máxima 8,2%',
+          '76% de operaciones ganadoras',
+          'Factor de beneficio entre 4,8 y 5,3, con solo 75 operaciones en 21 meses',
+        ],
+        en: [
+          'Moderate (3% per trade): +118% in 21 months, max drop 4.9%',
+          'Aggressive (5%): +328%, max drop 8.2%',
+          '76% winning trades',
+          'Profit factor between 4.8 and 5.3, with only 75 trades in 21 months',
+        ],
+        ar: [
+          'متوسط (3% لكل صفقة): +118% خلال 21 شهراً، أقصى تراجع 4.9%',
+          'عدواني (5%): +328%، أقصى تراجع 8.2%',
+          '76% صفقات رابحة',
+          'معامل ربح بين 4.8 و5.3 مع 75 صفقة فقط خلال 21 شهراً',
+        ],
+      },
+    },
     name: "Sniper EA",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },

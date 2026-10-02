@@ -6,6 +6,7 @@ import type { Product } from "@/lib/products";
 import { formatUSD } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { BuyDialog } from "@/components/commerce/buy-dialog";
+import { RiskBadges } from "@/components/marketing/risk-badges";
 
 export function ProductCard({
   product,
@@ -57,6 +58,10 @@ export function ProductCard({
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
         {product.tagline[locale]}
       </p>
+
+      {product.profile && product.profile.risk.length > 0 && (
+        <RiskBadges levels={product.profile.risk} t={t} className="mt-4" />
+      )}
 
       <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
