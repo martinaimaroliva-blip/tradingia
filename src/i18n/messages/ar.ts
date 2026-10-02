@@ -61,6 +61,8 @@ export const ar: Dictionary = {
     timeframe: "الإطار الزمني",
     strategy: "الاستراتيجية",
     platform: "المنصة",
+    version: "الإصدار",
+    versionValue: "{version} · تم التحديث في {date}",
     languageLabel: "اللغة",
     securePayment: "دفع آمن",
     instantAccess: "وصول فوري",

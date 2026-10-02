@@ -59,6 +59,8 @@ export const en = {
     timeframe: "Timeframe",
     strategy: "Strategy",
     platform: "Platform",
+    version: "Version",
+    versionValue: "{version} · Updated on {date}",
     languageLabel: "Language",
     securePayment: "Secure payment",
     instantAccess: "Instant access",

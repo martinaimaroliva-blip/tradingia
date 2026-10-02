@@ -91,12 +91,18 @@ export interface Product {
    * checkout — shown alongside the "new" badge ("Próximamente").
    */
   comingSoon?: boolean;
+  /** Current version shown on the product page, e.g. "1.0". */
+  version?: string;
+  /** ISO date (YYYY-MM-DD) of the last real content/logic update, shown next to `version`. */
+  lastUpdated?: string;
 }
 
 export const bots: Product[] = [
   {
     slug: "xauusd-impulse-scalper-bot",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-23",
     name: "XAUUSD Impulse Scalper",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -172,6 +178,8 @@ export const bots: Product[] = [
   {
     slug: "siza",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-23",
     name: "SIZA",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -289,6 +297,8 @@ export const bots: Product[] = [
   {
     slug: "paramedica",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-11",
     name: "Paramédica",
     asset: "MULTI",
     assetLabel: {
@@ -362,6 +372,8 @@ export const bots: Product[] = [
   {
     slug: "btc-pulse",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-29",
     name: "BTC Pulse",
     asset: "BTCUSD",
     assetLabel: { es: "Bitcoin (BTC/USD)", en: "Bitcoin (BTC/USD)", ar: "بيتكوين (BTC/USD)" },
@@ -458,6 +470,8 @@ export const bots: Product[] = [
   {
     slug: "magnum",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-29",
     name: "Magnum",
     asset: "MULTI",
     assetLabel: {
@@ -558,6 +572,8 @@ export const bots: Product[] = [
   {
     slug: "sniper-ea",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-09-29",
     name: "Sniper EA",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -654,6 +670,8 @@ export const bots: Product[] = [
   {
     slug: "custom-bot",
     kind: "bot",
+    version: "1.0",
+    lastUpdated: "2026-10-02",
     name: "Custom Bot",
     asset: "CUSTOM",
     assetLabel: {
@@ -760,6 +778,8 @@ export const indicators: Product[] = [
   {
     slug: "xauusd-impulse-signal",
     kind: "indicator",
+    version: "1.0",
+    lastUpdated: "2026-09-23",
     name: "XAUUSD Manual Impulse Signal",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -831,6 +851,8 @@ export const indicators: Product[] = [
   {
     slug: "custom-indicator",
     kind: "indicator",
+    version: "1.0",
+    lastUpdated: "2026-09-21",
     name: "Custom Indicador",
     asset: "CUSTOM",
     assetLabel: {
@@ -937,6 +959,8 @@ export const signals: Product[] = [
   {
     slug: "signal-xauusd",
     kind: "signal",
+    version: "1.0",
+    lastUpdated: "2026-10-01",
     name: "Señal XAUUSD",
     asset: "XAUUSD",
     assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
@@ -1006,6 +1030,8 @@ export const signals: Product[] = [
   {
     slug: "signal-btcusd",
     kind: "signal",
+    version: "1.0",
+    lastUpdated: "2026-10-01",
     name: "Señal BTCUSD",
     asset: "BTCUSD",
     assetLabel: {
@@ -1079,6 +1105,8 @@ export const signals: Product[] = [
   {
     slug: "signal-multi",
     kind: "signal",
+    version: "1.0",
+    lastUpdated: "2026-10-01",
     name: "Señal Multi-Activo",
     asset: "MULTI",
     assetLabel: {

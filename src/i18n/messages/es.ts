@@ -61,6 +61,8 @@ export const es: Dictionary = {
     timeframe: "Temporalidad",
     strategy: "Estrategia",
     platform: "Plataforma",
+    version: "Versión",
+    versionValue: "{version} · Actualizado el {date}",
     languageLabel: "Idioma",
     securePayment: "Pago seguro",
     instantAccess: "Acceso inmediato",

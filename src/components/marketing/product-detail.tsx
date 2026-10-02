@@ -59,6 +59,17 @@ export function ProductDetail({
     { label: t.common.strategy, value: product.strategyTag[locale] },
     { label: t.common.platform, value: product.platform },
   ];
+  if (product.version && product.lastUpdated) {
+    const updatedLabel = new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(new Date(`${product.lastUpdated}T00:00:00`));
+    specs.push({
+      label: t.common.version,
+      value: fmt(t.common.versionValue, { version: product.version, date: updatedLabel }),
+    });
+  }
 
   return (
     <>
