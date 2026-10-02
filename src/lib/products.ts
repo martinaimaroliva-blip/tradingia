@@ -62,6 +62,12 @@ export interface Product {
     height?: number;
   }[];
   /**
+   * Public path of the unmodified MT5 Strategy Tester report PDF (charts +
+   * the full Orders/Deals list). The screenshots above only show page 1;
+   * this links to the whole document.
+   */
+  backtestReportPdf?: string;
+  /**
    * Steps shown on the product page, before purchase, explaining what
    * happens after checkout — e.g. "buy -> book an install call -> the
    * Expert activates it on your account". Distinct from `howItWorks`,
@@ -465,6 +471,7 @@ export const bots: Product[] = [
         },
       },
     ],
+    backtestReportPdf: "/products/btc-pulse/informe-strategy-tester.pdf",
     crossSell: ["signal-btcusd"],
   },
   {
@@ -567,6 +574,7 @@ export const bots: Product[] = [
         },
       },
     ],
+    backtestReportPdf: "/products/magnum/informe-strategy-tester.pdf",
     crossSell: ["signal-multi"],
   },
   {
@@ -665,6 +673,7 @@ export const bots: Product[] = [
         },
       },
     ],
+    backtestReportPdf: "/products/sniper-ea/informe-strategy-tester.pdf",
     crossSell: ["signal-xauusd"],
   },
   {

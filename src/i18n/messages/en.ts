@@ -39,6 +39,9 @@ export const en = {
     backtestDisclaimer:
       "Simulated historical results — past performance doesn't guarantee future results.",
     backtestZoom: "Zoom in",
+    backtestReportHint:
+      "The original, unedited MT5 Strategy Tester report: metrics, charts and the complete list of every trade.",
+    backtestReportCta: "View full report (PDF)",
     purchaseProcessTitle: "How the purchase process works",
     crossSellTitle: "Frequently bought together",
     comingSoonNote:

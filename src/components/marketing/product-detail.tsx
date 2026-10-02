@@ -153,6 +153,23 @@ export function ProductDetail({
                   />
                 ))}
               </div>
+              {product.backtestReportPdf && (
+                <div className="mt-4 flex flex-col gap-2 rounded-lg border border-border bg-card/30 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    {t.common.backtestReportHint}
+                  </p>
+                  <Button asChild variant="outline" className="shrink-0">
+                    <a
+                      href={product.backtestReportPdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FileText className="size-4" />
+                      {t.common.backtestReportCta}
+                    </a>
+                  </Button>
+                </div>
+              )}
               <p className="mt-3 text-xs text-muted-foreground">
                 {t.common.backtestDisclaimer}
               </p>

@@ -41,6 +41,9 @@ export const ar: Dictionary = {
     backtestDisclaimer:
       "نتائج تاريخية محاكاة — الأداء السابق لا يضمن نتائج مستقبلية.",
     backtestZoom: "تكبير",
+    backtestReportHint:
+      "التقرير الأصلي غير المعدَّل من Strategy Tester في MT5: المقاييس والرسوم البيانية والقائمة الكاملة لجميع الصفقات.",
+    backtestReportCta: "عرض التقرير الكامل (PDF)",
     purchaseProcessTitle: "كيف تسير عملية الشراء",
     crossSellTitle: "يُشترى غالباً مع",
     comingSoonNote:

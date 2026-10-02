@@ -41,6 +41,9 @@ export const es: Dictionary = {
     backtestDisclaimer:
       "Resultados históricos simulados — el rendimiento pasado no garantiza resultados futuros.",
     backtestZoom: "Ampliar",
+    backtestReportHint:
+      "Informe original del Probador de Estrategias de MT5, sin editar: métricas, gráficos y el listado completo de todas las operaciones.",
+    backtestReportCta: "Ver informe completo (PDF)",
     purchaseProcessTitle: "Cómo es el proceso de compra",
     crossSellTitle: "Comprado junto con",
     comingSoonNote:
