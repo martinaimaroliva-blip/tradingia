@@ -11,6 +11,7 @@ export const en = {
     indicators: "Indicators",
     signals: "Signals",
     mentoring: "Mentoring",
+    cashback: "Cashback",
     whyExness: "Why Exness",
     referrals: "Share & earn",
     contact: "Contact",
@@ -571,6 +572,94 @@ export const en = {
     finalTitle: "Ready to trade gold with a method?",
     finalSubtitle: "Reserve your spot and start with your first session this week.",
   },
+  cashback: {
+    hero: {
+      eyebrow: "Cashback",
+      title: "Get cashback for trading on Exness",
+      subtitle: "Open your account with our link and we give back part of what you generate by trading, every day. You don't need to buy anything.",
+    },
+    facts: [
+      {
+        label: "Cashback",
+        value: "Up to 40% of the spread",
+      },
+      {
+        label: "Payout",
+        value: "Every day",
+      },
+      {
+        label: "Crediting",
+        value: "Automatic",
+      },
+    ],
+    cta: "Open my account with cashback",
+    ctaSecondary: "I have a question",
+    howTitle: "How it works",
+    how: [
+      {
+        title: "Sign up with our link",
+        description: "You open your Exness account from our referral link. If you already have one, you can also move it to our link.",
+      },
+      {
+        title: "Trade as usual",
+        description: "Every trade you make generates spread. Part of what Exness recognises us for it is yours.",
+      },
+      {
+        title: "Get paid every day",
+        description: "We share up to 40% of the spread with you, credited automatically every day.",
+      },
+    ],
+    noBuyTitle: "You don't need to buy anything",
+    noBuyBody: "Cashback doesn't depend on any of our products: all you need is your Exness account registered with our link, and to trade. If you're also interested in a bot, having your Exness account gets you a lower price.",
+    noBuyCta: "See the bots",
+    joinTitle: "How to join",
+    joinNewTitle: "Option 1 · New account",
+    joinNewBody: "The simplest way. Sign up with our link using an email you haven't used on Exness before (you can have more than one account, but not with the same email).",
+    joinSwitchTitle: "Option 2 · Move my current account",
+    joinSwitchSteps: [
+      "Log in to your Exness account",
+      "Open the live chat",
+      "Type \"change partner\"",
+      "Fill in the form it gives you, using our link when it asks for one",
+    ],
+    joinSwitchNote: "The change can take up to 72 hours to be confirmed.",
+    knowTitle: "What you need to know",
+    know: [
+      "Cashback is generated when you trade: just signing up generates nothing.",
+      "It is a partial refund of the cost of trading (spread). It is not a profit and does not offset losses.",
+      "It does not apply to Copy Trading accounts or Copy Trading investments.",
+      "It does not apply to clients registered with Exness Limited Jordan Ltd.",
+      "You must be registered with our link to receive it.",
+    ],
+    faqTitle: "Frequently asked questions",
+    faq: [
+      {
+        q: "Do I have to buy anything?",
+        a: "No. To receive cashback you only need your Exness account registered with our link, and to trade.",
+      },
+      {
+        q: "How much cashback do I get?",
+        a: "We share up to 40% of the spread you generate when trading.",
+      },
+      {
+        q: "How often do I get paid?",
+        a: "It is credited every day, automatically.",
+      },
+      {
+        q: "What if I don't trade?",
+        a: "If you don't trade, no cashback is generated: it is calculated on your account's activity.",
+      },
+      {
+        q: "I already have an Exness account, can I get it?",
+        a: "Yes, you can request a partner change from the Exness chat to move your account to our link. It can take up to 72 hours.",
+      },
+      {
+        q: "Does cashback guarantee profits?",
+        a: "No. Trading carries a risk of loss and cashback does not offset it. Only trade with money you can afford to lose.",
+      },
+    ],
+    disclaimer: "We may receive a commission from Exness if you open an account through our link, at no extra cost to you. Leveraged trading carries a high level of risk and may result in the loss of all your capital. Past performance does not guarantee future results. Nothing on this site constitutes financial advice.",
+  },
   contact: {
     hero: {
       title: "Contact & booking",
@@ -766,6 +855,7 @@ export const en = {
       indicators: "Indicators",
       signals: "Signals",
       mentoring: "Mentoring",
+      cashback: "Cashback",
       whyExness: "Why Exness",
       referrals: "Share & earn",
       contact: "Contact",

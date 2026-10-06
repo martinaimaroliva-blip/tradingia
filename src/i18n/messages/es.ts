@@ -13,6 +13,7 @@ export const es: Dictionary = {
     indicators: "Indicadores",
     signals: "Señales",
     mentoring: "Mentorías",
+    cashback: "Cashback",
     whyExness: "Por qué Exness",
     referrals: "Compartí y ganá",
     contact: "Contacto",
@@ -572,6 +573,94 @@ export const es: Dictionary = {
     finalTitle: "¿Listo para operar el oro con método?",
     finalSubtitle: "Reservá tu lugar y empezá con tu primera sesión esta semana.",
   },
+  cashback: {
+    hero: {
+      eyebrow: "Cashback",
+      title: "Recibí cashback por operar en Exness",
+      subtitle: "Abrí tu cuenta con nuestro link y te devolvemos una parte de lo que generás al operar, todos los días. No necesitás comprar nada.",
+    },
+    facts: [
+      {
+        label: "Cashback",
+        value: "Hasta 40% del spread",
+      },
+      {
+        label: "Pago",
+        value: "Todos los días",
+      },
+      {
+        label: "Acreditación",
+        value: "Automática",
+      },
+    ],
+    cta: "Abrir mi cuenta con cashback",
+    ctaSecondary: "Tengo una consulta",
+    howTitle: "Cómo funciona",
+    how: [
+      {
+        title: "Te registrás con nuestro link",
+        description: "Abrís tu cuenta de Exness desde nuestro link de referido. Si ya tenés una, también podés pasarla a nuestro link.",
+      },
+      {
+        title: "Operás como siempre",
+        description: "Cada operación que hacés genera spread. Parte de lo que Exness nos reconoce por eso es tuyo.",
+      },
+      {
+        title: "Cobrás cada día",
+        description: "Compartimos contigo hasta un 40% del spread y se acredita automáticamente todos los días.",
+      },
+    ],
+    noBuyTitle: "No hace falta comprar nada",
+    noBuyBody: "El cashback no depende de ninguno de nuestros productos: alcanza con tener tu cuenta de Exness registrada con nuestro link y operar. Si además te interesa un bot, con tu cuenta en Exness tenés un precio menor.",
+    noBuyCta: "Ver los bots",
+    joinTitle: "Cómo sumarte",
+    joinNewTitle: "Opción 1 · Cuenta nueva",
+    joinNewBody: "La forma más simple. Registrate con nuestro link usando un correo que no hayas usado antes en Exness (podés tener más de una cuenta, pero no con el mismo correo).",
+    joinSwitchTitle: "Opción 2 · Pasar mi cuenta actual",
+    joinSwitchSteps: [
+      "Ingresá a tu cuenta de Exness",
+      "Abrí el chat en línea",
+      "Escribí \"cambio de partner\"",
+      "Completá el formulario que te pidan, usando nuestro link cuando lo solicite",
+    ],
+    joinSwitchNote: "El cambio puede demorar hasta 72 horas en confirmarse.",
+    knowTitle: "Lo que tenés que saber",
+    know: [
+      "El cashback se genera cuando operás: registrarte solo no genera nada.",
+      "Es una devolución parcial del costo de operar (spread). No es una ganancia ni compensa las pérdidas.",
+      "No aplica a cuentas de Copy Trading ni a inversiones de Copy Trading.",
+      "No aplica a clientes registrados con Exness Limited Jordan Ltd.",
+      "Tenés que estar registrado con nuestro link para recibirlo.",
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faq: [
+      {
+        q: "¿Tengo que comprar algo?",
+        a: "No. Para recibir cashback solo necesitás tu cuenta de Exness registrada con nuestro link y operar.",
+      },
+      {
+        q: "¿Cuánto cashback recibo?",
+        a: "Compartimos hasta un 40% del spread que generás al operar.",
+      },
+      {
+        q: "¿Cada cuánto cobro?",
+        a: "Se acredita todos los días, de forma automática.",
+      },
+      {
+        q: "¿Qué pasa si no opero?",
+        a: "Si no operás no se genera cashback: se calcula sobre la actividad de tu cuenta.",
+      },
+      {
+        q: "Ya tengo cuenta en Exness, ¿puedo recibirlo?",
+        a: "Sí, podés pedir el cambio de partner desde el chat de Exness para pasar tu cuenta a nuestro link. Puede demorar hasta 72 horas.",
+      },
+      {
+        q: "¿El cashback me asegura ganancias?",
+        a: "No. Operar implica riesgo de pérdida y el cashback no la compensa. Opera solo con dinero que puedas permitirte perder.",
+      },
+    ],
+    disclaimer: "Podemos recibir una comisión de Exness si abrís una cuenta a través de nuestro link, sin costo adicional para vos. Operar con apalancamiento conlleva un alto riesgo y puede ocasionar la pérdida de todo tu capital. El rendimiento pasado no garantiza resultados futuros. Nada en este sitio constituye asesoramiento financiero.",
+  },
   contact: {
     hero: {
       title: "Contacto y reservas",
@@ -768,6 +857,7 @@ export const es: Dictionary = {
       indicators: "Indicadores",
       signals: "Señales",
       mentoring: "Mentorías",
+      cashback: "Cashback",
       whyExness: "Por qué Exness",
       referrals: "Compartí y ganá",
       contact: "Contacto",

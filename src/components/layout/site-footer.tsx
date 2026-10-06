@@ -17,6 +17,7 @@ export function SiteFooter() {
         { href: "/indicators", label: t.footer.links.indicators },
         { href: "/signals", label: t.footer.links.signals },
         { href: "/mentoring", label: t.footer.links.mentoring },
+        { href: "/cashback", label: t.footer.links.cashback },
         { href: "/exness", label: t.footer.links.whyExness },
         { href: "/referrals", label: t.footer.links.referrals },
       ],

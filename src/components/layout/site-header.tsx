@@ -24,6 +24,7 @@ function useNav() {
     { href: "/indicators", label: t.nav.indicators },
     { href: "/signals", label: t.nav.signals },
     { href: "/mentoring", label: t.nav.mentoring },
+    { href: "/cashback", label: t.nav.cashback },
     { href: "/exness", label: t.nav.whyExness },
     { href: "/referrals", label: t.nav.referrals },
     { href: "/contact", label: t.nav.contact },
@@ -61,7 +62,7 @@ export function SiteHeader() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 xl:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -91,7 +92,7 @@ export function SiteHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden"
+                className="xl:hidden"
                 aria-label={t.nav.menu}
               >
                 <Menu className="size-5" />

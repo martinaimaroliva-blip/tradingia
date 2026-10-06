@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/indicators",
     "/signals",
     "/mentoring",
+    "/cashback",
     "/exness",
     "/referrals",
     "/contact",
