@@ -111,13 +111,13 @@ export async function createCryptoInvoice(
   const apiKey = optionalEnv("NOWPAYMENTS_API_KEY");
   if (!apiKey) return { error: "crypto_not_configured" };
 
-  try {
-    const res = await fetch(`${NOWPAYMENTS_BASE}/invoice`, {
+  const post = (priceCurrency: string) =>
+    fetch(`${NOWPAYMENTS_BASE}/invoice`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-api-key": apiKey },
       body: JSON.stringify({
         price_amount: req.amountUSD,
-        price_currency: "usd",
+        price_currency: priceCurrency,
         ...(req.payCurrency ? { pay_currency: req.payCurrency } : {}),
         order_id: req.orderId,
         order_description: req.description,
@@ -126,6 +126,19 @@ export async function createCryptoInvoice(
         cancel_url: req.cancelUrl,
       }),
     });
+
+  try {
+    // Price the invoice in the same stablecoin the buyer pays with, so a
+    // 1200 USD product shows exactly 1200 USDT instead of a market-rate
+    // conversion (e.g. 1196.78). Falls back to plain USD pricing if the
+    // provider rejects that.
+    let res = req.payCurrency ? await post(req.payCurrency) : null;
+    if (!res || !res.ok) {
+      if (res) {
+        console.error("[nowpayments] stablecoin-priced invoice rejected", res.status, await res.text());
+      }
+      res = await post("usd");
+    }
 
     if (!res.ok) {
       const body = await res.text();
