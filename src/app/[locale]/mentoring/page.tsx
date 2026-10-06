@@ -94,7 +94,13 @@ export default async function MentoringPage({
               );
             })}
           </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 flex items-baseline gap-3">
+            <span className="text-4xl font-semibold">
+              {formatUSD(product.priceUSD, l)}
+            </span>
+            <span className="text-sm text-muted-foreground">{m.priceNote}</span>
+          </div>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="sm:w-64">{buyButton}</div>
             <Button asChild variant="outline" size="lg">
               <Link href={lp("/contact?topic=other")}>
