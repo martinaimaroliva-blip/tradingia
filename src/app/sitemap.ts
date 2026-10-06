@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/bots",
     "/indicators",
     "/signals",
+    "/mentoring",
     "/exness",
     "/referrals",
     "/contact",

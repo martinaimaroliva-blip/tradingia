@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 export type Localized = Record<Locale, string>;
 export type LocalizedList = Record<Locale, string[]>;
 
-export type ProductKind = "bot" | "indicator" | "signal";
+export type ProductKind = "bot" | "indicator" | "signal" | "mentoring";
 
 export type RiskLevel = "conservative" | "moderate" | "aggressive";
 
@@ -1372,7 +1372,51 @@ export const signals: Product[] = [
   },
 ];
 
-export const allProducts: Product[] = [...bots, ...indicators, ...signals];
+export const mentorings: Product[] = [
+  {
+    slug: "mentoria-xauusd",
+    kind: "mentoring",
+    name: "Mentoría XAUUSD 1 a 1",
+    asset: "XAUUSD",
+    assetLabel: { es: "Oro (XAU/USD)", en: "Gold (XAU/USD)", ar: "الذهب (XAU/USD)" },
+    timeframe: "12 × 1 h",
+    platform: "Google Meet",
+    strategyTag: {
+      es: "Mentoría 1 a 1 · 3 meses",
+      en: "1-on-1 mentoring · 3 months",
+      ar: "إرشاد فردي · 3 أشهر",
+    },
+    tagline: {
+      es: "Una sesión de 1 hora por semana durante 3 meses para operar el oro con método, gestión de riesgo y acompañamiento real.",
+      en: "A 1-hour session every week for 3 months to trade gold with a method, risk management and real support.",
+      ar: "جلسة مدتها ساعة كل أسبوع لمدة 3 أشهر لتداول الذهب بمنهجية وإدارة مخاطر ومرافقة حقيقية.",
+    },
+    description: {
+      es: "Mentoría individual por videollamada enfocada en el oro (XAU/USD): cómo, cuándo, dónde y por qué operarlo, cómo usar tus bots y cómo cuidar tu capital y tu cabeza. Son 12 sesiones semanales de 1 hora a lo largo de 3 meses.",
+      en: "One-on-one video mentoring focused on gold (XAU/USD): how, when, where and why to trade it, how to use your bots, and how to protect your capital and your mindset. 12 weekly 1-hour sessions over 3 months.",
+      ar: "إرشاد فردي عبر مكالمة فيديو يركز على الذهب (XAU/USD): كيف ومتى وأين ولماذا تتداوله، وكيف تستخدم بوتاتك، وكيف تحمي رأس مالك وذهنك. 12 جلسة أسبوعية مدة كل منها ساعة على مدى 3 أشهر.",
+    },
+    features: {
+      es: ["12 sesiones 1 a 1 de 1 hora, una por semana", "Operativa en XAUUSD, uso de tus bots y gestión de riesgo y psicología", "Plan de trabajo adaptado a tu nivel"],
+      en: ["12 one-on-one 1-hour sessions, one per week", "XAUUSD trading, using your bots, and risk management and psychology", "A work plan adapted to your level"],
+      ar: ["12 جلسة فردية مدة كل منها ساعة، واحدة كل أسبوع", "التداول على XAUUSD واستخدام بوتاتك وإدارة المخاطر وعلم النفس", "خطة عمل مكيّفة مع مستواك"],
+    },
+    howItWorks: {
+      es: ["Pagás la mentoría en la web", "Agendás tu primera sesión", "Una videollamada de 1 hora por semana durante 3 meses"],
+      en: ["You pay for the mentoring on the website", "You book your first session", "One 1-hour video call per week for 3 months"],
+      ar: ["تدفع ثمن الإرشاد عبر الموقع", "تحجز جلستك الأولى", "مكالمة فيديو مدتها ساعة كل أسبوع لمدة 3 أشهر"],
+    },
+    priceUSD: 1200,
+    exnessPriceUSD: 1200,
+  },
+];
+
+export const allProducts: Product[] = [
+  ...bots,
+  ...indicators,
+  ...signals,
+  ...mentorings,
+];
 
 export function getProduct(slug: string): Product | undefined {
   return allProducts.find((p) => p.slug === slug);

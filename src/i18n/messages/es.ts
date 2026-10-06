@@ -12,6 +12,7 @@ export const es: Dictionary = {
     bots: "Bots",
     indicators: "Indicadores",
     signals: "Señales",
+    mentoring: "Mentorías",
     whyExness: "Por qué Exness",
     referrals: "Compartí y ganá",
     contact: "Contacto",
@@ -429,6 +430,148 @@ export const es: Dictionary = {
     disclaimer:
       "Los referidos de Exness dependen de los términos y condiciones del programa de partners de Exness, que pueden cambiar. SmartradeBot no garantiza montos ni plazos de comisión.",
   },
+  mentoring: {
+    hero: {
+      eyebrow: "Mentorías",
+      title: "Aprendé a operar el oro con un mentor a tu lado",
+      subtitle: "Mentoría 1 a 1 de XAUUSD: una sesión de 1 hora por semana durante 3 meses, enfocada en tu operativa, tu riesgo y tus bots.",
+    },
+    facts: [
+      {
+        label: "Formato",
+        value: "1 a 1 por videollamada",
+      },
+      {
+        label: "Frecuencia",
+        value: "1 sesión de 1 hora por semana",
+      },
+      {
+        label: "Duración",
+        value: "3 meses (12 semanas)",
+      },
+    ],
+    forWhomTitle: "¿Para quién es?",
+    forWhom: [
+      "Para quien ya opera o quiere operar el oro (XAU/USD) y busca método en lugar de improvisar.",
+      "Para quien usa nuestros bots o indicadores y quiere entender qué hacen y cómo gestionarlos.",
+      "Para quien siente que el problema no es solo la estrategia, sino el riesgo y la cabeza al operar.",
+    ],
+    learnTitle: "Qué trabajamos juntos",
+    learnSubtitle: "Tres ejes, siempre aplicados a tu cuenta y a tu forma de operar.",
+    pillars: [
+      {
+        title: "Operativa en XAUUSD",
+        description: "Cómo, cuándo, dónde y por qué operar el oro.",
+        points: [
+          "Qué mueve al oro: variables macroeconómicas y contexto de mercado",
+          "Lectura del precio con el método Wyckoff, Fibonacci y acción del precio",
+          "Cuándo conviene operar y cuándo quedarse afuera",
+        ],
+      },
+      {
+        title: "Tus bots y herramientas",
+        description: "Que sepas qué hace cada herramienta y cómo sacarle provecho.",
+        points: [
+          "Instalación, configuración y puesta en marcha",
+          "Cómo elegir el perfil de riesgo de cada bot",
+          "Combinar operativa manual y automática con criterio",
+        ],
+      },
+      {
+        title: "Riesgo y psicología",
+        description: "Cuidar el capital y la cabeza, que es donde más cuentas se pierden.",
+        points: [
+          "Tamaño de posición y límites de pérdida",
+          "Cómo atravesar rachas y evitar decisiones impulsivas",
+          "Plan de trading y rutina propios, por escrito",
+        ],
+      },
+    ],
+    planTitle: "Cómo se reparten los 3 meses",
+    planSubtitle: "Un recorrido de 12 semanas, con sesiones de 1 hora.",
+    plan: [
+      {
+        title: "Mes 1 · Base y diagnóstico",
+        description: "Revisamos cómo operás hoy, entendemos qué mueve al oro y ordenamos tu gestión de riesgo.",
+      },
+      {
+        title: "Mes 2 · Método",
+        description: "Trabajamos la lectura del precio con Wyckoff, Fibonacci y acción del precio, y la llevamos a la práctica.",
+      },
+      {
+        title: "Mes 3 · Automatización y plan propio",
+        description: "Integramos bots y operativa manual, definimos tus salidas y cerramos con tu plan de trading personal.",
+      },
+    ],
+    planNote: "Es un plan orientativo: se adapta a tu nivel y a lo que necesites reforzar en cada momento.",
+    howTitle: "Cómo funciona",
+    how: [
+      {
+        title: "Contratás",
+        description: "Pagás la mentoría en la web, en USDT (cripto).",
+      },
+      {
+        title: "Agendás",
+        description: "Te llega un correo con el link para reservar tu primera sesión.",
+      },
+      {
+        title: "Sesión semanal",
+        description: "Una videollamada de 1 hora por semana, durante 12 semanas.",
+      },
+      {
+        title: "Seguimiento",
+        description: "Cada semana revisamos lo trabajado y definimos qué practicar hasta la siguiente.",
+      },
+    ],
+    mentorTitle: "Quién te acompaña",
+    mentorName: "El Profe XAU",
+    mentorBody: "Especialista en operar el oro dólar. Autor de una guía que combina el método Wyckoff, Fibonacci y la acción del precio, y referente de una comunidad de traders de XAU/USD.",
+    mentorPoints: [
+      "Enfoque exclusivo en el oro (XAU/USD), manual y automático",
+      "Análisis de cuentas en riesgo y trabajo sobre gestión de riesgo",
+      "Análisis semanal de mercado y herramientas de trading automático",
+    ],
+    mentorCta: "Conocé más del Profe XAU",
+    priceTitle: "Mentoría XAUUSD 1 a 1",
+    priceNote: "Pago único en USDT. Sin suscripción ni cargos recurrentes.",
+    priceIncludes: [
+      "12 sesiones 1 a 1 de 1 hora",
+      "Plan de trabajo adaptado a tu nivel",
+      "Operativa en XAUUSD, uso de tus bots y gestión de riesgo y psicología",
+    ],
+    buyCta: "Quiero la mentoría",
+    contactCta: "Tengo una consulta antes",
+    faqTitle: "Preguntas frecuentes",
+    faq: [
+      {
+        q: "¿Cómo son las sesiones?",
+        a: "Son videollamadas por Google Meet de 1 hora, una vez por semana, durante 3 meses.",
+      },
+      {
+        q: "¿Cómo agendo la primera sesión?",
+        a: "Apenas se confirma el pago te llega un correo con el link para reservar el horario que más te convenga.",
+      },
+      {
+        q: "¿Necesito tener experiencia?",
+        a: "La mentoría parte de lo que ya sabés y se enfoca en el oro. Si recién empezás, contanos tu caso antes de comprar y te decimos si te conviene.",
+      },
+      {
+        q: "¿Tengo que comprar los bots?",
+        a: "No. La mentoría es independiente. Si ya usás alguno de nuestros bots, trabajamos con él; si no, nos enfocamos en tu operativa.",
+      },
+      {
+        q: "¿Cómo pago?",
+        a: "Con USDT (cripto), en red TRC20 o BEP20. Los demás métodos de pago llegan pronto.",
+      },
+      {
+        q: "¿Hay garantía de ganancias?",
+        a: "No. Operar implica riesgo de pérdida. La mentoría enseña método y gestión del riesgo, pero no garantiza resultados.",
+      },
+    ],
+    disclaimer: "La mentoría tiene fines educativos y no constituye asesoramiento financiero personalizado. Operar en los mercados implica riesgo de pérdida de capital.",
+    finalTitle: "¿Listo para operar el oro con método?",
+    finalSubtitle: "Reservá tu lugar y empezá con tu primera sesión esta semana.",
+  },
   contact: {
     hero: {
       title: "Contacto y reservas",
@@ -624,6 +767,7 @@ export const es: Dictionary = {
       bots: "Bots",
       indicators: "Indicadores",
       signals: "Señales",
+      mentoring: "Mentorías",
       whyExness: "Por qué Exness",
       referrals: "Compartí y ganá",
       contact: "Contacto",

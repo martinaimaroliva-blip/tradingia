@@ -49,7 +49,7 @@ export function verifyExnessToken(
 export function buildExnessResumeLink(
   locale: Locale,
   slug: string,
-  kind: "bot" | "indicator" | "signal",
+  kind: "bot" | "indicator" | "signal" | "mentoring",
   email: string,
 ): string {
   const base = siteUrl();

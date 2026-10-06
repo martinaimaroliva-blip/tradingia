@@ -75,7 +75,7 @@ export function BuyDialog({
   block = true,
 }: {
   slug: string;
-  kind: "bot" | "indicator" | "signal";
+  kind: "bot" | "indicator" | "signal" | "mentoring";
   label: string;
   /** Standard price. Omit for products with a single flat price (signals). */
   priceUSD?: number;

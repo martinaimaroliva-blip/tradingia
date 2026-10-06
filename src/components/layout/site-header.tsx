@@ -23,6 +23,7 @@ function useNav() {
     { href: "/bots", label: t.nav.bots },
     { href: "/indicators", label: t.nav.indicators },
     { href: "/signals", label: t.nav.signals },
+    { href: "/mentoring", label: t.nav.mentoring },
     { href: "/exness", label: t.nav.whyExness },
     { href: "/referrals", label: t.nav.referrals },
     { href: "/contact", label: t.nav.contact },

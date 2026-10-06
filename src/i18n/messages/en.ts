@@ -10,6 +10,7 @@ export const en = {
     bots: "Bots",
     indicators: "Indicators",
     signals: "Signals",
+    mentoring: "Mentoring",
     whyExness: "Why Exness",
     referrals: "Share & earn",
     contact: "Contact",
@@ -428,6 +429,148 @@ export const en = {
     disclaimer:
       "Exness referrals are subject to the terms and conditions of the Exness partner program, which can change. SmartradeBot does not guarantee commission amounts or timelines.",
   },
+  mentoring: {
+    hero: {
+      eyebrow: "Mentoring",
+      title: "Learn to trade gold with a mentor by your side",
+      subtitle: "One-on-one XAUUSD mentoring: a 1-hour session every week for 3 months, focused on how you trade, your risk and your bots.",
+    },
+    facts: [
+      {
+        label: "Format",
+        value: "1-on-1 video call",
+      },
+      {
+        label: "Frequency",
+        value: "One 1-hour session per week",
+      },
+      {
+        label: "Duration",
+        value: "3 months (12 weeks)",
+      },
+    ],
+    forWhomTitle: "Who is it for?",
+    forWhom: [
+      "For anyone who trades or wants to trade gold (XAU/USD) and wants a method instead of improvising.",
+      "For anyone using our bots or indicators who wants to understand what they do and how to manage them.",
+      "For anyone who feels the problem isn't just the strategy, but the risk and the mindset while trading.",
+    ],
+    learnTitle: "What we work on together",
+    learnSubtitle: "Three pillars, always applied to your account and your way of trading.",
+    pillars: [
+      {
+        title: "XAUUSD trading",
+        description: "How, when, where and why to trade gold.",
+        points: [
+          "What moves gold: macroeconomic variables and market context",
+          "Reading price with the Wyckoff method, Fibonacci and price action",
+          "When it makes sense to trade and when to stay out",
+        ],
+      },
+      {
+        title: "Your bots and tools",
+        description: "So you know what each tool does and how to get the most from it.",
+        points: [
+          "Installation, configuration and launch",
+          "How to pick each bot's risk profile",
+          "Combining manual and automated trading with judgement",
+        ],
+      },
+      {
+        title: "Risk and psychology",
+        description: "Protecting your capital and your mindset, which is where most accounts are lost.",
+        points: [
+          "Position sizing and loss limits",
+          "Getting through losing streaks and avoiding impulsive decisions",
+          "Your own trading plan and routine, in writing",
+        ],
+      },
+    ],
+    planTitle: "How the 3 months are split",
+    planSubtitle: "A 12-week path with 1-hour sessions.",
+    plan: [
+      {
+        title: "Month 1 · Foundations and diagnosis",
+        description: "We review how you trade today, understand what moves gold and put your risk management in order.",
+      },
+      {
+        title: "Month 2 · Method",
+        description: "We work on reading price with Wyckoff, Fibonacci and price action, and put it into practice.",
+      },
+      {
+        title: "Month 3 · Automation and your own plan",
+        description: "We combine bots and manual trading, define your exits and finish with your personal trading plan.",
+      },
+    ],
+    planNote: "This is a guideline: it adapts to your level and to whatever you need to reinforce at each point.",
+    howTitle: "How it works",
+    how: [
+      {
+        title: "You sign up",
+        description: "You pay for the mentoring on the website, in USDT (crypto).",
+      },
+      {
+        title: "You book",
+        description: "You get an email with the link to book your first session.",
+      },
+      {
+        title: "Weekly session",
+        description: "A 1-hour video call every week, for 12 weeks.",
+      },
+      {
+        title: "Follow-up",
+        description: "Each week we review what we covered and set what to practise until the next one.",
+      },
+    ],
+    mentorTitle: "Who guides you",
+    mentorName: "El Profe XAU",
+    mentorBody: "A specialist in trading the gold dollar. Author of a guide that combines the Wyckoff method, Fibonacci and price action, and a reference for a community of XAU/USD traders.",
+    mentorPoints: [
+      "Exclusive focus on gold (XAU/USD), manual and automated",
+      "Analysis of at-risk accounts and work on risk management",
+      "Weekly market analysis and automated-trading tools",
+    ],
+    mentorCta: "Learn more about El Profe XAU",
+    priceTitle: "1-on-1 XAUUSD mentoring",
+    priceNote: "One-time payment in USDT. No subscription or recurring charges.",
+    priceIncludes: [
+      "12 one-on-one 1-hour sessions",
+      "A work plan adapted to your level",
+      "XAUUSD trading, using your bots, and risk management and psychology",
+    ],
+    buyCta: "I want the mentoring",
+    contactCta: "I have a question first",
+    faqTitle: "Frequently asked questions",
+    faq: [
+      {
+        q: "What are the sessions like?",
+        a: "They are 1-hour Google Meet video calls, once a week, for 3 months.",
+      },
+      {
+        q: "How do I book the first session?",
+        a: "As soon as the payment is confirmed you get an email with the link to book the time that suits you best.",
+      },
+      {
+        q: "Do I need experience?",
+        a: "The mentoring starts from what you already know and focuses on gold. If you're just starting out, tell us your case before buying and we'll let you know if it's right for you.",
+      },
+      {
+        q: "Do I have to buy the bots?",
+        a: "No. The mentoring is independent. If you already use one of our bots we work with it; if not, we focus on how you trade.",
+      },
+      {
+        q: "How do I pay?",
+        a: "With USDT (crypto), on the TRC20 or BEP20 network. Other payment methods are coming soon.",
+      },
+      {
+        q: "Are profits guaranteed?",
+        a: "No. Trading carries a risk of loss. The mentoring teaches method and risk management, but it does not guarantee results.",
+      },
+    ],
+    disclaimer: "The mentoring is educational and is not personalised financial advice. Trading in the markets carries a risk of losing capital.",
+    finalTitle: "Ready to trade gold with a method?",
+    finalSubtitle: "Reserve your spot and start with your first session this week.",
+  },
   contact: {
     hero: {
       title: "Contact & booking",
@@ -622,6 +765,7 @@ export const en = {
       bots: "Bots",
       indicators: "Indicators",
       signals: "Signals",
+      mentoring: "Mentoring",
       whyExness: "Why Exness",
       referrals: "Share & earn",
       contact: "Contact",

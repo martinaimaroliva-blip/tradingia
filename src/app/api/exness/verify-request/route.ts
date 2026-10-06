@@ -16,7 +16,7 @@ export const maxDuration = 30;
 
 const schema = z.object({
   slug: z.string().trim().min(1).max(60),
-  kind: z.enum(["bot", "indicator", "signal"]),
+  kind: z.enum(["bot", "indicator", "signal", "mentoring"]),
   name: z.string().trim().min(1).max(120),
   contactEmail: z.string().trim().email().max(190),
   exnessEmail: z.string().trim().email().max(190),

@@ -201,6 +201,14 @@ export async function fulfilPurchase(input: FulfilmentInput): Promise<void> {
         deliveryLineText =
           "Te enviamos el link de acceso al canal de Telegram a este correo en las próximas horas.";
       }
+    } else if (input.kind === "mentoring") {
+      const meetUrl = optionalEnv("NEXT_PUBLIC_MEET_URL");
+      deliveryLine = `<p>Tu mentoría son 12 sesiones 1 a 1 de 1 hora, una por semana, durante 3 meses. Para empezar, agendá tu primera sesión${
+        meetUrl ? `: <a href="${meetUrl}">${meetUrl}</a>` : " respondiendo este correo o escribiéndonos por WhatsApp"
+      }.</p><p>Si no encontrás un horario que te sirva, respondé este mensaje y lo coordinamos.</p>`;
+      deliveryLineText = `Tu mentoría son 12 sesiones 1 a 1 de 1 hora, una por semana, durante 3 meses. Para empezar, agendá tu primera sesión${
+        meetUrl ? `: ${meetUrl}` : " respondiendo este correo o escribiéndonos por WhatsApp"
+      }. Si no encontrás un horario que te sirva, respondé este mensaje y lo coordinamos.`;
     } else if (isMadeToOrder) {
       deliveryLine = `<p>Con los datos de tu estrategia, nos ponemos a desarrollar tu ${itemWord}. El armado toma entre 15 y 25 días según la complejidad — te avisamos por este correo en cuanto esté listo para entregarse.</p>`;
       deliveryLineText = `Con los datos de tu estrategia, nos ponemos a desarrollar tu ${itemWord}. El armado toma entre 15 y 25 días según la complejidad — te avisamos por este correo en cuanto esté listo para entregarse.`;
